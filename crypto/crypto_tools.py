@@ -1,5 +1,7 @@
 corpus =  open("classcipher", "r").read()
 
+
+
 def getFreqs(text):
     freqs = {}
     textSize = float(len(text))
@@ -10,7 +12,7 @@ def getFreqs(text):
 
 
 # generator for dimers trimers and polymers
-def createPolymer(text, symbolSize = 2):
+def generatePolymer(text, symbolSize = 2):
     symbols= ""
     textSize =  len(text)
     while textSize >= symbolSize:
@@ -26,6 +28,9 @@ def createPolymer(text, symbolSize = 2):
 def phi(freqs, numChars = 26):
     return sum(map(lambda x: freqs[x]*(freqs[x]- 1.0/numChars), freqs.keys()))
 
+#freqs by num of charactrers
+#def phi2(freqs, text):
+
 
 def unpermute(text, keyLength):
     columns = [[] for i in range(keyLength)]
@@ -40,12 +45,20 @@ def sanitize(text):
     return text.strip()
 
 #text = list(createPolymer(corpus))
+bestText  = ""
+bestPhi = -2.0 # an arbitrary value
 for i in range(2,200):
     cols  = unpermute(corpus,i)
-    #print cols
-    x  = ""
     unscramb = ''.join(map(lambda x: "".join(x),  cols))
-    print unscramb, i, phi(getFreqs(list(createPolymer(unscramb))),36)
+    currentPhi =  phi(getFreqs(list(generatePolymer(unscramb))),36)
+    if bestPhi < currentPhi:
+        bestPhi =  currentPhi
+        bestText = unscramb
+    #print unscramb, i, phi(getFreqs(list(generatePolymer(unscramb))),36)
+
+print bestText, bestPhi
+
+comparison_text =  open("3boat10.txt").read()
 
 # I've implemented unpermute in the reverse, but valid way
 # but I'm sick, so I'll fix that tomorrow.
