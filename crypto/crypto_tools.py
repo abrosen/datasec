@@ -1,3 +1,4 @@
+import string
 corpus =  open("classcipher", "r").read()
 
 
@@ -32,6 +33,7 @@ def phi(freqs, numChars = 26):
 #def phi2(freqs, text):
 
 
+
 def unpermute(text, keyLength):
     columns = [[] for i in range(keyLength)]
     i = 0
@@ -42,7 +44,11 @@ def unpermute(text, keyLength):
 
 
 def sanitize(text):
-    return text.strip()
+    exclude = set(string.punctuation)
+    text = ''.join(ch for ch in text if ch not in exclude)
+    text = text.lower()
+    text = ''.join(text.split())
+    return text
 
 #text = list(createPolymer(corpus))
 bestText  = ""
@@ -57,9 +63,16 @@ for i in range(2,200):
     #print unscramb, i, phi(getFreqs(list(generatePolymer(unscramb))),36)
 
 print bestText, bestPhi
+bestText = bestText.strip('\0')
+comparisonText =  open("3boat10.txt").read()
+comparisonText = sanitize(comparisonText)
+corpusSize = len(bestText)
+for i in range(0,len(comparisonText)):
+    candidate = comparisonText[i:i+corpusSize]
+    if bestPhi < phi(getFreqs(candidate), 26):
+        print candidate
 
-comparison_text =  open("3boat10.txt").read()
-
+print comparisonText[7]
 # I've implemented unpermute in the reverse, but valid way
 # but I'm sick, so I'll fix that tomorrow.
 # this gets the right unpermute at i = 115
