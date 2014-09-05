@@ -64,15 +64,34 @@ for i in range(2,200):
 
 print bestText, bestPhi
 bestText = bestText.strip('\0')
+bestText = list(generatePolymer(bestText)) 
+
+corpusSize = len(bestText)
+
+numGG = 10
+keys = []
+ggIndex = 0
+for i in range(0, numGG):
+    key =  bestText.index('gg', ggIndex +1)
+    keys.append(key)
+    ggIndex = key
+print keys
+
+for k in keys:
+    print k,bestText[k]
+
 comparisonText =  open("3boat10.txt").read()
 comparisonText = sanitize(comparisonText)
-corpusSize = len(bestText)
-for i in range(0,len(comparisonText)):
-    candidate = comparisonText[i:i+corpusSize]
-    if bestPhi < phi(getFreqs(candidate), 26):
-        print candidate
 
-print comparisonText[7]
+
+for i in range(0, len(comparisonText) - corpusSize):
+    targets = []
+    for k in keys:
+        targets.append(comparisonText[i+k])
+    #print targets
+    if len(set(targets))==1:
+        print comparisonText[i:i+corpusSize]
+
 # I've implemented unpermute in the reverse, but valid way
 # but I'm sick, so I'll fix that tomorrow.
 # this gets the right unpermute at i = 115
