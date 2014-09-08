@@ -80,7 +80,7 @@ c3 =  open("c13", "r").read()
 c3  = sanitize(c3)
 
 for c in [c1,c2,c3]:
-    print phi2(getFreqs(c)), phi2(getNwiseFreqs(c)), psi(getFreqs(c)), psi(getNwiseFreqs(c)) 
+    print phi2(getFreqs(c)), phi2(getNwiseFreqs(c,3),), psi(getFreqs(c)), psi(getNwiseFreqs(c)) 
 
 
 corpus =  open("classcipher", "r").read()

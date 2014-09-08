@@ -10,20 +10,27 @@
 \begin{document}
 \maketitle
 \section*{Question 0 }
-There are a couple of ways this could work.  If we see substitution of Chinese characters for other Chinese characters, we are looking at a frequency table with an enormous $x$ axis.  This just means we need a larger corpus to use brute force method.
+There are a couple of ways this could work.  
+If we see substitution of Chinese characters for other Chinese characters, we are looking at a frequency table with an enormous $x$ axis.  
+This just means we need a larger corpus to use brute force method.
 
 On the other hand, Chinese is written down phonetically, it would be a frequency analysis on syllables, which is also a larger space.
 
 \section{}
+The samples are too short to be analyzed significantly using $\Phi$ on single letters;  they get close to identical values. 
+Running $\Phi$ on dimers and trimers yields expected results on all but the first ciphertext, which gets close to 0 for $\Phi$ on the dimers and 0 on the trimers.
 
+This means that no dimers or trimers reoccurred in sample 1, so it is most likely permuted.
 
 \section{}
-No, there aren't enough letters.
+No, there aren't enough letters to do a full mono-alphabetic cipher.
 
 \section{}
-We can discount other cipher systems because it's unlikely that an othery cipher system would yield a ciphertext consisting only of \texttt{adfgvx}.
+We can discount other cipher systems because it's unlikely that an other cipher system would yield a ciphertext consisting only of \texttt{adfgvx}.
 
-It's almost certainly permuted, as $\Phi = 0.00539088589576$ on the corpus broken up into pairs of symbols, which looks just like random text.  If it wasn't permuted,$\Phi$ would be much closer to 0.0385.
+
+
+If we assume it's encoded with \texttt{adfgvx}, then it's almost certainly permuted, as $\Phi = 0.00539088589576$ on the corpus broken up into pairs of symbols, which looks just like random text.  If it wasn't permuted,$\Phi$ would be much closer to 0.0385.
 \newpage
 \section{}
 A $\Phi$ of 0.0363075549455 was found with 115 columns. This was significantly larger than the other $\Phi$ values.  The resulting text:
