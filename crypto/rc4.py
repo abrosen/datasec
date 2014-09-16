@@ -1,4 +1,4 @@
-from crypto_tools import phi
+from crypto_tools import phi, psi, getFreqs
 
 #!/usr/bin/env python
 #
@@ -43,16 +43,25 @@ def rc4crypt(data, key):
 
 
 def main():
-    words  = open("words", 'r').read
-    best_word = 0
-    best_phi  = 0
+    words  = open("words", 'r')
+    corpus = repr(open("cipher1", 'r').read())
+    print corpus
+    best_word = 'NO'
+    best_plain = 'NO'
+    best_phi  = -50
+    i  = 0 
     for word in words:
-        word.strip()
-    cipher = rc4crypt("data", "horse")
-    print cipher
-    cipher = rc4crypt(cipher, "horse")
-    print cipher
-
+        i +=1
+        word = word.strip()
+        trial = rc4crypt(corpus,word)
+        score  = psi(getFreqs(trial))
+        #print i, word, score
+        if score >= best_phi:
+            best_phi = score
+            best_word = word
+            best_plain = trial
+            print best_word, best_phi
+    print best_word, best_plain, best_phi
 
 if __name__ == '__main__':
     main()
