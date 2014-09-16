@@ -71,58 +71,58 @@ def sanitize(text):
     text = ''.join(text.split())
     return text
 
+if __name__ == '__main__':
+    c1 =  open("c1", "r").read()
+    c1  = sanitize(c1)
+    c2 =  open("c12", "r").read()
+    c2  = sanitize(c2)
+    c3 =  open("c13", "r").read()
+    c3  = sanitize(c3)
 
-c1 =  open("c1", "r").read()
-c1  = sanitize(c1)
-c2 =  open("c12", "r").read()
-c2  = sanitize(c2)
-c3 =  open("c13", "r").read()
-c3  = sanitize(c3)
-
-for c in [c1,c2,c3]:
-    print phi2(getFreqs(c)), phi2(getNwiseFreqs(c,3),), psi(getFreqs(c)), psi(getNwiseFreqs(c)) 
-
-
-corpus =  open("classcipher", "r").read()
-print "Corpus phis", phi2(getFreqs(corpus)), phi(getFreqs(list(generatePolymer(corpus))), 36)
-
-#text = list(createPolymer(corpus))
-bestText  = ""
-bestPhi = -2.0 # an arbitrary value
-for i in range(2,200):
-    cols  = unpermute(corpus,i)
-    unscramb = ''.join(map(lambda x: "".join(x),  cols))
-    currentPhi =  phi(getFreqs(list(generatePolymer(unscramb))),36)
-    if bestPhi < currentPhi:
-        bestPhi =  currentPhi
-        bestText = unscramb
-    #print unscramb, i, phi(getFreqs(list(generatePolymer(unscramb))),36)
-
-print bestPhi, bestText
-bestText = bestText.strip('\0')
-bestText = list(generatePolymer(bestText)) 
-
-corpusSize = len(bestText)
-
-numGG = 10
-keys = []
-ggIndex = 0
-for i in range(0, numGG):
-    key =  bestText.index('gg', ggIndex +1)
-    keys.append(key)
-    ggIndex = key
-print keys
+    for c in [c1,c2,c3]:
+        print phi2(getFreqs(c)), phi2(getNwiseFreqs(c,3),), psi(getFreqs(c)), psi(getNwiseFreqs(c)) 
 
 
-comparisonText =  open("3boat10.txt").read()
-comparisonText = sanitize(comparisonText)
+    corpus =  open("classcipher", "r").read()
+    print "Corpus phis", phi2(getFreqs(corpus)), phi(getFreqs(list(generatePolymer(corpus))), 36)
+
+    #text = list(createPolymer(corpus))
+    bestText  = ""
+    bestPhi = -2.0 # an arbitrary value
+    for i in range(2,200):
+        cols  = unpermute(corpus,i)
+        unscramb = ''.join(map(lambda x: "".join(x),  cols))
+        currentPhi =  phi(getFreqs(list(generatePolymer(unscramb))),36)
+        if bestPhi < currentPhi:
+            bestPhi =  currentPhi
+            bestText = unscramb
+        #print unscramb, i, phi(getFreqs(list(generatePolymer(unscramb))),36)
+
+    print bestPhi, bestText
+    bestText = bestText.strip('\0')
+    bestText = list(generatePolymer(bestText)) 
+
+    corpusSize = len(bestText)
+
+    numGG = 10
+    keys = []
+    ggIndex = 0
+    for i in range(0, numGG):
+        key =  bestText.index('gg', ggIndex +1)
+        keys.append(key)
+        ggIndex = key
+    print keys
 
 
-for i in range(0, len(comparisonText) - corpusSize):
-    targets = []
-    for k in keys:
-        targets.append(comparisonText[i+k])
-    #print targets
-    if len(set(targets))==1:
-        print comparisonText[i:i+corpusSize]
+    comparisonText =  open("3boat10.txt").read()
+    comparisonText = sanitize(comparisonText)
+
+
+    for i in range(0, len(comparisonText) - corpusSize):
+        targets = []
+        for k in keys:
+            targets.append(comparisonText[i+k])
+        #print targets
+        if len(set(targets))==1:
+            print comparisonText[i:i+corpusSize]
 

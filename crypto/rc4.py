@@ -1,3 +1,5 @@
+from crypto_tools import phi
+
 #!/usr/bin/env python
 #
 #       RC4, ARC4, ARCFOUR algorithm
@@ -37,3 +39,20 @@ def rc4crypt(data, key):
         out.append(chr(ord(char) ^ box[(box[x] + box[y]) % 256]))
     
     return ''.join(out)
+
+
+
+def main():
+    words  = open("words", 'r').read
+    best_word = 0
+    best_phi  = 0
+    for word in words:
+        word.strip()
+    cipher = rc4crypt("data", "horse")
+    print cipher
+    cipher = rc4crypt(cipher, "horse")
+    print cipher
+
+
+if __name__ == '__main__':
+    main()
