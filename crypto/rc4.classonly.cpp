@@ -183,3 +183,7 @@ for( i=0; i< 8; i++)
 
 // end of class definition
 
+
+int main() {
+	fprintf(stdout, "hello");
+}
