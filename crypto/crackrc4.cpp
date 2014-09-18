@@ -193,9 +193,31 @@ int main() {
 	union {
 	unsigned char key[8];
 	long long seed;
-	};
+	} 
+
+	union {
+	unsigned char letter[8];
+	long long seed;
+	}trial;
+
 	
-	ifstream words;
+	
+	keys = fopen("words", "r");
+	while(fgets(key, sizeof(key),  keys)){ 
+
+		for(int i = 0; i < 8; i++) {
+			trial.letters[i] ='\0';
+		}
+
+		for(int i = 0; i < 8; i++) {
+			trial.letters[i] =  key[i]
+		}
+
+
+		//reseed rc4
+	}
+
+	/*
 	words.open("words");
 	int BUFFER_SIZE = 64;
 	while(!words.eof()) {
@@ -209,4 +231,5 @@ int main() {
 		
 	}
 	words.close();
+	*/
 }

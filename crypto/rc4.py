@@ -55,6 +55,8 @@ def main():
         i +=1
         word = word.strip()
         print word
+        while len(word) < 8:
+            word =  word + '\x00'
         word =  word[:8]
         trial = rc4crypt(corpus,word)
         """
