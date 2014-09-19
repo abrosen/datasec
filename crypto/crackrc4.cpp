@@ -187,34 +187,37 @@ for( i=0; i< 8; i++)
 
 
 int main() {
-	char *word;
 	fprintf(stdout, "hello\n");
 	
 	union {
 	unsigned char key[8];
+	char temp[8];
 	long long seed;
-	} 
+	};
 
 	union {
-	unsigned char letter[8];
-	long long seed;
-	}trial;
-
+	unsigned char letters[8];
+	long long trial_seed;
+	};
 	
+	rc4 *a_stream;
+	a_stream = new rc4(seed);
 	
-	keys = fopen("words", "r");
-	while(fgets(key, sizeof(key),  keys)){ 
+	FILE *keys = fopen("words", "r");
+	while(fgets(temp, sizeof(key), keys)){ 
 
 		for(int i = 0; i < 8; i++) {
-			trial.letters[i] ='\0';
+			letters[i] ='\0';
 		}
 
 		for(int i = 0; i < 8; i++) {
-			trial.letters[i] =  key[i]
+			letters[i]  = key[i];
 		}
-
-
+		
+		
+		
 		//reseed rc4
+		a_stream->reseed(trial_seed);
 	}
 
 	/*
