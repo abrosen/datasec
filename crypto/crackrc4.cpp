@@ -191,7 +191,6 @@ int main() {
 	
 	union {
 	unsigned char key[8];
-	char temp[8];
 	long long seed;
 	};
 
@@ -204,35 +203,22 @@ int main() {
 	a_stream = new rc4(seed);
 	
 	FILE *keys = fopen("words", "r");
-	while(fgets(temp, sizeof(key), keys)){ 
+	while(fgets((char *) key, sizeof(key), keys)){ 
 
 		for(int i = 0; i < 8; i++) {
 			letters[i] ='\0';
 		}
 
 		for(int i = 0; i < 8; i++) {
+			if(key[0] == '\0') {
+				break;
+			}
 			letters[i]  = key[i];
 		}
-		
-		
-		
-		//reseed rc4
-		a_stream->reseed(trial_seed);
-	}
 
-	/*
-	words.open("words");
-	int BUFFER_SIZE = 64;
-	while(!words.eof()) {
-		char buffer[BUFFER_SIZE];
-		words.getline(buffer, BUFFER_SIZE);
-		if(!buffer[0]){
-			break;
-		}
-		
-		cout << buffer << "\n";
+		a_stream = new rc4(trial_seed);
+		a_stream->reseed(trial_seed);
+
 		
 	}
-	words.close();
-	*/
 }
