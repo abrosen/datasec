@@ -1,0 +1,16 @@
+
+
+const int max_rotor  = 10;
+rotor bank[max_rotor];
+
+bank[0].load("abcdefghijklmnopqrstuvwxyz", "abcghidefjklpqrmnostxyzuvw",false);
+bank[1].load("abcdefghijklmnopqrstuvwxyz", "defghijklmnopqrstuvwxyzabc",false);
+bank[2].load("abcdefghijklmnopqrstuvwxyz", "zxbcdefghijklnmpqosrtuvway",false);
+bank[3].load("abcdefghijklmnopqrstuvwxyz", "zxbcdefghijklosrtuvwaynmpq",false);
+bank[4].load("abcdefghijklmnopqrstuvwxyz", "abcghidefjklpqrmnostxyzuvw",false);
+bank[5].load("abcdefghijklmnopqrstuvwxyz", "defghijklmnopqrstuvwxyzabc",false);
+bank[6].load("abcdefghijklmnopqrstuvwxyz", "zxbcdefghijklnmpqosrtuvway",false);
+bank[7].load("abcdefghijklmnopqrstuvwxyz", "zxbcdefghijklosrtuvwaynmpq",false);
+bank[8].load("abcdefghijklmnopqrstuvwxyz", "abcghidefjklpqrmnostxyzuvw",false);
+bank[9].load("abcdefghijklmnopqrstuvwxyz", "zyabcdefghijklmnopqrstxwuv",true);
+
