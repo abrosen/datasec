@@ -48,15 +48,15 @@ class Bank(object):
         for char in message:
             
             #rotate here or later?
-            self.rotate()
+            
             for rotor in self.rotors:
                 char = rotor.forward(char, self.rotations[rotor])
 
             # from the second to last rotor to the first
             for rotor in self.rotors[-2::-1]:
                 char = rotor.reverse(char, self.rotations[rotor])
-
             output += char
+            self.rotate()
         return output
 
 
@@ -92,7 +92,6 @@ class Rotor(object):
 
     def isInverter(self):
         return self.inv
-
 
     def load(self, ins, outs, inv):
         """
