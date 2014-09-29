@@ -2,7 +2,6 @@ import string
 #corpus =  open("classcipher", "r").read()
 
 
-
 def getFreqs(text):
     freqs = {}
     textSize = float(len(text))
