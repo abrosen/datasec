@@ -53,13 +53,14 @@ class Bank(object):
         return string.joinfields(map(self.encryptChar, message), "")
 
     def encryptChar(self, char):
-        self.rotate()
+        
         for rotor in self.rotors:
             char = rotor.forward(char, self.rotations[rotor])
 
         # from the second to last rotor to the first
         for rotor in self.rotors[-2::-1]:
             char = rotor.reverse(char, self.rotations[rotor])
+        self.rotate()
         return char
 
 
@@ -140,6 +141,8 @@ class Rotor(object):
             for i in range(0,self.mod):
                 if self.outs[i] == '\x00':
                     self.outs[i] = self.ins[i]
+            print self.ins
+            print self.outs
             
     def forward(self,char, offset):
         if self.isInverter():
@@ -187,13 +190,30 @@ def solve(ciphertext, rotors):
 
 
 def test(text, rotors):
+    t = time()  
     machine = Bank()
-    for r in rotors:
-        machine.addRotor(r,25)
-    text =  machine.encrypt(text)
-    print text
-    machine.reset()
-    print machine.encrypt(text)
+    best_phi =  -50
+    best_text  = "BAD"
+    NUM_ROTORS = 4
+    x =0 
+    for combo in combinations(range(0,len(rotors)-1), NUM_ROTORS - 1):
+        print combo
+        machine.clear()
+        for i in combo:
+            machine.addRotor(rotors[i])
+        machine.addRotor(rotors[-1])
+        setting = (9,14,24)
+        machine.set(setting)    
+        plaintext = machine.encrypt(text)
+        score = phi2(getFreqs(plaintext))
+        x += 1
+        if x % 5000 == 0: 
+            print  time() - t 
+        if score > best_phi:
+            best_phi = score
+            best_text = plaintext
+            print best_phi, combo, setting, time() - t
+    print "testing", best_phi, best_text
 
 
 def main():
@@ -211,14 +231,14 @@ def main():
     ("abcdefghijklmnopqrstuvwxyz", "abcghidefjklpqrmnostxyzuvw",False), 
     ("abcdefghijklmnopqrstuvwxyz", "zyabcdefghijklmnopqrstxwuv",True)
     ]
-    
+
     for a in args:
         r = Rotor()
         r.load(*a)
         rotors.append(r)
     testText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdferqiopwrjeqwrkjnasdjklfhjklhasdfjkhbewarethejabberwocky"
-    test(testText,rotors)
-    solve(corpus, rotors)
+    test(corpus,rotors)
+    #solve(corpus, rotors)
 
 if __name__ == '__main__':
     main()
