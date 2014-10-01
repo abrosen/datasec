@@ -1,5 +1,8 @@
 from crypto_tools import phi, psi, phi2, getFreqs
-from itertools import combinations, permutations
+from itertools import combinations, permutations, product
+import string
+from time import time
+
 
 class Bank(object):
     """
@@ -40,25 +43,24 @@ class Bank(object):
         for i, home in enumerate(self.homes):
             self.rotations[self.rotors[i]] =home
 
+    def set(self,settings):
+        for i, setting in enumerate(settings):
+            self.rotations[self.rotors[i]] = setting
+
 
     def encrypt(self, message):
         """ also decrypt"""
-        output = ""
+        return string.joinfields(map(self.encryptChar, message), "")
 
-        for char in message:
-            
-            #rotate here or later?
-            
-            for rotor in self.rotors:
-                char = rotor.forward(char, self.rotations[rotor])
+    def encryptChar(self, char):
+        self.rotate()
+        for rotor in self.rotors:
+            char = rotor.forward(char, self.rotations[rotor])
 
-            # from the second to last rotor to the first
-            for rotor in self.rotors[-2::-1]:
-                char = rotor.reverse(char, self.rotations[rotor])
-            output += char
-            self.rotate()
-        return output
-
+        # from the second to last rotor to the first
+        for rotor in self.rotors[-2::-1]:
+            char = rotor.reverse(char, self.rotations[rotor])
+        return char
 
 
     def rotate(self):
@@ -156,30 +158,38 @@ class Rotor(object):
         return self.ins[inIndex]
 
 
-def solve(ciphertext, rotors):    
+def solve(ciphertext, rotors):
+    t = time()  
     machine = Bank()
     best_phi =  -50
     best_text  = "BAD"
-    for combo in combinations(rotors[:-1] , 5):
+    NUM_ROTORS = 4
+    x =0 
+    for combo in combinations(range(0,len(rotors)-1), NUM_ROTORS - 1):
+        print combo
         machine.clear()
-        for rotor in combo:
-            machine.addRotor(rotor)
+        for i in combo:
+            machine.addRotor(rotors[i])
         machine.addRotor(rotors[-1])
-        plaintext = machine.encrypt(ciphertext)
-
-        score = phi2(getFreqs(plaintext))
-        if score > best_phi:
-            best_phi = score
-            best_text = plaintext
-            print best_phi
-
-
+        for setting in product(range(26), repeat = NUM_ROTORS - 1):
+            machine.set(setting)    
+            plaintext = machine.encrypt(ciphertext)
+            score = phi2(getFreqs(plaintext))
+            x += 1
+            if x % 5000 == 0: 
+                print  time() - t 
+            if score > 0.01:
+                if score > best_phi:
+                    best_phi = score
+                    best_text = plaintext
+                    print best_phi, combo, setting, time() - t
+    print best_phi, best_text
 
 
 def test(text, rotors):
     machine = Bank()
     for r in rotors:
-        machine.addRotor(r)
+        machine.addRotor(r,25)
     text =  machine.encrypt(text)
     print text
     machine.reset()
