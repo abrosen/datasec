@@ -59,7 +59,7 @@ class RC4(object):
 
 def main():
     words  = open("words", 'r')
-    corpus = list(open("cipher4", 'r').read())
+    corpus = list(open("classcipher", 'r').read())
     #print list(corpus)
     best_word = 'GARBAGE'
     best_plain = 'GIBBERISH'

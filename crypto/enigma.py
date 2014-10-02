@@ -52,7 +52,7 @@ class Bank(object):
         """ also decrypt"""
         return string.joinfields(map(self.encryptChar, message), "")
 
-    def encryptChar(self, char):
+    def encryptChar(self, char):        
         
         for rotor in self.rotors:
             char = rotor.forward(char, self.rotations[rotor])
@@ -67,7 +67,7 @@ class Bank(object):
     def rotate(self):
         turn = True
         for rotor in self.rotors:
-            if not turn or rotor.isInverter():
+            if turn == False or rotor.isInverter():
                 break
             offset =  self.rotations[rotor]
             self.rotations[rotor], turn = rotor.turnover(offset)
@@ -125,7 +125,9 @@ class Rotor(object):
 
         else:
             self.ins =  list(ins)
+            
             self.outs =  ['\x00']*self.mod
+            
             for i in range(0,self.mod):
                 if self.outs[i] != '\x00':
                     continue
@@ -138,11 +140,12 @@ class Rotor(object):
                             continue
                         self.outs[j]= self.ins[i]
                         break
-            for i in range(0,self.mod):
-                if self.outs[i] == '\x00':
-                    self.outs[i] = self.ins[i]
-            print self.ins
-            print self.outs
+            #for i in range(0,self.mod):
+            #    if self.outs[i] == '\x00':
+            #        print "!"
+            #        self.outs[i] = self.ins[i]
+            #print self.ins
+            #print self.outs
             
     def forward(self,char, offset):
         if self.isInverter():
@@ -166,20 +169,21 @@ def solve(ciphertext, rotors):
     machine = Bank()
     best_phi =  -50
     best_text  = "BAD"
-    NUM_ROTORS = 4
-    x =0 
-    for combo in combinations(range(0,len(rotors)-1), NUM_ROTORS - 1):
-        print combo
+    NUM_ROTORS = 3
+    x = 0 
+    
+    for combo in combinations(range(0,len(rotors)-1), NUM_ROTORS):
+        #print combo
         machine.clear()
         for i in combo:
             machine.addRotor(rotors[i])
         machine.addRotor(rotors[-1])
-        for setting in product(range(26), repeat = NUM_ROTORS - 1):
+        for setting in product(range(26), repeat = NUM_ROTORS):
             machine.set(setting)    
             plaintext = machine.encrypt(ciphertext)
             score = phi2(getFreqs(plaintext))
             x += 1
-            if x % 5000 == 0: 
+            if x % 100 == 0: 
                 print  time() - t 
             if score > 0.01:
                 if score > best_phi:
@@ -194,9 +198,9 @@ def test(text, rotors):
     machine = Bank()
     best_phi =  -50
     best_text  = "BAD"
-    NUM_ROTORS = 4
+    NUM_ROTORS = 3
     x =0 
-    for combo in combinations(range(0,len(rotors)-1), NUM_ROTORS - 1):
+    for combo in combinations(range(0,len(rotors)-1), NUM_ROTORS):
         print combo
         machine.clear()
         for i in combo:
@@ -216,8 +220,20 @@ def test(text, rotors):
     print "testing", best_phi, best_text
 
 
+def testGiven(text,rotors):
+    machine = Bank()
+    for i,r in enumerate(rotors):
+        machine.addRotor(r,i)
+    c = machine.encrypt(text)
+    print c
+    machine.reset()
+    print machine.encrypt(c)
+
+
+
 def main():
     corpus  =  open("cipher.problem.2").read()
+    print corpus
     rotors = [] 
     args = [
     ("abcdefghijklmnopqrstuvwxyz", "abcghidefjklpqrmnostxyzuvw",False), 
@@ -237,6 +253,7 @@ def main():
         r.load(*a)
         rotors.append(r)
     testText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdferqiopwrjeqwrkjnasdjklfhjklhasdfjkhbewarethejabberwocky"
+    #testGiven(testText,rotors)
     test(corpus,rotors)
     #solve(corpus, rotors)
 
