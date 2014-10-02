@@ -66,7 +66,7 @@ class Bank(object):
 
     def rotate(self):
         turn = True
-        for rotor in self.rotors:
+        for rotor in self.rotors[-2::-1]:
             if turn == False or rotor.isInverter():
                 break
             offset =  self.rotations[rotor]
@@ -169,27 +169,23 @@ def solve(ciphertext, rotors):
     machine = Bank()
     best_phi =  -50
     best_text  = "BAD"
-    NUM_ROTORS = 3
     x = 0 
-    
-    for combo in combinations(range(0,len(rotors)-1), NUM_ROTORS):
-        #print combo
+
+    for NUM_ROTORS in xrange(1, 4):
         machine.clear()
-        for i in combo:
-            machine.addRotor(rotors[i])
+        for r in rotors[:NUM_ROTORS]:
+            machine.addRotor(r)
         machine.addRotor(rotors[-1])
         for setting in product(range(26), repeat = NUM_ROTORS):
             machine.set(setting)    
             plaintext = machine.encrypt(ciphertext)
             score = phi2(getFreqs(plaintext))
-            x += 1
-            if x % 100 == 0: 
-                print  time() - t 
+            #print setting
             if score > 0.01:
                 if score > best_phi:
                     best_phi = score
                     best_text = plaintext
-                    print best_phi, combo, setting, time() - t
+                    print best_phi, setting, time() - t
     print best_phi, best_text
 
 
@@ -233,7 +229,6 @@ def testGiven(text,rotors):
 
 def main():
     corpus  =  open("cipher.problem.2").read()
-    print corpus
     rotors = [] 
     args = [
     ("abcdefghijklmnopqrstuvwxyz", "abcghidefjklpqrmnostxyzuvw",False), 
@@ -255,7 +250,7 @@ def main():
     testText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdferqiopwrjeqwrkjnasdjklfhjklhasdfjkhbewarethejabberwocky"
     #testGiven(testText,rotors)
     test(corpus,rotors)
-    #solve(corpus, rotors)
+    solve(corpus, rotors)
 
 if __name__ == '__main__':
     main()
