@@ -1,5 +1,6 @@
 from crypto_tools import phi, psi, phi2, getFreqs
 import sys
+from time import time
 
 
 class RC4(object):
@@ -58,8 +59,9 @@ class RC4(object):
 
 
 def main():
+    t = time() 
     words  = open("words", 'r')
-    corpus = list(open("classcipher", 'r').read())
+    corpus = list(open("cipher2", 'r').read())
     #print list(corpus)
     best_word = 'GARBAGE'
     best_plain = 'GIBBERISH'
@@ -71,7 +73,7 @@ def main():
         i +=1
         word = word.strip()
         if i % 10000 ==0 :
-            print i, "trials."
+            print i, "trials.", time() - t
         #print word
         while len(word) < 8:
             word =  word + '\x00'
@@ -88,7 +90,7 @@ def main():
             if score > 0.025:
                 break
 
-    print best_word, best_phi, best_plain 
+    print time()- t, best_word, best_phi, best_plain
     
 
 if __name__ == '__main__':
