@@ -91,7 +91,7 @@ class Rotor(object):
         return i, False
 
     def symbolFromIndex(self,index):
-        return ins[index]
+        return self.ins[index]
 
     def isInverter(self):
         return self.inv
@@ -169,7 +169,6 @@ def solve(ciphertext, rotors):
     machine = Bank()
     best_phi =  -50
     best_text  = "BAD"
-    x = 0 
 
     for NUM_ROTORS in xrange(1, 4):
         machine.clear()
