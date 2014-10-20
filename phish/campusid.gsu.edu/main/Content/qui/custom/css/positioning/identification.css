@@ -1,0 +1,109 @@
+﻿.search-container
+{
+	width: 100%;
+	height: 30px;
+	padding: 0 0 20px 0;
+	overflow: hidden;
+}
+
+
+.type-control
+{
+	width: 450px;
+}
+
+.domain .domain-control input,
+.type-control input[type='text']
+{
+	width: 450px;
+}
+
+.search-container .domain .label,
+.search-container .domain .domain-control
+{
+	float: left;
+}
+
+
+.domain .domain-control select
+{
+	width: 458px;
+}
+
+.domain .label
+{
+	margin: 5px 5px 0 0;	
+}
+
+
+
+.search-result .search-info .title
+{
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.search-result .search-info .title .caption
+{
+	font-weight: bold;	
+}
+
+.search-result .search-info .message
+{
+	margin: 0 0 0 20px;
+	padding: 0 0 0 40px;
+	height: 32px;
+	display: table-cell;
+	vertical-align: middle;
+	width: 500px;
+}
+
+.search-result .search-info .message .field-validation-error
+{
+	display: inline;
+	padding: 0;
+	border: 0;
+	font-style: italic;
+}
+
+
+
+ul.results-list
+{
+	padding: 0;
+	margin: 20px 0 0 0;
+	list-style-type: none;
+}
+
+ul.results-list li
+{
+	margin: 0 0 15px 0;
+	padding: 0 0 0 40px;
+	min-height: 30px;
+}
+
+ul.results-list li .user-stats
+{
+	margin: 5px 0 0 0;
+	border: 0;
+	border-collapse: collapse;
+	padding: 0;
+	width: 100%;
+}
+
+ul.results-list li .user-stats td
+{
+	padding: 5px 20px 5px 0;
+}
+
+ul.results-list li .user-stats td.stat-name
+{
+	width: 300px;
+}
+
+ul.results-list li .user-stats td.placeholder
+{
+	
+}
+
+

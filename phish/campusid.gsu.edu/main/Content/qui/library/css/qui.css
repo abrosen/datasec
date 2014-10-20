@@ -1,0 +1,1019 @@
+﻿body.qui {
+	font-weight: 400;
+	font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+	font-size: 10pt;
+}
+
+head.qui,
+body.qui {
+	height: 100%;
+	overflow: hidden;
+}
+
+div.qui_bevel_highlight {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	height: 1px;
+}
+
+.qui_fill {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.qui_ellipsis {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.qui_hidden { display: none; }
+
+ul.qui_reset {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+.qui_scroll_x {
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.qui_scroll_y {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.qui_scroll_xy { overflow: auto; }
+
+.qui_scroll_none { overflow: hidden; }
+
+.qui_round_ne_5 { border-top-right-radius: 5px; }
+
+.qui_round_nw_5 { border-top-left-radius: 5px; }
+
+.qui_round_se_5 { border-bottom-right-radius: 5px; }
+
+.qui_round_sw_5 { border-bottom-left-radius: 5px; }
+
+.qui_gradient_bar {
+	-webkit-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+
+.qui_shadow_x_7_30 {
+	background-repeat: repeat-x;
+}
+
+.qui_btn_cmd {
+	position: relative;
+	display: inline-block;
+}
+
+.qui_btn_cmd button {
+	width: 100%;
+	height: 100%;
+	outline: none;
+}
+
+.qui_btn_cmd.qui_color_silver > button {
+	margin: 0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	display: inline-block;
+	text-decoration: none;
+	cursor: default;
+	font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+	line-height: 1;
+	padding: 7px 15px 8px 15px;
+	text-align: center;
+	font-weight: 400;
+}
+
+.qui_btn_cmd.qui_color_silver.qui_label_only.qui_default > button {
+	border-color: transparent;
+	background: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.qui_btn_cmd.qui_color_silver.qui_disabled > button {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.qui_btn_cmd.qui_color_blue > button {
+	margin: 0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	display: inline-block;
+	text-decoration: none;
+	cursor: default;
+	font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+	line-height: 1;
+	padding: 7px 15px 8px 15px;
+	text-align: center;
+	font-weight: 600;
+}
+
+
+
+.qui_btn_cmd.qui_color_blue.qui_disabled > button {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.qui_btn_cmd.qui_size_s > button {
+	font-size: 9pt;
+	height: 22px;
+	padding: 0px 18px;
+	-webkit-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
+}
+
+.qui_btn_cmd.qui_size_m > button {
+	font-size: 12pt;
+	padding: 10px 23px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.qui_btn_cmd.qui_size_l > button {
+	font-size: 17pt;
+	padding: 12px 34px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+ul.qui_control_list {
+	position: relative;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+ul.qui_control_list.qui_x li { display: inline; }
+
+ul.qui_control_list.qui_y li { display: block; }
+
+span.qui_system_toggle_btn {
+	position: relative;
+	cursor: default;
+	padding-left: 1px;
+}
+
+span.qui_system_toggle_btn span.qui_label {
+	margin-left: 8px;
+	margin-right: 25px;
+	font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+	font-size: 10pt;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;	
+}
+
+span.qui_system_toggle_btn span.qui_label:hover {
+	text-align: left;
+	text-decoration: underline;
+}
+
+ul.qui_radio_set li { margin-bottom: 8px; }
+
+ul.qui_checkbox_set li { margin-bottom: 8px; }
+
+a.qui_btn_link:hover,
+a.qui_over {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+a.qui_external {
+	background-repeat: no-repeat;
+	padding-right: 10px;
+	background-position: right 50%;
+}
+
+a.qui_external.qui_left {
+	padding-left: 10px;
+	padding-right: 0px;
+	background-position: 0px 50%;
+}
+
+.qui_icon_button {
+	position: relative;
+	cursor: default;
+	display: inline-block;
+	vertical-align: bottom;
+	margin: 0px;
+	padding: 0px;
+	font-size: 9pt;
+}
+
+.qui_icon_button div.qui_left_icon {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-repeat: no-repeat;
+	background-position: 0px 50%;
+}
+
+.qui_icon_button p.qui_label {
+	position: relative;
+	display: inline-block;
+}
+
+.qui_icon_button.qui_enabled {
+	cursor: pointer;
+}
+
+.qui_icon_button.qui_enabled:hover p.qui_label { text-decoration: underline; }
+
+ul.qui_control_list {
+	position: relative;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+ul.qui_control_list.qui_x li { display: inline; }
+
+ul.qui_control_list.qui_y li { display: block; }
+
+.qui_menu_item > .qui_inner {
+	margin: 2px;
+	padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	min-width: 100px;
+	cursor: default;
+	font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+	font-size: 12pt;
+}
+
+.qui_menu_item.qui_over > .qui_inner {
+	text-decoration: none;
+}
+
+.qui_menu_item.qui_divider.qui_top:first-child { border-top: none; }
+
+.qui_menu_item.qui_divider.qui_bottom:last-child { border-bottom: none; }
+
+.qui_popover { position: relative; }
+
+.qui_popover > .qui_inner {
+	position: relative;
+	overflow: hidden;
+	min-height: 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	height: 100%;
+	width: 100%;	
+}
+
+.qui_popover > .qui_n,
+.qui_popover > .qui_s,
+.qui_popover > .qui_w,
+.qui_popover > .qui_e { background-repeat: no-repeat; }
+
+.qui_popover > .qui_n,
+.qui_popover > .qui_s {
+	position: absolute;
+	left: 10px;
+	right: 10px;
+	height: 15px;
+}
+
+.qui_popover > .qui_w,
+.qui_popover > .qui_e {
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	width: 15px;
+}
+
+.qui_popover > .qui_n {
+	top: -14px;
+}
+
+.qui_popover > .qui_s {
+	bottom: -16px;
+}
+
+.qui_popover > .qui_w {
+	left: -14px;
+}
+
+.qui_popover > .qui_e {
+	right: -16px;
+}
+
+.qui_popup_mask {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: transparent;
+	z-index: 2147483646;
+}
+
+ul.qui_tab_strip {
+	height: 38px;
+	background-repeat: repeat-x;
+	overflow: hidden;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+ul.qui_tab_strip li.qui_tab {
+	position: relative;
+	float: left;
+	height: 100%;
+}
+
+ul.qui_tab_strip li.qui_tab p {
+	font-size: 10pt;
+	margin-left: 25px;
+	margin-right: 25px;
+	margin-top: 11px;
+	cursor: default;
+	text-decoration: none;
+}
+
+ul.qui_tab_strip li.qui_tab div.qui_div_left {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	width: 1px;
+}
+
+ul.qui_tab_strip li.qui_tab div.qui_div_right {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 2px;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+
+ul.qui_tab_strip li.qui_tab.qui_first {
+	border-top-left-radius: inherit;
+	border-bottom-left-radius: inherit;
+}
+
+ul.qui_tab_strip li.qui_tab.qui_enabled.qui_first div.qui_div_left { border-left: none; }
+
+ul.qui_tab_strip li.qui_tab.qui_before_selected div.qui_div_right { background: none; }
+
+ul.qui_tab_strip li.qui_tab.qui_disabled { background: none; }
+
+.qui_textbox {
+	position: relative;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	vertical-align: bottom;
+	min-height: 30px;
+	min-width: 38px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;	
+}
+
+.qui_textbox span.qui_inner {
+	position: absolute;
+	left: 5px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.qui_textbox span.qui_inner input,
+.qui_textbox span.qui_inner textarea {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	outline: none;
+	font-family: "Ubuntu", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, 'Helvetica Neue', Helvetica, Verdana, sans-serif;
+}
+
+.qui_textbox span.qui_inner textarea { resize: none; }
+
+.qui_textbox span.qui_inner span.qui_prompt {
+	position: absolute;
+	left: 2px;
+	top: 8px;
+	right: 0px;
+	bottom: 0px;
+	font-style: italic;
+	font-weight: normal;
+	font-size: 10pt;
+}
+
+.qui_textbox span.qui_inner input,
+.qui_textbox span.qui_inner textarea {
+	font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+	font-size: 10pt;
+}
+
+.qui_textbox span.qui_inner span.qui_prompt {
+	font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+	position: absolute;
+	left: 2px;
+	top: 6px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.qui_kendo,
+.k-animation-container,
+.k-widget,
+.k-input {
+	font-weight: 400;
+	font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+	font-size: 10pt;
+}
+
+.qui_calendar {
+	font-size: 9pt;
+	width: 240px;
+	height: 235px;
+}
+
+.qui_calendar .k-content { height: 176px; }
+
+.k-combobox,
+.k-datepicker,
+.k-dropdown,
+.k-timepicker { height: 32px; }
+
+.k-dropdown-wrap,
+.k-picker-wrap {
+	height: 26px;
+	margin-top: -1px;
+}
+
+.k-dropdown-wrap .k-input,
+.k-picker-wrap .k-input {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.k-popup ul.k-list li.k-item {
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
+.qui_action_bar {
+	height: 56px;
+	overflow: hidden;
+}
+
+.qui_action_bar .qui_items {
+	position: absolute;
+	top: 9px;
+	right: 9px;
+	bottom: 9px;
+	text-align: right;
+	overflow: hidden;
+}
+
+.qui_action_bar .qui_btn_cmd { margin-left: 6px; }
+
+.qui_action_bar .qui_status {
+	position: absolute;
+	left: 15px;
+	top: 19px;
+	font-size: 9pt;
+	cursor: default;
+}
+
+.qui_inset_pane {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.qui_inset_pane .qui_body,
+.qui_inset_pane .qui_tabs {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	font-size: 9pt;
+}
+
+.qui_inset_pane .qui_tabs { display: none; }
+
+.qui_inset_pane .qui_action_bar {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.qui_inset_pane.qui_framed .qui_title_bar hr,
+.qui_inset_pane.qui_framed .qui_footer_bar hr { display: none; }
+
+.qui_inset_pane.qui_framed .qui_title_bar .qui_body,
+.qui_inset_pane.qui_framed .qui_footer_bar .qui_body {
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	right: 3px;
+	bottom: 3px;
+	overflow: hidden;
+}
+
+.qui_inset_pane.qui_framed .qui_title_bar .qui_body p.qui_label,
+.qui_inset_pane.qui_framed .qui_footer_bar .qui_body p.qui_label {
+	cursor: default;
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
+.qui_inset_pane.qui_framed .qui_title_bar {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	height: 29px;
+}
+
+.qui_inset_pane.qui_framed .qui_title_bar .qui_body p.qui_label {
+	margin-top: 2px;
+	font-size: 10.5pt;
+	font-weight: 600;
+}
+
+.qui_inset_pane.qui_framed .qui_tab_strip {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+}
+
+
+.qui_inset_pane.qui_framed .qui_footer_bar {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	height: 29px;
+}
+
+.qui_inset_pane.qui_framed .qui_footer_bar .qui_body p.qui_label {
+	font-weight: 400;
+	font-size: 9pt;
+	margin-top: 3px;
+}
+
+.qui_inset_pane.qui_sunken {
+	background-repeat: repeat-x;
+	background-position: 0 0;
+}
+
+.qui_inset_pane.qui_sunken .qui_title_bar hr,
+.qui_inset_pane.qui_sunken .qui_footer_bar hr {
+	width: 100%;
+	margin: 0px;
+	border: none;
+}
+
+.qui_inset_pane.qui_sunken .qui_title_bar .qui_body,
+.qui_inset_pane.qui_sunken .qui_footer_bar .qui_body {
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	right: 3px;
+	bottom: 3px;
+	overflow: hidden;
+}
+
+.qui_inset_pane.qui_sunken .qui_title_bar .qui_body p.qui_label,
+.qui_inset_pane.qui_sunken .qui_footer_bar .qui_body p.qui_label {
+	cursor: default;
+	margin-left: 2px;
+	margin-right: 2px;
+	font-weight: 400;
+}
+
+.qui_inset_pane.qui_sunken .qui_title_bar {
+	position: absolute;
+	left: 10px;
+	top: 0px;
+	right: 10px;
+	height: 40px;
+}
+
+.qui_inset_pane.qui_sunken .qui_title_bar hr {
+	position: absolute;
+	position: absolute;
+	left: 0px;
+	top: 38px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.qui_inset_pane.qui_sunken .qui_title_bar .qui_body p.qui_label {
+	margin-top: 6px;
+	font-size: 12pt;
+}
+
+.qui_inset_pane.qui_sunken .qui_footer_bar {
+	position: absolute;
+	left: 10px;
+	right: 10px;
+	bottom: 0px;
+	height: 40px;
+}
+
+.qui_inset_pane.qui_sunken .qui_footer_bar .qui_body p.qui_label {
+	margin-top: 8px;
+	font-size: 9pt;
+}
+
+.qui_modal_dialog { overflow: hidden; }
+
+.qui_modal_dialog .qui_bg {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	display: none;
+}
+
+.qui_modal_dialog .qui_inset_pane {
+	position: absolute;
+}
+
+.qui_form > table {
+	position: relative;
+	width: 100%;
+}
+
+.qui_form > table td {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.qui_form > table td.qui_label {
+	font-size: 8pt;
+}
+
+.qui_form > table td.qui_label,
+.qui_form > table td.qui_required {
+	padding-top: 10px;
+	vertical-align: top;
+}
+
+.qui_form > table td.qui_required {
+	font-size: 10pt;
+	text-align: center;
+	width: 20px;
+}
+
+.qui_form > table td.qui_field { padding-bottom: 8px; }
+
+.qui_form > table td.qui_field .qui_textbox { width: 100%; }
+
+.qui_form > table td.qui_field .qui_control_list { margin-top: 5px; }
+
+.qui_app_header {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	z-index: 1000;
+}
+
+.qui_app_header .qui_product_logo {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	width: 400px;
+	background-repeat: no-repeat;
+	background-position: 0% 50%;
+}
+
+.qui_app_header .qui_product_logo_bg {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	width: 150px;
+}
+
+.qui_app_header .qui_quest_logo {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 115px;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	cursor: pointer;
+}
+
+.qui_app_header .qui_quest_logo div.qui_bevel {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	width: 1px;
+	height: none;
+}
+
+.qui_app_header .qui_dropshadow {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: -8px;
+	height: 8px;
+}
+
+.qui_app_header.qui_black {
+	-webkit-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+
+.qui_app_header.qui_blue {
+	-webkit-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+
+.qui_app_header.qui_s { height: 35px; }
+
+.qui_app_header.qui_s .qui_controls { padding-top: 5px; }
+
+.qui_app_header.qui_m { height: 42px; }
+
+.qui_app_header.qui_m .qui_controls { padding-top: 9px; }
+
+.qui_app_header.qui_l { height: 47px; }
+
+.qui_app_header.qui_l .qui_controls { padding-top: 11px; }
+
+.qui_app_header .qui_controls {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 121px;
+	bottom: 0px;
+	text-align: right;
+	overflow: hidden;
+	margin-right: 10px;
+}
+
+.qui_app_header .qui_controls .qui_icon_button {
+	font-size: 8pt;
+	margin-left: 15px;
+	padding-right: 15px;
+	background-repeat: no-repeat;
+	background-position: right;
+}
+
+.qui_app_header .qui_controls .qui_icon_button:last-child {
+	padding-right: 0px;
+	background-image: none;
+}
+
+.qui_about_box_tab {
+	padding: 10px 30px;
+	font-size: 8pt;
+}
+
+.qui_about_box_tab td { font-size: 8pt; }
+
+.qui_about_box_tab.qui_about .qui_logo {
+	background-repeat: no-repeat;
+	background-position: 50% 40px;
+}
+
+.qui_about_box_tab.qui_about .qui_legal {
+	position: absolute;
+	left: 30px;
+	right: 30px;
+	bottom: 10px;
+	text-align: left;
+	font-size: 8pt;
+}
+
+.qui_about_box_tab.qui_about .qui_legal div.qui_name { font-weight: 700; }
+
+.qui_about_box_tab.qui_about .qui_legal div.qui_copyright {
+	margin-top: 5px;
+	font-size: 7pt;
+}
+
+.qui_about_box_tab.qui_about .qui_legal p { padding-top: 8px; }
+
+.qui_about_box_tab.qui_about .qui_legal p.qui_patent,
+.qui_about_box_tab.qui_about .qui_legal p.qui_trademark {
+	font-size: 7pt;
+}
+
+.qui_about_box_tab.qui_legal { margin-bottom: 20px; }
+
+.qui_about_box_tab.qui_legal p,
+.qui_about_box_tab.qui_legal h3,
+.qui_about_box_tab.qui_legal h4 { margin-left: 30px; }
+
+.qui_about_box_tab.qui_contact .qui_section.qui_contact ul { margin-top: 5px; }
+
+.qui_about_box_tab.qui_contact .qui_section.qui_contact ul li { margin-bottom: 5px; }
+
+.qui_about_box_tab.qui_contact .qui_section.qui_contact ul li .qui_value { margin-left: 5px; }
+
+.qui_about_box_tab.qui_contact .qui_section.qui_address p {
+	margin-left: 20px;
+}
+
+.qui_about_box_tab h2 {
+	font-size: 16pt;
+	font-weight: 300;
+	padding-bottom: 12px;
+}
+
+.qui_about_box_tab h3,
+.qui_about_box_tab h4 {
+	font-size: 12pt;
+	font-weight: 600;
+	margin-top: 14px;
+	margin-bottom: 5px;
+}
+
+.qui_about_box_tab h4 {
+	font-size: 10pt;
+	text-transform: uppercase;
+	margin-top: 16px;
+}
+
+.qui_about_box_tab .qui_section {
+	position: relative;
+	margin-bottom: 30px;
+}
+
+.qui_about_box_tab .qui_section > div { margin-left: 80px; }
+
+.qui_about_box_tab .qui_section > div p { margin-bottom: 6px; }
+
+.qui_about_box_tab .qui_link_list li { margin-bottom: 5px; }
+
+.qui_sign_in {
+	position: relative;
+	width: 300px;
+}
+
+.qui_sign_in ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.qui_sign_in li {
+	padding: 0px;
+	margin: 0px;
+}
+
+.qui_sign_in li.qui_input { padding-right: 2px; }
+
+.qui_sign_in li.qui_cmds { height: 38px; }
+
+.qui_sign_in li.qui_cmds .qui_btn_cmd { float: right; }
+
+.qui_sign_in li.qui_cmds .qui_checkbox {
+	position: relative;
+	margin-top: 7px;
+	float: left;
+}
+
+.qui_sign_in .qui_textbox {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.qui_start_screen {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	overflow: hidden;
+}
+
+.qui_start_screen .qui_body {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-repeat: no-repeat;
+	background-position: 50% 150px;
+}
+
+.qui_start_screen .qui_spinner {
+	position: absolute;
+	left: 50%;
+	top: 330px;
+	width: 35px;
+	height: 35px;
+}
+
+.qui_start_screen.qui_sign_in_state .qui_spinner {
+	left: auto;
+	top: auto;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+}
+
+.qui_start_screen .qui_details {
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+}
+
+.qui_start_screen .qui_details p {
+	margin: 0px;
+	line-height: 165%;
+}
+
+.qui_start_screen .qui_details p.qui_version {
+	font-size: 8pt;
+}
+
+.qui_start_screen .qui_details p.qui_copyright,
+.qui_start_screen .qui_details p.qui_fine_print {
+	font-size: 7pt;
+}
+
+.qui_start_screen .qui_sign_in {
+	position: absolute;
+	top: 340px;
+	left: 50%;
+	margin-left: -150px;
+	margin-top: -40px;
+}
+
+.qui_shell {
+	z-index: 1000 !important;
+	overflow: hidden;
+}
+
+.qui_shell .qui_modal_dialog {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 1000 !important;
+}
+
+.qui_shell .qui_body {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.qui_shell .qui_body.qui_s { top: 36px; }
+
+.qui_shell .qui_body.qui_m { top: 43px; }
+
+.qui_shell .qui_body.qui_l { top: 48px; }

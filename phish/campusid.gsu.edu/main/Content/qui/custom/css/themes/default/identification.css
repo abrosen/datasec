@@ -1,0 +1,32 @@
+﻿/*
+#identification .search-container .type-control.tip input[type='text']
+{
+	color: #868686;	
+}
+
+*/
+
+
+ul.results-list li
+{
+	background: url('images/icons/account.png') no-repeat;
+}
+
+.search-info .message
+{
+	background: url('images/icons/info.png') no-repeat;
+}
+
+.search-info .message .field-validation-error
+{
+	background: none;
+}
+
+
+
+.Identification .qui_action_bar {
+	border-top: solid 1px #E5E5E5;
+}
+
+
+/*#identification ul.results-list li*/

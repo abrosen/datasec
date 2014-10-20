@@ -1,0 +1,214 @@
+
+@media (max-width: 767px) {
+  
+  body {
+    padding: 0;
+  }
+  .mobile-bar .icon {
+    background-position: 0 0;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    margin: 0;
+    display: block;
+  }
+  .mobile-bar .icon-campus-map {
+    background-image: url(../img/icon-campus-map.png);
+  }
+  .mobile-bar .icon-phone {
+    background-image: url(../img/icon-phone.png);
+  }
+  .mobile-bar .icon-az {
+    background-image: url(../img/icon-az.png);
+  }
+  .mobile-bar .icon-search {
+    background-image: url(../img/icon-search.png);
+  }
+  .mobile-bar .tab-pane.active {
+    background-color: #636363;
+    color: white;
+  }
+  .mobile-bar #search {
+    padding: 5px 15px;
+    line-height: 24px;
+  }
+  .mobile-bar #search form {
+    margin: 0;
+  }
+  .mobile-bar #search input {
+    line-height: 1;
+    width: 100%;
+    height: 32px;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .mobile-bar .nav {
+    height: 44px;
+    background: #E0E0E0;
+    margin: 0;
+    clear: both;
+  }
+  .mobile-bar .nav li {
+    margin: 0;
+    border: none;
+    float: left;
+  }
+  .mobile-bar .nav li a {
+    color: #333333;
+    font-size: 16px;
+    line-height: 24px;
+    text-transform: uppercase;
+    padding: 10px;
+    border: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+  }
+  .mobile-bar .nav li.menu a {
+    background-image: url('../img/menu-grip.png');
+    background-position: left 0px;
+    background-repeat: no-repeat;
+    padding-left: 44px;
+  }
+  .mobile-bar .nav li.menu.active a {
+    background-position: left -44px;
+  }
+  .mobile-bar .nav li.pull-right {
+    float: right;
+  }
+  .mobile-bar .nav li.search {
+    float: right;
+  }
+  .mobile-bar .nav li.active a {
+    background-color: #636363;
+    color: white;
+  }
+  .mobile-bar .nav + .nav {
+    border-top: solid 1px #ffffff;
+  }
+  .mobile-bar .menu {
+    padding: 0;
+    margin: 0;
+    border-top: solid 1px #ffffff;
+  }
+  .mobile-bar .menu a {
+    color: white;
+    line-height: 24px;
+    display: block;
+  }
+  .mobile-bar .menu > li {
+    background: #636363;
+    display: block;
+    list-style: none;
+  }
+  .mobile-bar .menu > li > a {
+    font-size: 16px;
+    line-height: 24px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-bottom: solid 1px #ffffff;
+    display: block;
+  }
+  .mobile-bar .menu > li > .sub-menu {
+    padding: 10px 0;
+    margin: 0;
+    display: none;
+  }
+  .mobile-bar .menu > li > .sub-menu li {
+    display: block;
+    list-style: none;
+  }
+  .mobile-bar .menu > li > .sub-menu li a {
+    padding: 0 20px;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+    border: none;
+  }
+  .mobile-bar .menu > li > .sub-menu li .sub-menu {
+    margin: 0;
+    padding: 0 0 10px;
+  }
+  .mobile-bar .menu > li > .sub-menu li .sub-menu li a {
+    font-weight: normal;
+    text-shadow: none;
+  }
+  .mobile-bar .menu > li:hover {
+    background: #315AAD;
+  }
+  .mobile-bar .menu > li:hover > a {
+    background: url('../img/chevron-down-white.png') right no-repeat;
+  }
+  .mobile-bar .menu > li:hover > .sub-menu {
+    display: block;
+  }
+  
+    /* added changes */  
+    .qui_action_bar .qui_items {
+    text-align: left;
+
+    }
+
+    .qui_action_bar .qui_btn_cmd {
+    margin-left: 20px;
+    }
+
+    .centered-content {
+        width: auto;
+        margin-left: 10px;
+        margin-right: auto;
+        height: auto;
+        position: relative;
+    }
+    
+      .type-control {
+      width: 100%;
+      }
+
+      .domain .domain-control input,
+      .type-control input[type='text']
+      {
+        width: 90%;
+      }
+
+
+      .text input, input[type='text'], input[type='password'] {
+       width: 90%;
+      padding-right: 2px;
+      }
+      
+      
+      #select-scenario ul.scenarios li .content {
+        width: 90%;
+      }
+      
+      .qa-pair-container .qui_textbox {
+        width: 90%;
+       }
+       .qa-pair-container {
+        padding-top: 1em;
+        padding-left: 0px;
+        margin-bottom: 1em;
+       }
+      
+     
+      
+  
+}
+
+
+
+
+.nav {
+margin-bottom: 20px;
+margin-left: 0;
+list-style: none;
+}
+
+
+ul, ol {
+padding: 0;
+margin: 0 0 10px 25px;
+}
