@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int NUM_CHARS = 5000;
+int NUM_CHARS = 10000;
 static char a[100] = "hello <insert name here>";
-static char target[2000] = "<insert payload here>";
+static char target[5000] = "<insert payload here>";
 
 
 	
@@ -22,7 +22,7 @@ char * read_binary(char *filename) {
 	op = fopen(filename,"rb");
 	fread(buffer,sizeof(char), sizeof(char)* NUM_CHARS,op);
 	fclose(op);
-	printf("Hello %s\n",buffer);
+	//printf("Hello %s\n",buffer);
 	return buffer;
 }
 
@@ -36,7 +36,7 @@ char * fiddle(char *source, char *binary) {
 		if(binary[i] == '<' && binary[i+1]=='i' && binary[i+2] == 'n') {
 			//printf("Found Payload \n");
 
-			for(j = 0; j <100; j++) {
+			for(j = 0; j <2000; j++) {
 				
 				if(source[j] == '\x00'){
 					break;
@@ -62,7 +62,7 @@ int main(){
 	FILE *op = fopen("wormy","wb");
 	fwrite(binary,sizeof(char), sizeof(binary)*NUM_CHARS,op);
 	fclose(op);
-	system("mv wormy worm; chmod +x wormy");
+	system("mv wormy worm; chmod +x worm");
 	
 
 	free(source);
