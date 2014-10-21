@@ -1,47 +1,73 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int NUM_CHARS = 5000;
 static char a[100] = "hello <insert name here>";
-	
+static char target[2000] = "<insert payload here>";
 
-int main(){ 
-	//char *source;
-	//char *binary;
-	char buffer[10000];
-	FILE *op; 
-	op = fopen("worm","rb");
-	fread(buffer,sizeof(char), sizeof(buffer),op);
-	printf("%s\n",a);
-	fclose(op);
+
 	
+char * read_source(char *filename) {
+	char *buffer =  malloc(sizeof(char) * NUM_CHARS);
+	FILE *op; 
+	op = fopen(filename,"r");
+	fread(buffer,sizeof(char), sizeof(char) * NUM_CHARS,op);
+	fclose(op);
+	return buffer;
+}
+
+char * read_binary(char *filename) {
+	char *buffer =  malloc(sizeof(char) * NUM_CHARS);
+	FILE *op; 
+	op = fopen(filename,"rb");
+	fread(buffer,sizeof(char), sizeof(char)* NUM_CHARS,op);
+	fclose(op);
+	printf("Hello %s\n",buffer);
+	return buffer;
+}
+
+
+char * fiddle(char *source, char *binary) {
 	int i;
-	for(i = 0; i<10000; i++){
-		if(buffer[i] == '<' && buffer[i+1]=='i' && buffer[i+2] == 'n') {
-			buffer[i] = 'A';
-			buffer[i+1] = 'n';
-			buffer[i+2] = 'd';
-			buffer[i+3] = 'r';
-			buffer[i+4] = 'e';
-			buffer[i+5] = 'w';
-			buffer[i+6] = ' ';
-			buffer[i+7] = ' ';
-			buffer[i+8] = ' ';
-			buffer[i+9] = ' ';
-			buffer[i+10] = ' ';
-			buffer[i+11] = ' ';
-			buffer[i+12] = ' ';
-			buffer[i+13] = ' ';
-			buffer[i+14] = ' ';
-			buffer[i+15] = ' ';
-			buffer[i+16] = ' ';
-			buffer[i+17] = ' ';
+	int j;
+
+	for(i= 0; i< NUM_CHARS; i++) {
+		// loop until insert  is found 
+		if(binary[i] == '<' && binary[i+1]=='i' && binary[i+2] == 'n') {
+			//printf("Found Payload \n");
+
+			for(j = 0; j <100; j++) {
+				
+				if(source[j] == '\x00'){
+					break;
+				}
+				binary[i+j] =  source[j];
+			}
+
+			break;
+
 		}
 	}
 
-	op = fopen("wormy","wb");
-	fwrite(buffer,sizeof(char), sizeof(buffer),op);
+}
+
+
+int main(){ 
+	char *source = read_source("worm.c");
+	char *binary = read_binary("worm");
+
+	fiddle(source,binary);
+
+
+	FILE *op = fopen("wormy","wb");
+	fwrite(binary,sizeof(char), sizeof(binary)*NUM_CHARS,op);
 	fclose(op);
-	system("mv wormy worm; chmod +x worm");
+	system("mv wormy worm; chmod +x wormy");
+	
+
+	free(source);
+	free(binary);
 	return 0;
+
 }
 
