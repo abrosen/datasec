@@ -60,8 +60,8 @@ class RC4(object):
 
 def main():
     t = time() 
-    words  = open("words", 'r')
-    corpus = list(open("cipher2", 'r').read())
+    words  = open("mykeys", 'r')
+    corpus = list(open("floppy/cipher", 'r').read())
     #print list(corpus)
     best_word = 'GARBAGE'
     best_plain = 'GIBBERISH'
