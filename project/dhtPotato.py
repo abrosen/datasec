@@ -1,8 +1,54 @@
 import random
+import time
 from hashlib import sha1
 random.seed(12345)
 print "The keysize in bits is", sha1().digest_size * 8
 
+
+
+
+
+def testWide(trials):
+    mal = generateRandomIP()
+    success = 0.0
+    times = []
+    for _ in xrange(trials):
+        start = time.time() 
+        n = getHash(generateRandomIP())
+        m = getHash(generateRandomIP())
+        for j in xrange(49152,65535):
+            port = str(j)
+            attempt = getHash(mal+port)
+            if hashBetween(attempt,n,m):
+                success += 1
+                break
+        times.append(time.time() - start)
+    print "Successes:", success/trials,"Avg time:", sum(times)/trials 
+
+
+
+
+
+
+def testSuccessors(trials):
+    mal = generateRandomIP()
+    victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(trials)]
+    victims = sorted(victims)
+    success = 0.0
+    times = []
+    for i in xrange(trials -1):
+        start = time.time() 
+        n = victims[i]
+        m = victims[i+1]
+
+        for j in xrange(49152,65535):
+            port = str(j)
+            attempt = getHash(mal+port)
+            if hashBetween(attempt,n,m):
+                success += 1
+                break
+        times.append(time.time() - start)
+    print "Successes:", success/trials,"Avg time:", sum(times)/trials
 
 
 
@@ -35,21 +81,5 @@ def generateRandomPort():
     return str(random.randint(0,65535))
 
 
-victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(1000)]
-victims = sorted(victims)
-#print victims
-mal = generateRandomIP()
-success = 0
-
-
-for i in xrange(len(victims) -1):
-    n = victims[i]
-    m = victims[i+1]
-
-    for i in xrange(49152,65535):
-        port = str(i)
-        attempt = getHash(mal+port)
-        if hashBetween(attempt,n,m):
-            success += 1
-            break
-print success
+testWide(100000)
+testSuccessors(100)
