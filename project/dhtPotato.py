@@ -34,11 +34,17 @@ def generateRandomIP():
 def generateRandomPort():
     return str(random.randint(0,65535))
 
+
+victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(1000)]
+victims = sorted(victims)
+#print victims
 mal = generateRandomIP()
 success = 0
-for tries in xrange(100000):
-    n = getHash(generateRandomIP()+generateRandomPort())
-    m = getHash(generateRandomIP()+generateRandomPort())
+
+
+for i in xrange(len(victims) -1):
+    n = victims[i]
+    m = victims[i+1]
 
     for i in xrange(49152,65535):
         port = str(i)
