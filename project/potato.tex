@@ -10,6 +10,16 @@
 \begin{document}
 \maketitle
 
+\begin{abstract}
+This paper explores the feasiblity of performing naive Sybil attacks that completely occlude healthy nodes from each other.
+The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
+However, these vulnerabilities has often been explored in a theoretical sense, assuming the attacker to be nigh-omnicient and omnipotent. 
+This paper seeks from a analytical and practical perspective, how valid that assumption is.
+
+
+We do this by analyzing the amount of time it takes an attacker with a given IP to choose a port to obtain a desired hashkey, a process we call \emph{potatoing}.
+We present potatoing to emphasize the ease of this attack, but also demonstrate potential non-security uses of potatoing that are benificial to DHT load-balancing. 
+\end{abstract}
 
 \section{Introductions}
 Security analysis typically assumes an omnicient attacker. 
@@ -29,7 +39,13 @@ Security is not something that is thought about for a DHT, unless the
 DHT is specifically made to be secure against X.  
 Or it's left to the applications
 
+
+A complete DHT occlusion is overkill.
 \section{Analysis}
+
+The birthday attack analysis says given so many elements, likelyhood of collision between any of these elements.
+The potato attack says given this region, what is likelyhood i can find something in this region.  
+It's a different analysis since I'm looking for 1 attacker colliding with one specified region at a time 
 
 
 \section{Simulations}
