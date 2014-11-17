@@ -68,12 +68,35 @@ Experiments demonstrated that an adversary controlling 10\% of the routers in th
 
 
 \section{Proposed Defenses}
-The defenses focused specifically detecting  
+The defenses focused on building a reputation system that will eventually exclude routers falsely advertising their bandwidth.
+A client keeps a local reputation score for each router it can observe.
+The router's reputation score starts at its chances of being chosen as router for the circuit.
 
+Whenever a circuit performs at or better than the minimum advertised bandwidth for the circuit, all the participating routers are rewarded with an increase to their reputation.
+Otherwise, all the circuit's routers' reputations are penalized.
+Routers with a low enough reputation are blacklisted.
 
-The proposed defense was to build a reputation system to detect adversaries.
+The adjustment to the reputation is weighted such that greater the node's advertised bandwidth, the greater the adjustment.
+This means that routers participated in LORA are quickly blacklisted for their wildly inaccurate advertisements.
+To speed convergence to a blacklist, clients can pseudonymously share the observed reputations between each other and aggregate the results.
+
+The reputation system can greatly impede the efforts of an adversary using LORA to attack client anonymity, but only LORA.  
+It is still possible to perform this  traffic attack with high resource machines, albeit more expensive.
+
+For example, if adversary has compromised a circuit's entry and exit, so long as they perform better than or at the mix router's level,  they will gain reputation.
+In theory, an attacker could Sybil a high performing machine into place and only accept a circuit that has been compromised (since there is no penalty for dropping the circuit) and has a mix router of a desired bandwidth.  
+To maximize the number of circuits, each circuit the malicious router is participating in could probe the mix router and limit the entry and exit's bandwidths to that of the mix routers.
+
+This defense does not mitigate the threat of a Sybil attack, which would need some policy changes.
+Bauer et al.\ propose putting some filters  on the directory servers, so that an IP or subnet can only host a single router.
+
+This is in line with research done in making Sybil attacks more expensive for distributed hash tables (DHTs) \cite{dhtsec} by limiting the number of repeated IPs in the network.
+One proposed defence for DHTs is to require joining nodes to register with some members of the network  \cite{dinger2006defending}.
+If the registration reveals there are too many nodes with that IP, it is rejected.
 
 \subsection{Other Defenses}
+
+
 
 Snader et al\. proposes\cite{snader2008tune} a technique replacing self-advertisement with a distributed opportunistic measurement by other nodes.
 This was initially rejected by Bauer et al.\ due to the additional load on the network, but if probes are opportunistic, the bandwidth impact is minimal.
@@ -82,7 +105,10 @@ However, this technique seems to still be vulnerable to a Sybil attack with a hi
 
 %What are selectively malicious nodes? 
 
-
+\section{Conclusion}
+The LORA attack is genuine threat to the anonymity of Tor clients, as it makes traffic interception at the entry and exit routers easy.
+Using a reputation system helps defend against the LORA attack specifically, but traffic interception is still possible. 
+A major threat against Tor is the Sybil attack and the easiest way to make that impractical is to filter additions to the directory servers so that only unique IPs or subnets can be routers.
 
 \bibliography{tor}
 \bibliographystyle{ieeetr}
