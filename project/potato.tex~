@@ -53,11 +53,12 @@ It's a different analysis since I'm looking for 1 attacker colliding with one sp
 
 \section{Simulations}
 
-\subsection{Experiment 1:Potatoing 2 random nodes}
-The amount of time to potato two random hashkeys was 29.6218323708 microseconds, and was achevied $ 99.996\%$ of the time.
+Experiment 1: Potatoing 2 random nodes
+The amount of time to potato two random hashkeys was 29.6218323708 microseconds, and was achevied $ 99.996\%$ of the time
 
 
 
-\subsection{Experiment 2:  Naive Complete Eclipse via Sybil}
-The objective of the second experiment is to completely ensnare a network using a Sybil attack, starting with single node.
+Experiment 2:  Naive Complete Eclipse via Sybil
+Attack objective is to place
+
 \end{document}
