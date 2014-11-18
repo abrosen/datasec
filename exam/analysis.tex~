@@ -88,7 +88,7 @@ In theory, an attacker could Sybil a high performing machine into place and only
 To maximize the number of circuits, each circuit the malicious router is participating in could probe the mix router and limit the entry and exit's bandwidths to that of the mix routers.
 
 This defense does not mitigate the threat of a Sybil attack, which would need some policy changes.
-Bauer \textit{et al}.\ propose putting some filters  on the directory servers, so that an IP or subnet can only host a single router.
+Bauer et al.\ propose putting some filters  on the directory servers, so that an IP or subnet can only host a single router.
 
 This is in line with research done in making Sybil attacks more expensive for distributed hash tables (DHTs) \cite{dhtsec} by limiting the number of repeated IPs in the network.
 One proposed defence for DHTs is to require joining nodes to register with some members of the network  \cite{dinger2006defending}.
@@ -98,8 +98,8 @@ If the registration reveals there are too many nodes with that IP, it is rejecte
 
 
 
-Snader \textit{et al}.\ proposes \cite{snader2008tune} a technique replacing self-advertisement with a distributed opportunistic measurement by other nodes.
-This was initially rejected by Bauer \textit{et al}.\ due to the additional load on the network, but if probes are opportunistic, the bandwidth impact is minimal.
+Snader et al.\ proposes \cite{snader2008tune} a technique replacing self-advertisement with a distributed opportunistic measurement by other nodes.
+This was initially rejected by Bauer et al.\ due to the additional load on the network, but if probes are opportunistic, the bandwidth impact is minimal.
 This is combined with a new selection algorithm that selects routers in the circuit based on their ranking  according to metric, which impedes an adversary hoping to game the system by using a high-bandwidth machine.
 However, this technique seems to still be vulnerable to a Sybil attack with a high bandwidth machine, since an attacker would the get multiple entries in the ranking system.
 
