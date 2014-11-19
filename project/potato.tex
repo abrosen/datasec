@@ -13,13 +13,10 @@
 \begin{abstract}
 This paper explores the feasiblity of performing naive Sybil attacks that completely occlude healthy nodes from each other.
 The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
-However, these vulnerabilities has often been explored in a theoretical sense, assuming the attacker to be nigh-omnicient and omnipotent. 
+However, these vulnerabilities has often been explored in a theoretical sense, assuming the attacker is a global adversary from the beginning, nigh-omnicient and omnipotent. 
 This paper seeks from a analytical and practical perspective, how valid that assumption is.
 
-%Alerternatively
-This paper examines the amount of computational effort required to go from a non-global adversary to a global adversary.
-
-
+We examine the amount of computational effort required to become a global adversary starting as a non-global adversary.
 We do this by analyzing the amount of time it takes an attacker with a given IP to choose a port to obtain a desired hashkey, a process we call \emph{potatoing}.
 We present potatoing to emphasize the ease of this attack, but also demonstrate potential non-security uses of potatoing that are benificial to DHT load-balancing. 
 \end{abstract}
@@ -46,13 +43,20 @@ Or it's left to the applications
 A complete DHT occlusion is overkill.
 \section{Analysis}
 
+\cite{bellare2004hash}
+
 The birthday attack analysis says given so many elements, likelyhood of collision between any of these elements.
 The potato attack says given this region, what is likelyhood i can find something in this region.  
 It's a different analysis since I'm looking for 1 attacker colliding with one specified region at a time.
 
 Suppose we have a DHT with $N$ members in it, with the hashspace of $[0,2^{160})$.
 The case of small $N$ is ignored, since they are trivial even when unbalanced.
-We can assume that, for a large enough\footnote{p} $N$, node IDs will beclose to evenly distributed accross the network, meaning there will be $\approx \frac{N}{2^{160}}$ hashkeys between each node ID.
+We can assume that, for a large enough\footnote{p} $N$, node IDs will beclose to evenly distributed accross the network, meaning there will be $\approx \frac{2^{160}{N}}$ hashkeys between each node ID.
+
+
+
+Alternatively, we can view this as doing a birthday attack in progress with different probabilities.
+EG, we've generated $\frac{h}{N}$ values already, how many more do we need?
 
 
 \section{Simulations}
@@ -67,4 +71,8 @@ The amount of time to potato two random hashkeys was 29.6218323708 microseconds,
 
 \subsection{Experiment 2:  Naive Complete Eclipse via Sybil}
 The objective of the second experiment is to completely ensnare a network using a Sybil attack, starting with single node.
+
+
+\bibliography{potato}
+\bibliographystyle{plain}
 \end{document}

@@ -36,19 +36,23 @@ def testSuccessors(trials):
     victims = sorted(victims)
     success = 0.0
     times = []
+    attempts = []
     for i in xrange(trials -1):
+        tries = 0.0 
         start = time.time() 
         n = victims[i]
         m = victims[i+1]
 
         for j in xrange(49152,65535):
+            tries +=1
             port = str(j)
             attempt = getHash(mal+port)
             if hashBetween(attempt,n,m):
                 success += 1
                 break
         times.append(time.time() - start)
-    print "Successes:", success/trials,"Avg time:", sum(times)/trials
+        attempts.append(tries)
+    print "Successes:", success/trials,"Avg time:", sum(times)/trials, sum(attempts)/trials
 
 
 
@@ -81,5 +85,9 @@ def generateRandomPort():
     return str(random.randint(0,65535))
 
 
-testWide(100000)
+#testWide(100000)
 testSuccessors(100)
+testSuccessors(200)
+testSuccessors(500)
+testSuccessors(1000)
+#testSuccessors(20000)
