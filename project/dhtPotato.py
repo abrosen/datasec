@@ -54,7 +54,15 @@ def testSuccessors(trials):
         attempts.append(tries)
     print "Successes:", success/trials,"Avg time:", sum(times)/trials, sum(attempts)/trials
 
-
+def testCollisions(networkSize):
+    mal = generateRandomIP()
+    victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(trials)]
+    victims = sorted(victims)
+    success = 0.0
+    malKeys = [getHash(generateRandomIP()+str(p)) for p in xrange(49152,65535)]
+    for i in xrange(trials -1):
+            pass
+  
 
 def getHash(value):
     return long(sha1(value).hexdigest(),16)
