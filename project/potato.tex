@@ -31,7 +31,6 @@ Most DHTs are vulnerable to a \textit{sybil attack} or \textit{eclipse attack}.
 
 This is a lot like a birthday attack, only searching for a collision with a region
 
-
 Why am I doing this?
 DHTS are important cause I like them.
 
@@ -51,9 +50,9 @@ It's a different analysis since I'm looking for 1 attacker colliding with one sp
 
 Suppose we have a DHT with $N$ members in it, with the hashspace of $[0,2^{160})$.
 The case of small $N$ is ignored, since they are trivial even when unbalanced.
-We can assume that, for a large enough\footnote{p} $N$, node IDs will beclose to evenly distributed accross the network, meaning there will be $\approx \frac{2^{160}{N}}$ hashkeys between each node ID.
+We can assume that, for a large enough $N$, node IDs will beclose to evenly distributed accross the network, meaning there will be $\approx \frac{2^{160}}{N}$ hashkeys between each node ID.
 
-
+$$c \approx  1 - (1 -\frac{1}{N})^{P*I})  $$
 
 Alternatively, we can view this as doing a birthday attack in progress with different probabilities.
 EG, we've generated $\frac{h}{N}$ values already, how many more do we need?
@@ -64,7 +63,11 @@ Simulations were performed on a computer with consumer-grade budget hardware.
 
 
 \subsection{Experiment 1:Potatoing 2 random nodes}
-Our initial experiment was designed to demonstrate the 
+Our initial experiment was designed to establish the feasability of injecting in between two random nodes.
+
+Each trial, we generated two victims with random IP/port combinations, and an attacker with a random IP.
+The experiment was for the attacker to find a hashkey in between the two victim's key, from the lowest to highest.
+
 The amount of time to potato two random hashkeys was 29.6218323708 microseconds, and was achevied $ 99.996\%$ of the time.
 
 
@@ -72,6 +75,8 @@ The amount of time to potato two random hashkeys was 29.6218323708 microseconds,
 \subsection{Experiment 2:  Naive Complete Eclipse via Sybil}
 The objective of the second experiment is to completely ensnare a network using a Sybil attack, starting with single node.
 
+
+%\subsection{Experiment 3: Fully Complete Eclipse via Syble}
 
 \bibliography{potato}
 \bibliographystyle{plain}

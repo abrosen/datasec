@@ -37,6 +37,7 @@ def testSuccessors(trials):
     success = 0.0
     times = []
     attempts = []
+    #We get the last pair for free since we had to join the network in between a pair
     for i in xrange(trials -1):
         tries = 0.0 
         start = time.time() 
