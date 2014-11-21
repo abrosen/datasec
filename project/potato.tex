@@ -9,6 +9,14 @@
 \begin{document}
 \maketitle
 
+
+
+%TODO IN THIS ORDER
+%1) WRITE PAPER
+%2) DO EXPERIMENTS FOR GRAPHS
+%3) ADD EXPERIMENT RESULTS TO PAPER
+%4) ADD REFERENCES
+%5) MAKE UP SOME SLIDES
 \begin{abstract}
 This paper explores the feasibility of performing naive Sybil attacks that completely occlude healthy nodes from each other.
 The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
@@ -21,11 +29,16 @@ We present potatoing to emphasize the ease of this attack, but also demonstrate 
 \end{abstract}
 
 \section{Introduction}
-One of the key properties of structured peer-to-peer (P2P) systems is the lack of a centralized coordinater.
+One of the key properties of structured peer-to-peer (P2P) systems is the lack of a centralized coordinator.
 P2P systems remove the vulnerability of a single point of failure, but in doing so, open themselves up to new attacks.
-Most P2P systems and distributed hash tables are vulnerable to 
-\textit{sybil attack} or \textit{eclipse attack}.
-Security analysis typically assumes an omnicient attacker. 
+Most P2P systems and distributed hash tables (DHTs) are vulnerable to \textit{Eclipse attacks}, whereby an attacker completely occlude healthy nodes from one another.
+This prevents them from communicating without being intercepted by the attacker.
+
+One way to accomplish this attack is to perform a \texttt{Sybil Attack}.
+In a Sybil attack
+
+
+Security analyses typically assumes an omnicient attacker. 
 
 I want to practically demonstrate this as well demonstrating how easy it is to place nodes in regions.
 
@@ -43,6 +56,13 @@ Or it's left to the applications
 
 
 A complete DHT occlusion is overkill.
+
+
+\begin{itemize}
+    \item We first discuss the mechanics of performing a Sybil attack and analyze it's effectiveness from a analytical standpoint.
+    \item Our experiments demonstrate the trivial amount of time and computational effort needed to
+\end{itemize}
+
 \section{Analysis}
 
 \cite{bellare2004hash}
@@ -58,11 +78,14 @@ We can assume that, for a large enough $N$, node IDs will beclose to evenly dist
 
 Size of bin is $$ bin =  \frac{H}{N} $$
 
-The probability $P$ of an attacker finding an IP address with the range is 
-$$ P \approx \frac{1}{N}*ip*num\_ports  $$
+The probability $P$ of an attacker finding an hashkey that lands in the range with the range $(n,m)$ is 
+$$ P \approx \frac{n-m}{H}\cdot num\_ips \cdot num\_ports  $$
+
+making it equivalent to
+$$ P \approx \frac{1}{N}\cdot num\_ips \cdot num\_ports  $$
 
 
-The chances of 
+The chances of compromising an entire network of N nodes that partition the entire network.
 $$c \approx  1 - (1 -\frac{1}{N})^{P*I})  $$
 
 Alternatively, we can view this as doing a birthday attack in progress with different probabilities.
@@ -83,11 +106,33 @@ The amount of time to potato two random hashkeys was 29.6218323708 microseconds,
 
 
 
-\subsection{Experiment 2:  Naive Complete Eclipse via Sybil}
+\subsection{Experiment 2:  Nearest Neighbor Eclipse via Sybil}
 The objective of the second experiment is to completely ensnare a network using a Sybil attack, starting with single node.
 
 
-%\subsection{Experiment 3: Fully Complete Eclipse via Syble}
+\subsection{Experiment 3: Fully Complete Eclipse via Sybil}
+The previous experiments of
+
+In some of the below frameworks, it is more efficient to perform an Eclipse attack by falsely advertising, rather than injecting
+
+
+\subsubsection{Chord}
+Most of the above attack
+
+Chances the finger is already covered:
+
+\subsubsection{Kademlia}
+
+\subsubsection{Plaxton Based networks}
+More efficient to lie.
+
+
+\section{Masking the Attack}
+Now that we have established that a Sybil attack can be performed with great ease, our focus now turns to avoiding detection.
+
+We need a different IP for each point surrounding our victim.  In the Nearest-Neighbor attack, we need a 
+
+We can reduce this into an interesting graph coloring problem
 
 \section{Simple Load Balancing Injection Framework}
 
