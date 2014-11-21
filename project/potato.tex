@@ -30,25 +30,34 @@ We present potatoing to emphasize the ease of this attack, but also demonstrate 
 
 \section{Introduction}
 One of the key properties of structured peer-to-peer (P2P) systems is the lack of a centralized coordinator.
-P2P systems remove the vulnerability of a single point of failure, but in doing so, open themselves up to new attacks.
-Most P2P systems and distributed hash tables (DHTs) are vulnerable to \textit{Eclipse attacks}, whereby an attacker completely occlude healthy nodes from one another.
+P2P systems remove the vulnerability of a single point of failure and and the suceptability to a denial of service attack (cite original Sybil paper), but in doing so, open themselves up to new attacks.
+Completely decentralized P2P systems are vulnerable to \textit{Eclipse attacks}, whereby an attacker completely occlude healthy nodes from one another.
 This prevents them from communicating without being intercepted by the attacker.
 
 One way to accomplish this attack is to perform a \texttt{Sybil Attack}.
-In a Sybil attack
+In a Sybil attack, the attacker creates multiple malicious virtual nodes in order to disrupt the network.
+If enough malicious nodes are injected into the system, the majority of the nodes will be occluded from one another, successfully performing an Eclipse attack.
 
 
-Security analyses typically assumes an omnicient attacker. 
+Security analyses typically assumes an adversary using a Sybil is omniscient and can inject virtual nodes wherever he chooses in a reasonable amount of time. 
+Our goal is to demonstrate how veracity of that assumption by doing analysis and simulations.
 
-I want to practically demonstrate this as well demonstrating how easy it is to place nodes in regions.
+%Why am I doing this?
+Sybil attacks represent a significant threat to the security of any distributed system.
+Many of the analysises on Tor emphasize the vulnerability of Tor to the Sybil attack.
+P2P systems like BitTorrent are essential , and current research demonstrates that they it is vulnerable to this attack.
+There have been many suggestions on how to defend against Sybil attack, but the only surefire way is to introduce a trusted authority for identities.
+This solution potentially removes the Sybil attack, but reintroduces vulnerabilities to denial of service attacks, bringing us full circle.
 
-A sybil attack is named after Sybil, who had Dissociative Identity disorder.
-In a sybil attack, the attacker
 
-This is a lot like a birthday attack, only searching for a collision with a region
+%This is a lot like a birthday attack, only searching for a collision with a region
 
-Why am I doing this?
+
+Our research has very broad implications 
 DHTS are important cause I like them.
+Hashing 
+
+Any application built using a DHT must be address its vulnerabilities to the Eclipse and Sybil attacks
 
 Security is not something that is thought about for a DHT, unless the 
 DHT is specifically made to be secure against X.  
@@ -58,10 +67,10 @@ Or it's left to the applications
 A complete DHT occlusion is overkill.
 
 
-\begin{itemize}
-    \item We first discuss the mechanics of performing a Sybil attack and analyze it's effectiveness from a analytical standpoint.
-    \item Our experiments demonstrate the trivial amount of time and computational effort needed to
-\end{itemize}
+%\begin{itemize}
+%    \item We first discuss the mechanics of performing a Sybil attack and analyze it's effectiveness from a analytical standpoint.
+%    \item Our experiments demonstrate the trivial amount of time and computational effort needed to
+%\end{itemize}
 
 \section{Analysis}
 
@@ -117,7 +126,9 @@ In some of the below frameworks, it is more efficient to perform an Eclipse atta
 
 
 \subsubsection{Chord}
-Most of the above attack
+Most of the above attacks
+
+
 
 Chances the finger is already covered:
 
