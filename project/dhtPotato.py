@@ -61,6 +61,7 @@ def testCollisions(networkSize):
     victims = sorted(victims)
     success = 0.0
     malKeys = [getHash(generateRandomIP()+str(p)) for p in xrange(49152,65535)]
+    malKeys = sorted(malKeys)
     for i in xrange(trials -1):
             pass
   
