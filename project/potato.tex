@@ -30,28 +30,32 @@ We present potatoing to emphasize the ease of this attack, but also demonstrate 
 
 \section{Introduction}
 One of the key properties of structured peer-to-peer (P2P) systems is the lack of a centralized coordinator.
-P2P systems remove the vulnerability of a single point of failure and and the suceptability to a denial of service attack (cite original Sybil paper), but in doing so, open themselves up to new attacks.
+P2P systems remove the vulnerability of a single point of failure and and the susceptibility to a denial of service attack (cite original Sybil paper), but in doing so, open themselves up to new attacks.
 Completely decentralized P2P systems are vulnerable to \textit{Eclipse attacks}, whereby an attacker completely occlude healthy nodes from one another.
 This prevents them from communicating without being intercepted by the attacker.
 
-One way to accomplish this attack is to perform a \texttt{Sybil Attack}.
+One way to accomplish this attack is to perform a \emph{Sybil Attack} \cite{douceur2002sybil}.
 In a Sybil attack, the attacker creates multiple malicious virtual nodes in order to disrupt the network.
 If enough malicious nodes are injected into the system, the majority of the nodes will be occluded from one another, successfully performing an Eclipse attack.
-
 
 Security analyses typically assumes an adversary using a Sybil is omniscient and can inject virtual nodes wherever he chooses in a reasonable amount of time. 
 Our goal is to demonstrate how veracity of that assumption by doing analysis and simulations.
 
 %Why am I doing this?
 Sybil attacks represent a significant threat to the security of any distributed system.
-Many of the analysises on Tor emphasize the vulnerability of Tor to the Sybil attack.
+Many of the analyses \cite{bauer2007low} on Tor \cite{dingledine2004tor} emphasize the vulnerability of Tor to the Sybil attack.
+This threatens the anonymity of Tor users, particularly those living in countries with peculiar notions about personal privacy CITATION:  WHO USES TOR.
+
 P2P systems like BitTorrent are essential to a wide variety of users.
-BitTorrent is used as main
- and current research demonstrates that they it is vulnerable to this attack.
+BitTorrent, for instance, is the \textit{de facto} platform for distributing large files scalably among tens of thousands of clients.
+An estimated 20 million peers use BitTorrent daily for sharing and retrieving Linux and BSD-based distros, offline copies of Wikipedia, and personal backup
+Current research demonstrates  BitTorrent is vulnerable to the Sybil attack and \footnote{Perhaps the only reason that Bittorrent hasn't be attacked in such a way as to render it unuable }.
 
 
-There have been many suggestions on how to defend against Sybil attack, but the only surefire way is to introduce a trusted authority for identities.
+There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be 
+Part of this is surely influenced by the only surefire way to defend against a Sybil attack is to introduce a trusted authority to certify and/or bind identities.
 This solution potentially removes the Sybil attack, but reintroduces vulnerabilities to denial of service attacks, bringing us full circle.
+ANother reason is that there is 
 
 
 %This is a lot like a birthday attack, only searching for a collision with a region
