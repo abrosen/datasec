@@ -92,40 +92,36 @@ Relaxing the latter assumptions would  make the Sybil attack trivial. If the att
 
 Consider an attacker operating under these assumptions who wants to inject a malicious node in between two victims.
 The attacker must search for a valid IP and port combination under his control that generates a hash key that lies between the two victims's keys, a process we will call \textit{potatoing}.
-The attackers ability to compromise the network depends on what IP address and ports he has available.
+The attackers ability to compromise the network depends on what IP addresses and ports he has available.
 
 
 
 \subsection{Analysis}
+Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
+Consider two victim nodes with IDs $a$ and $b$.
+The probability $P$ that an attacker can potato a hash key that lands in the range $(a,b)$ is 
+$$ P \approx \frac{|b-a|}{2^{m}}\cdot num\_ips \cdot num\_ports  $$
 
-Suppose we have a DHT with $n$ members in it, with $m-bit$ node IDs between $[0,2^{m})$.
-We can assume that, for a large enough $n$, node IDs will be close to evenly distributed across the keyspace, meaning there will be $\approx \frac{2^{m}}{N}$ key between each node ID.
+Where $num_ip$ addresses is the number of IP addresses the attacker has under his control and $num_ports$ is the number of ports the attacker can try for each IP address.
+If the ports the attacker can try are limited the ephemeral ports, the attacker has 16383 ports to use for each IP address.
+We can assume that, for a large enough $n$, node IDs will be close to evenly distributed across the keyspace, meaning there will be $\approx \frac{2^{m}}{n}$ key between each node ID.
+This makes the earlier probability equivalent to:
+$$ P \approx \frac{1}{n}\cdot num\_ips \cdot num\_ports  $$
+This indicates that the ease of potatoing is independent to $m$.
 
-The probability $P$ of an attacker finding an hashkey that lands in the range with the range $(n,m)$ is 
-$$ P \approx \frac{n-m}{H}\cdot num\_ips \cdot num\_ports  $$
-
-making it equivalent to
-$$ P \approx \frac{1}{N}\cdot num\_ips \cdot num\_ports  $$
-
-
-The chances of compromising an entire network of N nodes that partition the entire network.
-$$c \approx  1 - (1 -\frac{1}{N})^{num\_ips \cdot num\_ports}  $$
-
-Alternatively, we can view this as doing a birthday attack in progress with different probabilities.
-EG, we've generated $\frac{h}{N}$ values already, how many more do we need?
+The chances of an attacker potatoing all $n$ nodes that partition the entire keyspace is:
+$$C \approx  1 - (1 -\frac{1}{n})^{num\_ips \cdot num\_ports}  $$
 
 
 \section{Simulations}
 Simulations were performed on a computer with consumer-grade budget hardware. 
 
 
-\subsection{Experiment 1:Potatoing 2 random nodes}
-Our initial experiment was designed to establish the feasability of injecting in between two random nodes.
-
-Each trial, we generated two victims with random IP/port combinations, and an attacker with a random IP.
-The experiment was for the attacker to find a hashkey in between the two victim's key, from the lowest to highest.
-
-The amount of time to potato two random hashkeys was 29.6218323708 microseconds, and was achevied $ 99.996\%$ of the time.
+\subsection{Experiment 1: Potatoing 2 random nodes}
+Our initial experiment was designed to establish the feasibility of injecting in between two random nodes.
+Each trial, we generated two victims with random IP addresses and ports, and an attacker with a random IP.
+The experiment was for the attacker to find a key in between the two victims's key, from the lowest to highest.
+The amount of time to potato two random keys was on average 29.6218323708 microseconds, and was achievable $ 99.996\%$ of the time.
 
 
 
