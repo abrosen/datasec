@@ -5,7 +5,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \author{Andrew Rosen}
-\title{Analytical and Practical Evaluation of Sybil Attacks}
+\title{The Sybil Attack From the Attacker's Perspective}   % Or The Attacker's View of The Sybil Attack
 \begin{document}
 \maketitle
 
@@ -21,7 +21,7 @@
 This paper explores the feasibility of performing naive Sybil attacks that completely occlude healthy nodes from each other.
 The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
 However, these vulnerabilities has often been explored in a theoretical sense, assuming the attacker is a global adversary from the beginning, nigh-omniscient and omnipotent. 
-This paper seeks from a analytical and practical perspective, how valid that assumption is.
+This paper examines, from a analytical and practical perspective, how valid that assumption is.
 
 We examine the amount of computational effort required to become a global adversary starting as a non-global adversary.
 We do this by analyzing the amount of time it takes an attacker with a given IP to choose a port to obtain a desired hashkey, a process we call \emph{potatoing}.
@@ -47,40 +47,30 @@ Many of the analyses \cite{bauer2007low} on Tor \cite{dingledine2004tor} emphasi
 This threatens the anonymity of Tor users, particularly those living in countries with peculiar notions about personal privacy CITATION:  WHO USES TOR.
 
 P2P systems like BitTorrent are essential to a wide variety of users.
-BitTorrent, for instance, is the \textit{de facto} platform for distributing large files scalably among tens of thousands of clients.
+BitTorrent, for instance, is the \textit{de facto} platform for distributing large files scalably among tens of thousands of clients
 An estimated 20 million peers use BitTorrent daily for sharing and retrieving Linux and BSD-based distros, offline copies of Wikipedia, and personal backup
-Current research demonstrates  BitTorrent is vulnerable to the Sybil attack and \footnote{Perhaps the only reason that Bittorrent hasn't be attacked in such a way as to render it unuable }.
+Current research demonstrates  BitTorrent is vulnerable to the Sybil attack and a persistent attack disabling BitTorrent would e highly detrimental to many users, but especially developers and system administrators \footnote{Perhaps the only reason that BitTorrent hasn't be attacked in such a way as to render it unusable is that those capable of doing so rely heavily upon it.  A sobering thought.}.
 
 
-There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be 
+There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be implemented for every distributed application \cite{levine2006survey}
 Part of this is surely influenced by the only surefire way to defend against a Sybil attack is to introduce a trusted authority to certify and/or bind identities.
 This solution potentially removes the Sybil attack, but reintroduces vulnerabilities to denial of service attacks, bringing us full circle.
-ANother reason is that there is 
+Another reason is that there is no single solution for all platforms is that not every solution is compatible with each distributed platform.
 
 
-%This is a lot like a birthday attack, only searching for a collision with a region
+Despite the threat represented by the Sybil attack and the research done on the subject, little research has been done from the perspective of an adversary.
+We sought to rectify this, both to reemphasize the threat of the Sybil attack, but also because this examination introduces some interesting graph theory problems.
 
+Our work presents the following contributions:
+\begin{itemize}
+    \item We first discuss the mechanics of performing a Sybil attack and analyze the theoretical effort needed to bring to bear to perform the Sybil attack.
+    \item We present our simulations which show how quickly even a naive and inefficient Sybil attack can compromise a system.  We also discuss how a more intelligent attack can be geared to each of the more popular DHT topologies.
+    \item We analyze an interesting graph coloring problem that an attacker needs to solve if the attack is to remain undetected.
+    \item We discuss the implications of our work, specifically how the techniques we developed to perform the attack can be used for automatic load balancing
 
-Our research has very broad implications 
-DHTS are important cause I like them.
-Hashing 
+\end{itemize}
 
-Any application built using a DHT must be address its vulnerabilities to the Eclipse and Sybil attacks
-
-Security is not something that is thought about for a DHT, unless the 
-DHT is specifically made to be secure against X.  
-Or it's left to the applications
-
-
-A complete DHT occlusion is overkill.
-
-
-%\begin{itemize}
-%    \item We first discuss the mechanics of performing a Sybil attack and analyze it's effectiveness from a analytical standpoint.
-%    \item Our experiments demonstrate the trivial amount of time and computational effort needed to
-%\end{itemize}
-
-\section{Analysis}
+\section{Formal Analysis}
 
 \cite{bellare2004hash}
 
@@ -133,6 +123,17 @@ The previous experiments of
 In some of the below frameworks, it is more efficient to perform an Eclipse attack by falsely advertising, rather than injecting
 
 
+
+
+
+Any application built using a DHT must be address its vulnerabilities to the Eclipse and Sybil attacks
+
+Security is not something that is thought about for a DHT, unless the 
+DHT is specifically made to be secure against X.  
+Or it's left to the applications
+
+
+
 \subsubsection{Chord}
 Most of the above attacks
 
@@ -151,7 +152,12 @@ Now that we have established that a Sybil attack can be performed with great eas
 
 We need a different IP for each point surrounding our victim.  In the Nearest-Neighbor attack, we need a 
 
-We can reduce this into an interesting graph coloring problem
+We can reduce this into an interesting graph coloring problem.
+
+
+The hard maximum, in general, is $m$ seperate IP addresses, one for each bit in a $\log n$ routing/routing table DHT.
+Recall that the vast
+
 
 \section{Simple Load Balancing Injection Framework}
 
