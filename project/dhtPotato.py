@@ -17,8 +17,6 @@ class ChordNode(object):
             self.fingers[i] = (self.key + 2**i) % (2**M) 
 
 
-
-
 def getHash(value):
     return long(sha1(value).hexdigest(),16)
 
@@ -46,8 +44,6 @@ def generateRandomIP():
 
 def generateRandomPort():
     return str(random.randint(0,65535))
-
-
 
 
 def testWide(trials):
@@ -111,9 +107,8 @@ def testCollisions(networkSize, numIPs=1):
         malIndex +=1
     if injected:
         success += 1
-    print "Network Size:", networkSize, "Regions Injected :", success/networkSize, "avg Injections per region", injections/networkSize
+    print "Network Size:", networkSize,"Sybil IPs", numIPs, "Regions Injected :", success/networkSize, "avg Injections per region", injections/networkSize
 
-        
 
 def testChordEclipse(networkSize, numIPs = 1):  
     """
@@ -150,12 +145,36 @@ def testChordEclipse(networkSize, numIPs = 1):
                 eclipses +=1
                 coverage +=1
         coverages.append(coverage)
-    print "Eclipse percentage:", eclipses/(160*networkSize), "Coverage per Node:", sum(coverages)/networkSize
+    print "Network Size:", networkSize,"Sybil IPs", numIPs, "Eclipse percentage:", eclipses/(160*networkSize), "Coverage per Node:", sum(coverages)/networkSize
 
 
-#testWide(100000)
-#testCollisions(100000,10)
-#testChordEclipse(20000,1)
-#print "Network Size:", trials, "Successes:", success/trialstestSuccessors(1000)
+
+def doExperiment1():
+    samples= [10000]
+    for x in samples:
+        testWide(x)
+
+
+def doExperiment2():
+   networkSizes = [50,100,200,300,400,500,1000,5000,10000,15000,20000,25000,50000,100000] 
+   IPs = [1,3,5,10]
+   for n in networkSizes:
+    for i in IPs:
+        testCollisions(n,i)
+
+
+def doExperiment3():
+    networkSizes = [50,100,150,200,250,300,400,500,1000,5000] 
+    IPs = [1,3,5,10]
+    for n in networkSizes:
+        for i in IPs:
+            testChordEclipse(n,i)   
+
+
+
+doExperiment1()
+doExperiment2()
+doExperiment3()
+
+
 """Linear scale of injections per region"""
-#testSuccessors(20000)
