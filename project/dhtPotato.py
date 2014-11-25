@@ -1,8 +1,22 @@
 import random
 import time
+from bisect import bisect_left
 from hashlib import sha1
 random.seed(12345)
 print "Experiment Parameter 1: The keysize in bits is", sha1().digest_size * 8
+M = 160
+
+
+class ChordNode(object):
+    """docstring for ChordNode"""
+    def __init__(self, key):
+        super(ChordNode, self).__init__()
+        self.key = key
+        self.fingers = [0]*M
+        for i in xrange(0,M):
+            self.fingers[i] = (self.key + 2**i) % (2**M) 
+
+
 
 
 def getHash(value):
@@ -55,42 +69,18 @@ def testWide(trials):
 
 
 
+def testCollisions(networkSize, numIPs=1):
+    malIPs = []
+    for i in xrange(numIPs):
+        malIPs.append(generateRandomIP())
 
 
-
-def testSuccessors(trials):
-    mal = generateRandomIP()
-    victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(trials)]
-    victims = sorted(victims)
-    success = 0.0
-    times = []
-    attempts = []
-    #We get the last pair for free since we had to join the network in between a pair
-    for i in xrange(trials -1):
-        tries = 0.0 
-        start = time.time() 
-        n = victims[i]
-        m = victims[i+1]
-
-        for j in xrange(49152,65535):
-            tries +=1
-            port = str(j)
-            attempt = getHash(mal+port)
-            if hashBetween(attempt,n,m):
-                success += 1
-                break
-        times.append(time.time() - start)
-        attempts.append(tries)
-    print "Network Size:", trials, "Successes:", success/trials,"Avg time:", sum(times)/trials, "Avg Ports tried:", sum(attempts)/trials
-
-def testCollisions(networkSize):
-    mal = generateRandomIP()
     victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(networkSize)]
     victims = sorted(victims)
     success = 0.0
     injections = 0.0
-    mal = generateRandomIP()
-    malKeys = [getHash(mal+str(p)) for p in xrange(49152,65535)]
+    #mal = generateRandomIP()
+    malKeys = [getHash(mal+str(p)) for mal in malIPs for p in xrange(49152,65535)]
     malKeys = sorted(malKeys)
 
     """
@@ -124,15 +114,46 @@ def testCollisions(networkSize):
     print "Network Size:", networkSize, "Regions Injected :", success/networkSize, "avg Injections per region", injections/networkSize
 
         
-  
 
+def testChordEclipse(networkSize, numIPs = 1):  
+    """
+    0 -> healthy
+    1 -> Sybil 
+    """
+    malIPs = []
+    for i in xrange(numIPs):
+        malIPs.append(generateRandomIP())
+    victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(networkSize)]
+    victims = sorted(victims)
 
+    malKeys = [getHash(mal+str(p)) for mal in malIPs for p in xrange(49152,65535)]
+    malKeys = sorted(malKeys)
+    
+    networkTable = {}
+    for v in victims:
+        networkTable[v] = 0
+    for m in malKeys:
+        networkTable[m] = 1
+    network = sorted(networkTable.keys())
+
+    eclipses = 0.0
+    coverages= []
+    """learning to use bisect version"""
+    for v in victims:
+        coverage = 0.0
+        n = ChordNode(v)
+        for f in n.fingers:
+            index = bisect_left(network,f,lo=0, hi=len(network))  ## check this with simple case
+            if networkTable[network[index]] == 1:
+                eclipses +=1
+                coverage +=1
+        coverages.append(coverage)
+    print "Eclipse percentage:", eclipses/(160*networkSize), "Coverage per Node:", sum(coverages)/networkSize
 
 
 #testWide(100000)
-#testSuccessors(100)
-#testSuccessors(200)
-testCollisions(100000)
+#testCollisions(100000,10)
+testChordEclipse(1000,1)
 #print "Network Size:", trials, "Successes:", success/trialstestSuccessors(1000)
 """Linear scale of injections per region"""
 #testSuccessors(20000)
