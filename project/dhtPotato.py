@@ -144,6 +144,8 @@ def testChordEclipse(networkSize, numIPs = 1):
         n = ChordNode(v)
         for f in n.fingers:
             index = bisect_left(network,f,lo=0, hi=len(network))  ## check this with simple case
+            if index>= len(network):
+                index = 0
             if networkTable[network[index]] == 1:
                 eclipses +=1
                 coverage +=1
@@ -153,7 +155,7 @@ def testChordEclipse(networkSize, numIPs = 1):
 
 #testWide(100000)
 #testCollisions(100000,10)
-testChordEclipse(1000,1)
+#testChordEclipse(20000,1)
 #print "Network Size:", trials, "Successes:", success/trialstestSuccessors(1000)
 """Linear scale of injections per region"""
 #testSuccessors(20000)
