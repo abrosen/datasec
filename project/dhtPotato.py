@@ -109,6 +109,18 @@ def testCollisions(networkSize):
             malIndex +=1
         if injected:
             success += 1
+    malIndex = 0
+    a = victims[-1]
+    b = victims[0]
+    injected = False
+    while  malIndex < len(malKeys) and malKeys[malIndex] < b:
+        attempt = malKeys[malIndex]
+        if hashBetween(attempt,a,b):
+            injected  = True
+            injections += 1
+        malIndex +=1
+    if injected:
+        success += 1
     print "Network Size:", networkSize, "Regions Injected :", success/networkSize, "avg Injections per region", injections/networkSize
 
         
@@ -120,7 +132,7 @@ def testCollisions(networkSize):
 #testWide(100000)
 #testSuccessors(100)
 #testSuccessors(200)
-testCollisions(50000)
+testCollisions(100000)
 #print "Network Size:", trials, "Successes:", success/trialstestSuccessors(1000)
 """Linear scale of injections per region"""
 #testSuccessors(20000)
