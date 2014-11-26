@@ -108,6 +108,7 @@ def testCollisions(networkSize, numIPs=1):
     if injected:
         success += 1
     print "Network Size:", networkSize,"Sybil IPs", numIPs, "Regions Injected :", success/networkSize, "avg Injections per region", injections/networkSize
+    return networkSize,numIPs, success/networkSize, injections/networkSize
 
 
 def testChordEclipse(networkSize, numIPs = 1):  
@@ -146,6 +147,7 @@ def testChordEclipse(networkSize, numIPs = 1):
                 coverage +=1
         coverages.append(coverage)
     print "Network Size:", networkSize,"Sybil IPs", numIPs, "Eclipse percentage:", eclipses/(160*networkSize), "Coverage per Node:", sum(coverages)/networkSize
+    return networkSize, numIPs, eclipses/(160*networkSize), sum(coverages)/networkSize
 
 
 
