@@ -82,7 +82,7 @@ def testCollisions(networkSize, numIPs=1):
     success = 0.0
     injections = 0.0
     #mal = generateRandomIP()
-    malKeys = [getHash(mal+str(p)) for mal in malIPs for p in xrange(49152,65535)]
+    malKeys = [getHash(mal+str(p)) for mal in malIPs for p in xrange(49152,65536)]
     malKeys = sorted(malKeys)
 
     """
@@ -128,7 +128,7 @@ def testChordEclipse(networkSize, numIPs = 1):
     victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(networkSize)]
     victims = sorted(victims)
 
-    malKeys = [getHash(mal+str(p)) for mal in malIPs for p in xrange(49152,65535)]
+    malKeys = [getHash(mal+str(p)) for mal in malIPs for p in xrange(49152,65536)]
     malKeys = sorted(malKeys)
     
     networkTable = {}
