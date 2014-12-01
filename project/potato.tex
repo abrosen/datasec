@@ -140,6 +140,16 @@ If this was impossible, it is still reasonable to assume the attacker's program 
 
 
 
+%Any application built using a DHT must be address its vulnerabilities to the Eclipse and Sybil attacks
+
+%Security is not something that is thought about for a DHT, unless the 
+%DHT is specifically made to be secure against X.  
+%Or it's left to the applications
+
+
+
+
+
 \subsection{Experiment 1: Potatoing 2 random nodes}
 Our initial experiment was designed to establish the feasibility of injecting in between two random nodes.
 Each trial, we generated two victims with random IP addresses and ports, and an attacker with a random IP.
@@ -217,20 +227,6 @@ We simulated this attack under the same parameters as above and are presented in
 
 
 
-
-
-
-
-
-
-Any application built using a DHT must be address its vulnerabilities to the Eclipse and Sybil attacks
-
-Security is not something that is thought about for a DHT, unless the 
-DHT is specifically made to be secure against X.  
-Or it's left to the applications
-
-
-
 \subsubsection{Chord}
 Most of the above attacks
 
@@ -260,7 +256,7 @@ Recall that the vast
 
 \section{Simple Load Balancing Injection Framework}
 
-Costs:  Need to hold 15000ish hashkeys, effectily 160-bit numbers
+Costs:  Need to hold 15000ish hashkeys, effectively 160-bit numbers
 
 \bibliography{potato}
 \bibliographystyle{plain}
