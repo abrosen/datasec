@@ -1,4 +1,4 @@
-\documentclass[a4paper]{IEEEtran}
+\documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -199,11 +199,24 @@ We choose to model an attack on a P2P system built using Chord \cite{chord}.
 We did this for a number of reasons.
 Chord is an extremely well understood DHT and is very simple to evaluate using simulations.
 Nodes in Chord generate long distance links independent of information provided by other nodes, rather than directly querying neighbors.
-This prevents adversaries from poisoning the node's routing table by via false advertisements 
+This prevents adversaries from poisoning the node's routing table via false advertisements, which can be on other DHTs such as Pastry \cite{pastry}. 
 A Sybil attack the most straightforward means of effecting an Eclipse attack on a Chord network.
 
 Nodes in Chord have $m$ long-range links, one for each of the bits in the keys, which is 160 in our experiments.
 Each of node $a$'s long-range hops points to the node with the lowest key $\geq a + 2^{i} \mod 2^{m} , 0 \leq i \leq 160$.
+
+
+The attack is very similar to the Nearest Neighbor attack demonstrated above.
+Beside injecting a node in between successive nodes, the attacker also attempts to place a Sybil in between each of the long-range links.
+We simulated this attack under the same parameters as above and are presented in Table \ref{exp3}.
+
+
+
+
+
+
+
+
 
 
 
@@ -235,7 +248,7 @@ More efficient to lie.
 
 \section{Masking the Attack}
 Now that we have established that a Sybil attack can be performed with great ease, our focus now turns to avoiding detection.
-
+The only surefire way to achieve this is by preventing a node from seeing 
 We need a different IP for each point surrounding our victim.  In the Nearest-Neighbor attack, we need a 
 
 We can reduce this into an interesting graph coloring problem.
