@@ -1,7 +1,14 @@
 import random
 import time
+import latexTools
 from bisect import bisect_left
 from hashlib import sha1
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+
+
 random.seed(12345)
 print "Experiment Parameter 1: The keysize in bits is", sha1().digest_size * 8
 M = 160
@@ -108,7 +115,7 @@ def testCollisions(networkSize, numIPs=1):
     if injected:
         success += 1
     print "Network Size:", networkSize,"Sybil IPs", numIPs, "Regions Injected :", success/networkSize, "avg Injections per region", injections/networkSize
-    return networkSize,numIPs, success/networkSize, injections/networkSize
+    return numIPs, networkSize, success/networkSize, injections/networkSize
 
 
 def testChordEclipse(networkSize, numIPs = 1):  
@@ -146,8 +153,9 @@ def testChordEclipse(networkSize, numIPs = 1):
                 eclipses +=1
                 coverage +=1
         coverages.append(coverage)
-    print "Network Size:", networkSize,"Sybil IPs", numIPs, "Eclipse percentage:", eclipses/(160*networkSize), "Coverage per Node:", sum(coverages)/networkSize
-    return networkSize, numIPs, eclipses/(160*networkSize), sum(coverages)/networkSize
+    #print "Network Size:", networkSize,"Sybil IPs", numIPs, "Eclipse percentage:", eclipses/(160*networkSize), "Coverage per Node:", sum(coverages)/networkSize
+    return numIPs, networkSize , eclipses/(160*networkSize), sum(coverages)/networkSize
+
 
 
 
@@ -158,25 +166,72 @@ def doExperiment1():
 
 
 def doExperiment2():
-   networkSizes = [50,100,200,300,400,500,1000,5000,10000,15000,20000,25000,50000,100000] 
-   IPs = [1,3,5,10]
-   for n in networkSizes:
+    networkSizes = [50,100,200,300,400,500,1000,5000,10000,15000,20000,25000,50000,100000]#,1000000] 
+    IPs = [1,3,5,10]#xrange(1,11)
+    results = []
+    results.append(("IPs","Network Size","% Regions covered", "Sybils/Region" ))
     for i in IPs:
-        testCollisions(n,i)
+        for n in networkSizes:
+            results.append(testCollisions(n,i))
+    return results
 
 
 def doExperiment3():
     networkSizes = [50,100,150,200,250,300,400,500,1000,5000] 
-    IPs = [1,3,5,10]
-    for n in networkSizes:
-        for i in IPs:
-            testChordEclipse(n,i)   
+    IPs = [1,3,5,10]#xrange(1,11)
+    results = []
+    results.append(("IPs","Network Size"," \% links occluded", "Occlusion per node" )) 
+    for i in IPs:
+        for n in networkSizes:
+            results.append(testChordEclipse(n,i))
+    return results
 
 
 
 doExperiment1()
-doExperiment2()
-doExperiment3()
+exp2 = doExperiment2()
+print latexTools.makeTableFromData(exp2)
+exp3 = doExperiment3()
+print latexTools.makeTableFromData(exp3)
+
+
 
 
 """Linear scale of injections per region"""
+
+"""make a chart node static x ip y prob
+This can allow us to extrapolate effects of increasing num IPs
+n = 20,000,000
+x = num IPs
+f(x) =  occlusion per node 
+g(x) = percent occulusion
+
+now change nodes but keep IP static
+note the curve, extrapolate
+"""
+
+"""
+N = 10000
+print exp2
+x2 = [x[0] for x in exp2[1:] if x[1]==N]
+f2 = [x[3] for x in exp2[1:] if x[1]==N]
+g2 = [x[2] for x in exp2[1:] if x[1]==N]
+
+plt.plot(x2,f2, 'ko')
+plt.show()
+
+plt.plot(x2,g2,'ko')
+plt.show()
+
+
+I = 5
+print exp2
+x3 = [x[1] for x in exp2[1:] if x[0]==I]
+f3 = [x[3] for x in exp2[1:] if x[0]==I]
+g3 = [x[2] for x in exp2[1:] if x[0]==I]
+
+plt.plot(x3,f3, 'ko')
+plt.show()
+
+plt.plot(x3,g3,'ko')
+plt.show()"""
