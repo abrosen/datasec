@@ -191,17 +191,42 @@ In this case, the node moves on to the successive pair that the node has learned
 
 We simulated this attack on networks of size 50, 100, 200, 300, 400, 500, 1000, 5000, 10000, 15000, 20000, 25000, 50000, and 100000.
 We gave the attack access to 1, 3, 5, and 10 IP addresses.
-We presents our results in table \ref{exp2}.
+We presents our results in Table \ref{exp2}; we have included only the results for larger sized networks, as the smaller sized networks were completely .
 
-RESULT TABLE 
-NEED TO TEST TO SEE WHAT NEEDED TO ATTACK 50,000,000 size network, twice the size of the BitTorrent network.  CAN WE?
+\begin{table}[h]\small
 
+\begin{center}
+       
+\begin{tabular}{|r|r|r|r|}
+    \hline
+    IPs & Network Size & \% of Regions Injected & Sybils/Region \\ \hline
+    1 & 25000 & 0.39556 & 0.65532 \\ \hline
+    1 & 50000 & 0.24638 & 0.32766 \\ \hline
+    1 & 100000 & 0.14065 & 0.16383 \\ \hline
+    3 & 25000 & 0.66068 & 1.96592 \\ \hline
+    3 & 50000 & 0.49712 & 0.98294 \\ \hline
+    3 & 100000 & 0.32942 & 0.49148 \\ \hline
+    5 & 25000 & 0.76964 & 3.2766 \\ \hline
+    5 & 50000 & 0.62334 & 1.63824 \\ \hline
+    5 & 100000 & 0.45032 & 0.81912 \\ \hline
+    10 & 25000 & 0.86792 & 6.55292 \\ \hline
+    10 & 50000 & 0.76584 & 3.27648 \\ \hline
+    10 & 100000 & 0.62321 & 1.63829 \\ \hline
+\end{tabular}
+\label{exp2}
+\caption{Results for Sybil Attack.  The Fraction of regions injected is the percentage of all regions for which the adversary could inject a Sybil with the suitable key. The Sybil/Region measure is how many Sybils were available to inject a particular region on average.}
+\end{center}
 
-Each experiment took less than a second to perform.
+\end{table}
+
+%NEED TO TEST TO SEE WHAT NEEDED TO ATTACK 50,000,000 size network, twice the size of the BitTorrent network.  CAN WE?
+%Each experiment took less than a second to perform.
 Our results show that an adversary, given only modest resources, can inject a Sybil in between the vast majority of successive nodes in moderately sized networks.
-In a large network, modest resources still can be used to compromise more that a third of the network, an  important goal if the adversary  wishes to launch a Sybil attack.
+In a large network, modest resources still can be used to compromise more that a third of the network, an  important goal if the adversary  wishes to launch a Byzantine attack.
 
-However, this only covers the short links of the network, but not the long distance link.
+
+
+However, this experiment only covers the short links of the network, but not the long distance link.
 
 \subsection{Experiment 3: Fully Complete Eclipse via Sybil}
 We extended the previous experiment by considering the long-distance hops of each node in addition to the short-range links of the DHT.

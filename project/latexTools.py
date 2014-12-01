@@ -8,7 +8,7 @@ def makeTableFromData(rows):
     for row in rows:
         for item in row:
             output  = output + str(item) + " & "
-        output = output + "\\\\ \hline\n"
+        output = output[:-2] + "\\\\ \hline\n"
     return output
 
 if __name__ == '__main__':
