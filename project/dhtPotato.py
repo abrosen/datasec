@@ -3,7 +3,6 @@ import time
 import latexTools
 from bisect import bisect_left
 from hashlib import sha1
-import numpy as np
 import matplotlib.pyplot as plt
 
 
