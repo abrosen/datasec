@@ -5,7 +5,7 @@
 \usepackage{amssymb}
 
 
-%\linespread{1.3}
+\linespread{1.3}
 
 \author{Andrew Rosen}
 \title{The Sybil Attack From the Attacker's Perspective}   % Or The Attacker's View of The Sybil Attack
@@ -306,7 +306,8 @@ It is ostensibly the largest P2P system in use, so it seems more suited for anal
 
 We avoided simulating the potatoing process on MLDHT because it is completely unnecessary to perform the attack.
 In MLDHT, a node ID is not chosen by hashing an IP and port combination, but by picking an address uniformly at random between 0 and $2^{160}-1$.
-Research has been done on Mainline's  vulnerability to Sybil attacks.
+An adversary who wants to a completely isolate a node on the network can choose Sybils with ``random'' hashkeys completely eliminate that node from the routing tables of healthy peers. 
+Research has been done on Mainline's vulnerability to Sybil attacks.
 
 
 More efficient to lie when you can on Plaxton networks.
