@@ -13,6 +13,7 @@ print "Experiment Parameter 1: The keysize in bits is", sha1().digest_size * 8
 M = 160
 
 
+
 class ChordNode(object):
     """docstring for ChordNode"""
     def __init__(self, key):
@@ -165,8 +166,8 @@ def doExperiment1():
 
 
 def doExperiment2():
-    networkSizes = [50,100,200,300,400,500,1000,5000,10000,15000,20000,25000,50000,100000]#,1000000] 
-    IPs = [1,3,5,10]#xrange(1,11)
+    networkSizes = [50,100,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,10000,15000,20000,25000,50000,75000,100000,500000]
+    IPs = xrange(1,21,2)
     results = []
     results.append(("IPs","Network Size","% Regions covered", "Sybils/Region" ))
     for i in IPs:
@@ -187,11 +188,56 @@ def doExperiment3():
 
 
 
-doExperiment1()
-exp2 = doExperiment2()
-print latexTools.makeTableFromData(exp2)
-exp3 = doExperiment3()
-print latexTools.makeTableFromData(exp3)
+def graphExp2(data):
+    STATIC_NETWORK_SIZE = 50000 
+    ips               = [x[0] for x in data if x[1]==STATIC_NETWORK_SIZE]
+    occulusionRate    = [x[2] for x in data if x[1]==STATIC_NETWORK_SIZE]
+    injectsPerRegion  = [x[3] for x in data if x[1]==STATIC_NETWORK_SIZE]
+    plt.plot(ips,occulusionRate, 'ko')
+    plt.show()
+
+    plt.plot(ips,injectsPerRegion,'ko')
+    plt.show()
+
+    STATIC_NUM_IPS    = 3
+    networkSizes      = [x[1] for x in data if x[0]==STATIC_NUM_IPS]
+    occulusionRate    = [x[2] for x in data if x[0]==STATIC_NUM_IPS]
+    injectsPerRegion  = [x[3] for x in data if x[0]==STATIC_NUM_IPS]
+
+    plt.semilogx(networkSizes,occulusionRate, 'ko')
+    plt.show()
+
+    plt.loglog(networkSizes,injectsPerRegion,'ko')
+    plt.show()
+
+if __name__ == '__main__':
+    #doExperiment1()
+    """
+    tag = str(int(time.time()))
+    f = open("exp2-" +tag+".txt", 'w')
+
+    exp2 = doExperiment2()
+    print latexTools.makeTableFromData(exp2)
+    for line in exp2:
+        for thing in line:
+            f.write(str(thing)+", ")
+        f.write("\n")
+    """
+    f = open("exp2-1417570593.txt", 'r')
+    tmp= []
+    data = []
+    for line in f:
+        tmp.append(line)
+    tmp = tmp[1:]
+    for line in tmp:
+        line  = line.split(',')
+        line =  line[:-1]
+        line =  map(float, line)
+        print line
+        data.append(line)
+    graphExp2(data)
+    #exp3 = doExperiment3()
+    #print latexTools.makeTableFromData(exp3)
 
 
 
