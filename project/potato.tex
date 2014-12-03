@@ -228,6 +228,10 @@ The Sybil attack degraded below that points for
 
 However, this experiment only covers the short links of the network, but not the long distance link.
 
+
+Given uncompromised node, what is the chances the node is a Sybil
+$$ \frac{SybilsKeys}{SybilKeys + NetworkSize -1}  $$
+
 \subsection{Experiment 3: Fully Complete Eclipse via Sybil}
 We extended the previous experiment by considering the long-distance hops of each node in addition to the short-range links of the DHT.
 We choose to model an attack on a P2P system built using Chord \cite{chord}.

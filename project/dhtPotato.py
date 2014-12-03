@@ -153,7 +153,7 @@ def testChordEclipse(networkSize, numIPs = 1):
                 eclipses +=1
                 coverage +=1
         coverages.append(coverage)
-    #print "Network Size:", networkSize,"Sybil IPs", numIPs, "Eclipse percentage:", eclipses/(160*networkSize), "Coverage per Node:", sum(coverages)/networkSize
+    print "Network Size:", networkSize,"Sybil IPs", numIPs, "Eclipse percentage:", eclipses/(160*networkSize), "Coverage per Node:", sum(coverages)/networkSize
     return numIPs, networkSize , eclipses/(160*networkSize), sum(coverages)/networkSize
 
 
@@ -177,8 +177,8 @@ def doExperiment2():
 
 
 def doExperiment3():
-    networkSizes = [50,100,150,200,250,300,400,500,1000,5000] 
-    IPs = [1,3,5,10]#xrange(1,11)
+    networkSizes = xrange(200,5001,200)
+    IPs = xrange(1,11,2)
     results = []
     results.append(("IPs","Network Size"," \% links occluded", "Occlusion per node" )) 
     for i in IPs:
@@ -189,40 +189,93 @@ def doExperiment3():
 
 
 def graphExp2(data):
-    STATIC_NETWORK_SIZE = 50000 
-    ips               = [x[0] for x in data if x[1]==STATIC_NETWORK_SIZE]
-    occulusionRate    = [x[2] for x in data if x[1]==STATIC_NETWORK_SIZE]
-    injectsPerRegion  = [x[3] for x in data if x[1]==STATIC_NETWORK_SIZE]
-    plt.plot(ips,occulusionRate, 'ko')
+    d = {}
+    for row in data:
+        if row[1] not in d.keys():
+            d[row[1]] = ([],[])
+        d[row[1]][0].append(row[0])
+        d[row[1]][1].append(row[2])
+    for k in sorted(d.keys()):
+        plt.plot(d[k][0],d[k][1])
+    plt.grid(True)
+    plt.title("Sybil vs Probability")
     plt.show()
+    
+    
+    
+    
+    d = {}
+    for row in data:
+        if row[1] not in d.keys():
+            d[row[1]] = ([],[])
+        d[row[1]][0].append(row[0])
+        d[row[1]][1].append(row[3])
+    for k in sorted(d.keys()):
+        plt.plot(d[k][0],d[k][1])
+    plt.grid(True)
+    plt.title("Sybil vs Injections per region")
+    plt.show()
+    
+    
+    d = {}
+    for row in data:
+        if row[0] not in d.keys():
+            d[row[0]] = ([],[])
+        d[row[0]][0].append(row[1])
+        d[row[0]][1].append(row[2])
+    for k in sorted(d.keys()):
+        plt.semilogx(d[k][0],d[k][1])
+    plt.grid(True)
+    plt.title("Nodes vs Probability")
+    plt.show()
+    
+    d = {}
+    for row in data:
+        if row[0] not in d.keys():
+            d[row[0]] = ([],[])
+        d[row[0]][0].append(row[1])
+        d[row[0]][1].append(row[3])
+    for k in sorted(d.keys()):
+        plt.loglog(d[k][0],d[k][1])
+    plt.grid(True)
+    plt.title("Nodes vs Injections per region")
+    plt.show()
+    
+    
+    STATIC_NETWORK_SIZE = 50000 
+    ips                 = [x[0] for x in data if x[1]==STATIC_NETWORK_SIZE]
+    occulusionRate      = [x[2] for x in data if x[1]==STATIC_NETWORK_SIZE]
+    injectsPerRegion    = [x[3] for x in data if x[1]==STATIC_NETWORK_SIZE]
+    
+    
+    plt.xlabel('Number of Sybil IPs')
+    plt.ylabel('Probability')
+    plt.title('Sybil IPs vs Occlusion')
+    plt.grid(True)
+    plt.plot(ips,occulusionRate, 'ko')    
+    plt.show()
+
+    plt.xlabel('Number of Sybil IPs')
+    plt.ylabel('Avg Sybils Per Region')
+    plt.title('Sybil IPs vs Sybils Per Region')
+    plt.grid(True)
 
     plt.plot(ips,injectsPerRegion,'ko')
     plt.show()
 
+    # Add More IP sizes
     STATIC_NUM_IPS    = 3
     networkSizes      = [x[1] for x in data if x[0]==STATIC_NUM_IPS]
     occulusionRate    = [x[2] for x in data if x[0]==STATIC_NUM_IPS]
     injectsPerRegion  = [x[3] for x in data if x[0]==STATIC_NUM_IPS]
-
+    
     plt.semilogx(networkSizes,occulusionRate, 'ko')
     plt.show()
 
     plt.loglog(networkSizes,injectsPerRegion,'ko')
     plt.show()
 
-if __name__ == '__main__':
-    #doExperiment1()
-    """
-    tag = str(int(time.time()))
-    f = open("exp2-" +tag+".txt", 'w')
-
-    exp2 = doExperiment2()
-    print latexTools.makeTableFromData(exp2)
-    for line in exp2:
-        for thing in line:
-            f.write(str(thing)+", ")
-        f.write("\n")
-    """
+def graph2FromStored():
     f = open("exp2-1417570593.txt", 'r')
     tmp= []
     data = []
@@ -236,9 +289,65 @@ if __name__ == '__main__':
         print line
         data.append(line)
     graphExp2(data)
-    #exp3 = doExperiment3()
-    #print latexTools.makeTableFromData(exp3)
+    
 
+def graph3FromStored():
+    f = open("exp3-1417632333.txt", 'r')
+    tmp= []
+    data = []
+    for line in f:
+        tmp.append(line)
+    tmp = tmp[1:]
+    for line in tmp:
+        line  = line.split(',')
+        line =  line[:-1]
+        line =  map(float, line)
+        print line
+        data.append(line)
+    graphExp3(data)
+
+
+
+def graphExp3(data):
+    d = {}
+    for row in data:
+        if row[0] not in d.keys():
+            d[row[0]] = ([],[])
+        d[row[0]][0].append(row[1])
+        d[row[0]][1].append(row[2])
+    for k in sorted(d.keys()):
+        plt.plot(d[k][0],d[k][1], 'o', label= "Using %d IPs" % k)
+    plt.grid(True)
+    plt.legend(loc=0)
+
+    plt.show()
+
+
+if __name__ == '__main__':
+    #doExperiment1()
+    """
+    tag = str(int(time.time()))
+    f = open("exp2-" +tag+".txt", 'w')
+
+    exp2 = doExperiment2()
+    print latexTools.makeTableFromData(exp2)
+    for line in exp2:
+        for thing in line:
+            f.write(str(thing)+", ")
+        f.write("\n")
+    
+    
+    tag = str(int(time.time()))
+    f = open("exp3-" +tag+".txt", 'w')
+    exp3 = doExperiment3()
+    for line in exp3:
+        for thing in line:
+            f.write(str(thing)+", ")
+        f.write("\n")
+    print latexTools.makeTableFromData(exp3)
+    """
+    graph2FromStored()
+    graph3FromStored()
 
 
 
