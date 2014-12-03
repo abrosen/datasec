@@ -8,7 +8,7 @@
 \linespread{1.3}
 
 \author{Andrew Rosen}
-\title{The Sybil Attack From the Attacker's Perspective}   % Or The Attacker's View of The Sybil Attack
+\title{The Sybil Attack on Peer-to-Peer Networks From the Attacker's Perspective}   % Or The Attacker's View of The Sybil Attack
 \begin{document}
 
 \maketitle
@@ -22,14 +22,16 @@
 %4) ADD REFERENCES
 %5) MAKE UP SOME SLIDES
 \begin{abstract}
-This paper explores the feasibility of performing naive Sybil attacks that completely occlude healthy nodes from each other.
-The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
-However, these vulnerabilities has often been explored in a theoretical sense, assuming the attacker is a global adversary from the beginning, nigh-omniscient and omnipotent. 
-This paper examines, from a analytical and practical perspective, how valid that assumption is.
+This paper explores the feasibility of performing naive Sybil attacks on a P2P network that completely occlude healthy nodes from each other.
+The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks have been well known for some time.
+However, these vulnerabilities has often been explored in a theoretical sense, assuming the attacker is an all-knowing  and all-powerful global adversary from the beginning.
+This paper proves that these are not necessary characteristics and assumptions for an adversary to have to perform a Sybil attack.
 
-We examine the amount of computational effort required to become a global adversary starting as a non-global adversary.
-We do this by analyzing the amount of time it takes an attacker with a given IP to choose a port to obtain a desired hashkey, a process we call \emph{potatoing}.
-We present potatoing to emphasize the ease of this attack, but also demonstrate potential non-security uses of potatoing that are beneficial to DHT load-balancing. 
+We examine the amount of computational effort required to perform an Eclipse attack using only Sybil identities and without poisoning routing tables via false advertisement.
+We do this by analyzing the amount of effort it takes for an attacker with a given IP to choose a port to obtain a desired hash key, a process we call \emph{mashing}.
+Mashing requires no additional resources on the adversary's end.
+While mashing can be used for malicous behavior, we describe methods and applications for the technique that are beneficial for performing load balancing.
+This provides the flexibility for any node to effortless shoulder additional work from bottleneck locations if acting for the good of the network.
 \end{abstract}
 
 \section{Introduction}
@@ -99,7 +101,7 @@ Relaxing the latter assumptions would  make the Sybil attack trivial.
 If the attacker does not have to search for values, he can make up any needed key on the fly and falsely advertise it to the network unchallenged.
 
 Consider an attacker operating under these assumptions who wants to inject a malicious node in between two victims.
-The attacker must search for a valid IP and port combination under his control that generates a hash key that lies between the two victims's keys, a process we will call \textit{potatoing}.
+The attacker must search for a valid IP and port combination under his control that generates a hash key that lies between the two victims's keys, a process we will call \textit{mashing}.
 The attackers ability to compromise the network depends on what IP addresses and ports he has available.
 
 
@@ -107,7 +109,7 @@ The attackers ability to compromise the network depends on what IP addresses and
 \subsection{Analysis}
 Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
 Consider two victim nodes with IDs $a$ and $b$.
-The probability $P$ that an attacker can potato a hash key that lands in the range $(a,b)$ is 
+The probability $P$ that an attacker can mash a hash key that lands in the range $(a,b)$ is 
 $$ P \approx \frac{|b-a|}{2^{m}}\cdot num\_ips \cdot num\_ports  $$
 
 Where $num\_ip$ addresses is the number of IP addresses the attacker has under his control and $num\_ports$ is the number of ports the attacker can try for each IP address.
@@ -115,9 +117,9 @@ If the ports the attacker can try are limited the ephemeral ports, the attacker 
 We can assume that, for a large enough $n$, node IDs will be close to evenly distributed across the keyspace, meaning there will be $\approx \frac{2^{m}}{n}$ key between each node ID.
 This makes the earlier probability equivalent to:
 $$ P \approx \frac{1}{n}\cdot num\_ips \cdot num\_ports  $$
-This indicates that the ease of potatoing is independent to $m$.
+This indicates that the ease of mashing is independent to $m$.
 
-The chances of an attacker potatoing all $n$ nodes that partition the entire keyspace is:
+The chances of an attacker mashing all $n$ nodes that partition the entire keyspace is:
 $$C \approx  1 - (1 -\frac{1}{n})^{num\_ips \cdot num\_ports}  $$
 
 
@@ -150,11 +152,11 @@ If this was impossible, it is still reasonable to assume the attacker's program 
 
 
 
-\subsection{Experiment 1: Potatoing 2 random nodes}
+\subsection{Experiment 1: mashing 2 random nodes}
 Our initial experiment was designed to establish the feasibility of injecting in between two random nodes.
 Each trial, we generated two victims with random IP addresses and ports, and an attacker with a random IP.
 The experiment was for the attacker to find a key in between the two victims's key, from the lowest to highest.
-The amount of time to potato two random keys was on average 29.6218323708 microseconds, and was achievable $ 99.996\%$ of the time.
+The amount of time to mash two random keys was on average 29.6218323708 microseconds, and was achievable $ 99.996\%$ of the time.
 
 
 
@@ -302,22 +304,22 @@ We simulated this attack under the same parameters as above and are presented in
 %\section{Simple Load Balancing Injection Framework}
 \label{sec:horror}
 
-Our analysis and experiments show that an adversary with a small number of machines and limiting their port usage to just the ephemeral ports can easily compromise a P2P system and potato the majority of the regions between nodes.
+Our analysis and experiments show that an adversary with a small number of machines and limiting their port usage to just the ephemeral ports can easily compromise a P2P system and mash the majority of the regions between nodes.
 This effectively prevents nodes from talking to one another without first sending messages through Sybils, who can eavesdrop on them or disregard the eaves and move straight on to the dropping.
 
 Our discussion have primarily concerned Chord, but an astute reader may wonder why did we not simulate an attack on Mainline DHT (MLDHT) \cite{mainline}, the Kademlia \cite{kademlia} based DHT used as the backend of BitTorrent.
-It is ostensibly the largest P2P system in use, so it seems more suited for analyzing our potato-based attack than Chord.
+It is ostensibly the largest P2P system in use, so it seems more suited for analyzing our mash-based attack than Chord.
 
-We avoided simulating the potatoing process on MLDHT because it is completely unnecessary to perform the attack.
+We avoided simulating the mashing process on MLDHT because it is completely unnecessary to perform the attack.
 In MLDHT, a node ID is not chosen by hashing an IP and port combination, but by picking an address uniformly at random between 0 and $2^{160}-1$.
 An adversary who wants to a completely isolate a node on the network can choose Sybils with ``random'' hashkeys completely eliminate that node from the routing tables of healthy peers. 
 Research has examined Mainline's vulnerability to Sybil attacks\cite{sybilbit} and detected entities performing the attack on Mainline.
-Our research demonstrates that switching to using a SHA1 hash of the IP and port is no defense against a Sybil attack, since the adversary can easily potato into appropriate places.
+Our research demonstrates that switching to using a SHA1 hash of the IP and port is no defense against a Sybil attack, since the adversary can easily mash into appropriate places.
 %A big difference is their honeypots target those who respond to everything.
 
-However, the potatoing process can be used in non-security related settings to benefit a DHT.
+However, the mashing process can be used in non-security related settings to benefit a DHT.
 As we have mention previously, the SHA1 hash has an evenly distributed output, but no set of keys will be completely evenly distributed.
-Some nodes will be responsible for larger regions than others\footnote{More susceptible to a potato.} and be responsible for a larger portion for the work.
+Some nodes will be responsible for larger regions than others\footnote{More susceptible to a mash.} and be responsible for a larger portion for the work.
 
 If a node can detect a when a peer has too much of a load, the node can inject a virtual node into the region to shoulder some of the load.
 Too much of a load could be defined by having a too large region or by watching traffic requests.
@@ -325,6 +327,6 @@ This could be integrated into a distributed key allocation system, so that a nod
 The only cost would be that node would have to keep track of the keys it can inject, which we mentioned was only 320 kilobytes of data.
 
 
-\bibliography{potato}
+\bibliography{mash}
 \bibliographystyle{plain}
 \end{document}
