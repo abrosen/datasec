@@ -188,12 +188,14 @@ def doExperiment3():
     return results
 
 
-def probGivenKeysAndSize(numIPs,size =50000):
+def probGivenKeysAndSize(numIPs,size):
     T =  numIPs * 16383.0
     return T/(T+size-1)
 
+
 def numIPsGivenProbAndSize(p,size):
     return ((size-1)/(1-p))/16383.0
+
 
 def graphExp2(data):
     d = {}
@@ -203,14 +205,15 @@ def graphExp2(data):
         d[row[1]][0].append(row[0])
         d[row[1]][1].append(row[2])
     for k in sorted(d.keys()):
-        plt.plot(d[k][0],d[k][1])
+        plt.plot(d[k][0],d[k][1], 'o')
+        plt.plot(d[k][0], map(probGivenKeysAndSize, d[k][0] , [k]*len(d[k][0]) )  ,'--k')
     plt.grid(True)
     plt.title("Sybil vs Probability")
+    plt.xlabel('Number of Sybil IPs')
+    plt.ylabel('Probability')
     plt.show()
     
-    
-    
-    
+    """
     d = {}
     for row in data:
         if row[1] not in d.keys():
@@ -220,9 +223,11 @@ def graphExp2(data):
     for k in sorted(d.keys()):
         plt.plot(d[k][0],d[k][1])
     plt.grid(True)
-    plt.title("Sybil vs Injections per region")
+    plt.xlabel('Number of Sybil IPs')
+    plt.ylabel('Avg Sybils Per Region')
+    plt.title('Sybil IPs vs Sybils Per Region')
     plt.show()
-    
+    """
     
     d = {}
     for row in data:
@@ -231,11 +236,16 @@ def graphExp2(data):
         d[row[0]][0].append(row[1])
         d[row[0]][1].append(row[2])
     for k in sorted(d.keys()):
-        plt.semilogx(d[k][0],d[k][1])
+        plt.semilogx(d[k][0],d[k][1], 'o')
+        plt.plot(d[k][0], map(probGivenKeysAndSize, [k]*len(d[k][0]),  d[k][0])  ,'--k')
     plt.grid(True)
-    plt.title("Nodes vs Probability")
+    plt.xlabel('Number of Healthy Nodes')
+    plt.ylabel('Probability')
+    plt.title('Network Size vs Probability')
     plt.show()
     
+
+    """
     d = {}
     for row in data:
         if row[0] not in d.keys():
@@ -245,23 +255,22 @@ def graphExp2(data):
     for k in sorted(d.keys()):
         plt.loglog(d[k][0],d[k][1])
     plt.grid(True)
-    plt.title("Nodes vs Injections per region")
+     plt.xlabel('Number of Healthy Nodes')
+    plt.ylabel('Avg Sybils Per Region')
+    plt.title('Network Size vs Sybils Per Region')
     plt.show()
-    
-    
+    """
+
     STATIC_NETWORK_SIZE = 50000 
     ips                 = [x[0] for x in data if x[1]==STATIC_NETWORK_SIZE]
     occulusionRate      = [x[2] for x in data if x[1]==STATIC_NETWORK_SIZE]
     injectsPerRegion    = [x[3] for x in data if x[1]==STATIC_NETWORK_SIZE]
     
-    
-    
-    
     plt.xlabel('Number of Sybil IPs')
     plt.ylabel('Probability')
     plt.title('Sybil IPs vs Occlusion')
     plt.grid(True)
-    computed  = map(probGivenKeysAndSize,ips)
+    computed  = map(probGivenKeysAndSize,ips,[STATIC_NETWORK_SIZE]*len(ips))
     
     plt.plot(ips,occulusionRate, 'ko')
     plt.plot(ips,computed,'r-')    
@@ -282,13 +291,21 @@ def graphExp2(data):
     injectsPerRegion  = [x[3] for x in data if x[0]==STATIC_NUM_IPS]
     
     plt.semilogx(networkSizes,occulusionRate, 'ko')
+    computed = map(probGivenKeysAndSize,[STATIC_NUM_IPS]*len(networkSizes) ,networkSizes)
+    plt.semilogx(networkSizes, computed, 'r-')
+    plt.xlabel('Number of Healthy Nodes')
+    plt.ylabel('Probability')
+    plt.title('Network Size vs Probability')
     plt.show()
 
     plt.loglog(networkSizes,injectsPerRegion,'ko')
+    plt.xlabel('Number of Healthy Nodes')
+    plt.ylabel('Avg Sybils Per Region')
+    plt.title('Network Size vs Sybils Per Region')
     plt.show()
 
-def graph2FromStored():
-    f = open("exp2-1417570593.txt", 'r')
+def graph2FromStored(filename):
+    f = open(filename, 'r')
     tmp= []
     data = []
     for line in f:
@@ -303,8 +320,8 @@ def graph2FromStored():
     graphExp2(data)
     
 
-def graph3FromStored():
-    f = open("exp3-1417632333.txt", 'r')
+def graph3FromStored(filename):
+    f = open(filename, 'r')
     tmp= []
     data = []
     for line in f:
@@ -330,8 +347,10 @@ def graphExp3(data):
     for k in sorted(d.keys()):
         plt.plot(d[k][0],d[k][1], 'o', label= "Using %d IPs" % k)
     plt.grid(True)
+    plt.xlabel('Network Size')
+    plt.ylabel('Occlusion')
+    plt.title('Network Size vs Occlusion')
     plt.legend(loc=0)
-
     plt.show()
 
 
@@ -358,8 +377,8 @@ if __name__ == '__main__':
         f.write("\n")
     print latexTools.makeTableFromData(exp3)
     """
-    graph2FromStored()
-    graph3FromStored()
+    #graph2FromStored("exp2-1417570593.txt")
+    graph3FromStored("exp3-1417632333.txt")
 
 
 
