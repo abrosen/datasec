@@ -24,6 +24,8 @@ class ChordNode(object):
             self.fingers[i] = (self.key + 2**i) % (2**M) 
 
 
+
+
 def getHash(value):
     return long(sha1(value).hexdigest(),16)
 
@@ -158,7 +160,6 @@ def testChordEclipse(networkSize, numIPs = 1):
 
 
 
-
 def doExperiment1():
     samples= [10000]
     for x in samples:
@@ -187,6 +188,12 @@ def doExperiment3():
     return results
 
 
+def probGivenKeysAndSize(numIPs,size =50000):
+    T =  numIPs * 16383.0
+    return T/(T+size-1)
+
+def numIPsGivenProbAndSize(p,size):
+    return ((size-1)/(1-p))/16383.0
 
 def graphExp2(data):
     d = {}
@@ -248,11 +255,16 @@ def graphExp2(data):
     injectsPerRegion    = [x[3] for x in data if x[1]==STATIC_NETWORK_SIZE]
     
     
+    
+    
     plt.xlabel('Number of Sybil IPs')
     plt.ylabel('Probability')
     plt.title('Sybil IPs vs Occlusion')
     plt.grid(True)
-    plt.plot(ips,occulusionRate, 'ko')    
+    computed  = map(probGivenKeysAndSize,ips)
+    
+    plt.plot(ips,occulusionRate, 'ko')
+    plt.plot(ips,computed,'r-')    
     plt.show()
 
     plt.xlabel('Number of Sybil IPs')
