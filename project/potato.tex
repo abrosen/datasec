@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper]{IEEEtran}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -23,15 +23,17 @@
 %5) MAKE UP SOME SLIDES
 \begin{abstract}
 This paper explores the feasibility of performing naive Sybil attacks on a P2P network that completely occlude healthy nodes from each other.
-The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks have been well known for some time.
-However, these vulnerabilities has often been explored in a theoretical sense, assuming the attacker is an all-knowing  and all-powerful global adversary from the beginning.
+The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
+However, these vulnerabilities have often been explored in a theoretical sense, assuming the attacker is an all-knowing  and all-powerful global adversary from the beginning.
 This paper proves that these are not necessary characteristics and assumptions for an adversary to have to perform a Sybil attack.
+
 
 We examine the amount of computational effort required to perform an Eclipse attack using only Sybil identities and without poisoning routing tables via false advertisement.
 We do this by analyzing the amount of effort it takes for an attacker with a given IP to choose a port to obtain a desired hash key, a process we call \emph{mashing}.
 Mashing requires no additional resources on the adversary's end.
-While mashing can be used for malicous behavior, we describe methods and applications for the technique that are beneficial for performing load balancing.
-This provides the flexibility for any node to effortless shoulder additional work from bottleneck locations if acting for the good of the network.
+%add results example here 
+While mashing can be used for malicious behavior, we also describe methods and applications for the technique that are beneficial for performing load balancing.
+This provides the flexibility for any node to effortless shoulder additional work from bottleneck locations, if acting for the good of the network.
 \end{abstract}
 
 \section{Introduction}
@@ -121,6 +123,10 @@ This indicates that the ease of mashing is independent to $m$.
 
 The chances of an attacker mashing all $n$ nodes that partition the entire keyspace is:
 $$C \approx  1 - (1 -\frac{1}{n})^{num\_ips \cdot num\_ports}  $$
+
+
+Given uncompromised node, what is the chances the node is a Sybil
+$$ \frac{SybilsKeys}{SybilKeys + NetworkSize -1}  $$
 
 
 \section{Simulations}
@@ -231,8 +237,6 @@ The Sybil attack degraded below that points for
 However, this experiment only covers the short links of the network, but not the long distance link.
 
 
-Given uncompromised node, what is the chances the node is a Sybil
-$$ \frac{SybilsKeys}{SybilKeys + NetworkSize -1}  $$
 
 \subsection{Experiment 3: Fully Complete Eclipse via Sybil}
 We extended the previous experiment by considering the long-distance hops of each node in addition to the short-range links of the DHT.
@@ -327,6 +331,6 @@ This could be integrated into a distributed key allocation system, so that a nod
 The only cost would be that node would have to keep track of the keys it can inject, which we mentioned was only 320 kilobytes of data.
 
 
-\bibliography{mash}
+\bibliography{potato}
 \bibliographystyle{plain}
 \end{document}
