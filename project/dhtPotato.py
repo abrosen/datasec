@@ -167,7 +167,7 @@ def doExperiment1():
 
 
 def doExperiment2():
-    networkSizes = [50,100,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,10000,15000,20000,25000,50000,75000,100000,500000]
+    networkSizes = [50,100,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,10000,15000,20000,25000,50000,75000,100000,500000,1000000,5000000,10000000,20000000]
     IPs = xrange(1,21,2)
     results = []
     results.append(("IPs","Network Size","% Regions covered", "Sybils/Region" ))
@@ -357,7 +357,7 @@ def graphExp3(data):
 
 if __name__ == '__main__':
     #doExperiment1()
-    """
+    
     tag = str(int(time.time()))
     f = open("exp2-" +tag+".txt", 'w')
 
@@ -368,7 +368,7 @@ if __name__ == '__main__':
             f.write(str(thing)+", ")
         f.write("\n")
     
-    
+    """
     tag = str(int(time.time()))
     f = open("exp3-" +tag+".txt", 'w')
     exp3 = doExperiment3()
@@ -378,8 +378,8 @@ if __name__ == '__main__':
         f.write("\n")
     print latexTools.makeTableFromData(exp3)
     """
-    graph2FromStored("exp2-1417570593.txt")
-    graph3FromStored("exp3-1417632333.txt")
+    #graph2FromStored("exp2-1417570593.txt")
+    #graph3FromStored("exp3-1417632333.txt")
 
 
 
