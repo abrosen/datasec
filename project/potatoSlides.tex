@@ -27,7 +27,7 @@
         \frametitle[Introduction]{What Am I Going to Talk About? }
         \begin{itemize}
             \item The Tor paper mentioned Sybil attacks \cite{sybil}, so you should have an idea of what they are.
-            \item An attacker gives himself a greater present in the network by pretending to have multiple identities.
+            \item An attacker gives himself a greater presence in the network by pretending to have multiple identities.
             \item The Sybil attack is extremely well known, but there is little literature written from the attacker's perspective.
         \end{itemize}
     \end{frame}
@@ -43,7 +43,7 @@
             \item Nodes typically get an ID in the network by passing their IP address and port into a hash function.
             \begin{itemize}
                 \item This function is typically SHA1 \cite{sha1}, which will return a value from 0 to $2^{160} -1 $  (a 160-bit number).
-                \item The outputs of SHA1  are evenly distributed \cite{bellare2004hash}.
+                \item The outputs of SHA1 are evenly distributed \cite{bellare2004hash}.
                 
             \end{itemize}
             
@@ -92,12 +92,12 @@
          \begin{equation}
         P \approx \frac{1}{n}\cdot num\_ips \cdot num\_ports
         \end{equation}
-        Given a healthy node, the probability $P_{bad\_neighbor}$ that a Sybil is his closest neighbor is:
+        An attacker can compromise a portion $ P_{bad\_neighbor} $ of the network given by:
         \begin{equation}
         P_{bad\_neighbor} =  \frac{num\_ips \cdot num\_ports}{num\_ips \cdot num\_ports + n - 1}
         \label{eq:bad}
         \end{equation}
-        People like proofs, but I prefer to demostrate with my simulation results so I can get onto questions.
+        People like proofs, but I prefer to demonstrate with my simulation results so I can get onto questions.
         
     \end{frame}
     
