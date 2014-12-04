@@ -296,6 +296,7 @@ def graphExp2(data):
     plt.xlabel('Number of Healthy Nodes')
     plt.ylabel('Probability')
     plt.title('Network Size vs Probability')
+    plt.grid(True)
     plt.show()
 
     plt.loglog(networkSizes,injectsPerRegion,'ko')
@@ -377,7 +378,7 @@ if __name__ == '__main__':
         f.write("\n")
     print latexTools.makeTableFromData(exp3)
     """
-    #graph2FromStored("exp2-1417570593.txt")
+    graph2FromStored("exp2-1417570593.txt")
     graph3FromStored("exp3-1417632333.txt")
 
 
