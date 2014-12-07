@@ -25,7 +25,6 @@ class ChordNode(object):
 
 
 
-
 def getHash(value):
     return long(sha1(value).hexdigest(),16)
 
@@ -178,7 +177,7 @@ def doExperiment2():
 
 
 def doExperiment3():
-    networkSizes = xrange(200,5001,200)
+    networkSizes = [500,1000,5000,10000,50000,100000]
     IPs = xrange(1,11,2)
     results = []
     results.append(("IPs","Network Size"," \% links occluded", "Occlusion per node" )) 
@@ -188,13 +187,13 @@ def doExperiment3():
     return results
 
 
-def probGivenKeysAndSize(numIPs,size):
-    T =  numIPs * 16383.0
+def probGivenKeysAndSize(numIPs,size, ports = 16383.0):
+    T =  numIPs * ports
     return T/(T+size-1)
 
 
-def numIPsGivenProbAndSize(p,size):
-    return ((size-1)/(1-p))/16383.0
+def numIPsGivenProbAndSize(p,size, ports =16383.0):
+    return ((size-1)/(1-p))/ports
 
 
 def graphExp2(data):
@@ -318,7 +317,8 @@ def graph2FromStored(filename):
         line =  map(float, line)
         print line
         data.append(line)
-    graphExp2(data)
+    print latexTools.makeTableFromData(data)
+    #graphExp2(data)
     
 
 def graph3FromStored(filename):
@@ -347,6 +347,7 @@ def graphExp3(data):
         d[row[0]][1].append(row[2])
     for k in sorted(d.keys()):
         plt.plot(d[k][0],d[k][1], 'o', label= "Using %d IPs" % k)
+        plt.plot(d[k][0], map(probGivenKeysAndSize, [k]*len(d[k][0]),  d[k][0])  ,'--k')
     plt.grid(True)
     plt.xlabel('Network Size')
     plt.ylabel('Occlusion')
@@ -357,7 +358,7 @@ def graphExp3(data):
 
 if __name__ == '__main__':
     #doExperiment1()
-    
+    """
     tag = str(int(time.time()))
     f = open("exp2-" +tag+".txt", 'w')
 
@@ -368,7 +369,7 @@ if __name__ == '__main__':
             f.write(str(thing)+", ")
         f.write("\n")
     
-    """
+    
     tag = str(int(time.time()))
     f = open("exp3-" +tag+".txt", 'w')
     exp3 = doExperiment3()
@@ -378,8 +379,9 @@ if __name__ == '__main__':
         f.write("\n")
     print latexTools.makeTableFromData(exp3)
     """
-    #graph2FromStored("exp2-1417570593.txt")
-    #graph3FromStored("exp3-1417632333.txt")
+    
+    graph2FromStored("exp2-1417708567.txt")
+    #graph3FromStored("exp3-1417983976.txt")
 
 
 
