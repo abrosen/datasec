@@ -317,8 +317,8 @@ def graph2FromStored(filename):
         line =  map(float, line)
         print line
         data.append(line)
-    print latexTools.makeTableFromData(data)
-    #graphExp2(data)
+    #print latexTools.makeTableFromData(data)
+    graphExp2(data)
     
 
 def graph3FromStored(filename):
@@ -349,9 +349,9 @@ def graphExp3(data):
         plt.plot(d[k][0],d[k][1], 'o', label= "Using %d IPs" % k)
         plt.plot(d[k][0], map(probGivenKeysAndSize, [k]*len(d[k][0]),  d[k][0])  ,'--k')
     plt.grid(True)
-    plt.xlabel('Network Size')
-    plt.ylabel('Occlusion')
-    plt.title('Network Size vs Occlusion')
+    plt.xlabel('Number of Healthy Nodes')
+    plt.ylabel('Probability')
+    plt.title('Network Size vs Probability')
     plt.legend(loc=0)
     plt.show()
 
@@ -380,8 +380,8 @@ if __name__ == '__main__':
     print latexTools.makeTableFromData(exp3)
     """
     
-    graph2FromStored("exp2-1417708567.txt")
-    #graph3FromStored("exp3-1417983976.txt")
+    #graph2FromStored("exp2-1417708567.txt")
+    graph3FromStored("exp3-1417983976.txt")
 
 
 
