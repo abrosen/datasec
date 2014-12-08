@@ -53,7 +53,6 @@ def generateRandomIP():
 def generateRandomPort():
     return str(random.randint(0,65535))
 
-
 def testWide(trials):
     mal = generateRandomIP()
     success = 0.0
@@ -70,6 +69,30 @@ def testWide(trials):
                 break
         times.append(time.time() - start)
     print "Successes:", success/trials,"Avg time:", sum(times)/trials 
+
+def testSingleRegion(networkSize):
+    victims =  [getHash(generateRandomIP()+generateRandomPort()) for _ in xrange(networkSize)]
+    victims = sorted(victims)
+    success = 0.0
+    times = []
+    samples = 100
+    mal = generateRandomIP()
+    for i in xrange(samples):
+        index = random.randint(0,networkSize-2)
+        n = victims[index]
+        m =  victims[index+1]
+        start = time.time() 
+        for j in xrange(49152,65535):
+            port = str(j)
+            attempt = getHash(mal+port)
+            if hashBetween(attempt,n,m):
+                success += 1
+                break
+        times.append(time.time() - start)
+    print "Size", networkSize, "Successes:", success/samples, "Avg time:", sum(times)/samples
+    return networkSize, success/samples, sum(times)/samples
+
+
 
 
 
@@ -159,11 +182,30 @@ def testChordEclipse(networkSize, numIPs = 1):
 
 
 
-def doExperiment1():
+
+
+def probGivenKeysAndSize(numIPs,size, ports = 16383.0):
+    T =  numIPs * ports
+    return T/(T+size-1)
+
+
+def numIPsGivenProbAndSize(p,size, ports =16383.0):
+    return ((size-1)/(1-p))/ports
+
+
+
+
+def doExperiment0():
     samples= [10000]
     for x in samples:
         testWide(x)
 
+def doExperiment1():
+    networkSizes = [50,100,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,10000,15000,20000,25000,50000,75000,100000,500000,1000000,5000000,10000000,20000000]
+    results = []
+    for x in networkSizes:
+        results.append(testSingleRegion(x))
+    return results
 
 def doExperiment2():
     networkSizes = [50,100,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,10000,15000,20000,25000,50000,75000,100000,500000,1000000,5000000,10000000,20000000]
@@ -187,13 +229,39 @@ def doExperiment3():
     return results
 
 
-def probGivenKeysAndSize(numIPs,size, ports = 16383.0):
-    T =  numIPs * ports
-    return T/(T+size-1)
 
 
-def numIPsGivenProbAndSize(p,size, ports =16383.0):
-    return ((size-1)/(1-p))/ports
+def graph2FromStored(filename):
+    f = open(filename, 'r')
+    tmp= []
+    data = []
+    for line in f:
+        tmp.append(line)
+    tmp = tmp[1:]
+    for line in tmp:
+        line  = line.split(',')
+        line =  line[:-1]
+        line =  map(float, line)
+        print line
+        data.append(line)
+    #print latexTools.makeTableFromData(data)
+    graphExp2(data)
+    
+
+def graph3FromStored(filename):
+    f = open(filename, 'r')
+    tmp= []
+    data = []
+    for line in f:
+        tmp.append(line)
+    tmp = tmp[1:]
+    for line in tmp:
+        line  = line.split(',')
+        line =  line[:-1]
+        line =  map(float, line)
+        print line
+        data.append(line)
+    graphExp3(data)
 
 
 def graphExp2(data):
@@ -304,38 +372,6 @@ def graphExp2(data):
     plt.title('Network Size vs Sybils Per Region')
     plt.show()
 
-def graph2FromStored(filename):
-    f = open(filename, 'r')
-    tmp= []
-    data = []
-    for line in f:
-        tmp.append(line)
-    tmp = tmp[1:]
-    for line in tmp:
-        line  = line.split(',')
-        line =  line[:-1]
-        line =  map(float, line)
-        print line
-        data.append(line)
-    #print latexTools.makeTableFromData(data)
-    graphExp2(data)
-    
-
-def graph3FromStored(filename):
-    f = open(filename, 'r')
-    tmp= []
-    data = []
-    for line in f:
-        tmp.append(line)
-    tmp = tmp[1:]
-    for line in tmp:
-        line  = line.split(',')
-        line =  line[:-1]
-        line =  map(float, line)
-        print line
-        data.append(line)
-    graphExp3(data)
-
 
 
 def graphExp3(data):
@@ -357,7 +393,7 @@ def graphExp3(data):
 
 
 if __name__ == '__main__':
-    #doExperiment1()
+    doExperiment1()
     """
     tag = str(int(time.time()))
     f = open("exp2-" +tag+".txt", 'w')
@@ -381,7 +417,7 @@ if __name__ == '__main__':
     """
     
     #graph2FromStored("exp2-1417708567.txt")
-    graph3FromStored("exp3-1417983976.txt")
+    #graph3FromStored("exp3-1417983976.txt")
 
 
 
