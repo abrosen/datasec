@@ -1,3 +1,9 @@
+"""
+0.044270523416 (9, 14, 24) 44.5960001945
+0.044270523416 freudeschonergotterfunckentochterauselysiumwirbetrethenfeuertrunkenhimmilischedeinheilgtumdeinezauberbindenwiederwasdiemodestrenggeteiltallemenschenwerdenbruderwodeinsanfterflugelweitwemdergrossewurfgelungeeinesfreundesfreundzuseinwereinholdesweiverrungenmischeseinenjubeleinjawerauchnureineseeleseinnenntaufdemerdenrundundwersniegekonntderstehleweinendsichausdiesmbundfreudetrinkenallewesenandenbrustendernaturallegutenallebosenfolgenihrerrosenspurkussegabsieunsundrebeneinenfruendgepruftimtodwollustwarddemwurmgegebenunddercherubstehtvorgottvorgott
+
+"""
+
 from crypto_tools import phi, psi, phi2, getFreqs
 from itertools import combinations, permutations, product
 import string
@@ -188,32 +194,6 @@ def solve(ciphertext, rotors):
     print best_phi, best_text
 
 
-def test(text, rotors):
-    t = time()  
-    machine = Bank()
-    best_phi =  -50
-    best_text  = "BAD"
-    NUM_ROTORS = 3
-    x =0 
-    for combo in combinations(range(0,len(rotors)-1), NUM_ROTORS):
-        print combo
-        machine.clear()
-        for i in combo:
-            machine.addRotor(rotors[i])
-        machine.addRotor(rotors[-1])
-        setting = (9,14,24)
-        machine.set(setting)    
-        plaintext = machine.encrypt(text)
-        score = phi2(getFreqs(plaintext))
-        x += 1
-        if x % 5000 == 0: 
-            print  time() - t 
-        if score > best_phi:
-            best_phi = score
-            best_text = plaintext
-            print best_phi, combo, setting, time() - t
-    print "testing", best_phi, best_text
-
 
 def testGiven(text,rotors):
     machine = Bank()
@@ -248,7 +228,6 @@ def main():
         rotors.append(r)
     testText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdferqiopwrjeqwrkjnasdjklfhjklhasdfjkhbewarethejabberwocky"
     #testGiven(testText,rotors)
-    test(corpus,rotors)
     solve(corpus, rotors)
 
 if __name__ == '__main__':
