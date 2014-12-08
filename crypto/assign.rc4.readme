@@ -1,0 +1,87 @@
+1 and 3 share the keys 'abc'
+
+We can see if words has the key to decrypt classcipher2 by decrypting classcipher2 with each of the keys 
+and looking for a non-gibberish output.  
+We can automate this process by checking the phi score of the output.  
+If the phi score of a given decryption is >0.025, chances are extremely likely that the output and key are what we were looking for.
+
+
+This process is implemented in rc4.py.
+Simply run rc4.py to watch it in action, but I've included the program output here.
+Unfortunately, python + unoptimized programming made it slow
+1080 0.000589967396214
+16-point 0.00064190762731
+1st 0.000690836830517
+5th 0.000703370211045
+Aachen 0.000733480489941
+abastard 0.000807514161241
+abastard 0.000807514161241
+adv 0.000833107898303
+10000 trials. 10.322275877
+20000 trials. 19.7159340382
+30000 trials. 29.1004829407
+40000 trials. 38.4949269295
+50000 trials. 47.8808350563
+bransold 0.000838377197109
+60000 trials. 57.2900109291
+castings 0.000855427119472
+70000 trials. 66.6965370178
+classism 0.000874246043782
+classism 0.000874246043782
+80000 trials. 76.1422040462
+90000 trials. 85.5485360622
+100000 trials. 94.9776930809
+110000 trials. 104.428435087
+120000 trials. 113.922976971
+130000 trials. 123.626313925
+140000 trials. 133.511420012
+150000 trials. 146.643035889
+160000 trials. 159.441328049
+170000 trials. 172.24078393
+180000 trials. 184.982024908
+190000 trials. 197.964171886
+200000 trials. 210.77176404
+Justis 0.000878273316647
+210000 trials. 223.994030952
+220000 trials. 236.784882069
+230000 trials. 249.647536993
+240000 trials. 262.672699928
+250000 trials. 275.419656992
+260000 trials. 288.12823987
+270000 trials. 300.896800995
+280000 trials. 313.596359968
+290000 trials. 326.746026993
+300000 trials. 336.625076056
+phacoid 0.0464991384605
+336.647553921 phacoid 0.0464991384605 We finished up with tea and cherry tart.  Montmorency had a fight with 
+the kettle during tea-time, and came off a poor second.
+
+Throughout the trip, he had manifested great curiosity concerning the 
+kettle.  He would sit and watch it, as it boiled, with a puzzled 
+expression, and would try and rouse it every now and then by growling at 
+it.  When it began to splutter and steam, he regarded it as a challenge, 
+and would want to fight it, only, at that precise moment, some one would 
+always dash up and bear off his prey before he could get at it.
+
+To-day he determined he would be beforehand.  At the first sound the 
+kettle made, he rose, growling, and advanced towards it in a threatening 
+attitude.  It was only a little kettle, but it was full of pluck, and it 
+up and spit at him.
+
+"Ah! would ye!" growled Montmorency, showing his teeth; "I'll teach ye to 
+cheek a hard-working, respectable dog; ye miserable, long-nosed, dirty-
+looking scoundrel, ye.  Come on!"
+
+And he rushed at that poor little kettle, and seized it by the spout.
+
+Then, across the evening stillness, broke a blood-curdling yelp, and 
+Montmorency left the boat, and did a constitutional three times round the 
+island at the rate of thirty-five miles an hour, stopping every now and 
+then to bury his nose in a bit of cool mud.
+
+From that day Montmorency regarded the kettle with a mixture of awe, 
+suspicion, and hate.  Whenever he saw it he would growl and back at a 
+rapid rate, with his tail shut down, and the moment it was put upon the 
+stove he would promptly climb out of the boat, and sit on the bank, till 
+the whole tea business was over.
+
