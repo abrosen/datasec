@@ -57,11 +57,10 @@ class RC4(object):
         return output
 
 
-
 def main():
     t = time() 
-    words  = open("mykeys", 'r')
-    corpus = list(open("floppy/cipher", 'r').read())
+    words  = open("words",'r')#open("mykeys", 'r')
+    corpus = list(open("classcipher", 'r').read())
     #print list(corpus)
     best_word = 'GARBAGE'
     best_plain = 'GIBBERISH'
