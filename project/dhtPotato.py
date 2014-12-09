@@ -203,6 +203,7 @@ def doExperiment0():
 def doExperiment1():
     networkSizes = [50,100,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,10000,15000,20000,25000,50000,75000,100000,500000,1000000,5000000,10000000,20000000]
     results = []
+    results.append(("Network Size","Success Rate","Avg Time to Mash a Region" ))
     for x in networkSizes:
         results.append(testSingleRegion(x))
     return results
@@ -229,6 +230,24 @@ def doExperiment3():
     return results
 
 
+def graph1FromStored(filename):
+    f = open(filename, 'r')
+    tmp= []
+    data = []
+    for line in f:
+        tmp.append(line)
+    tmp = tmp[1:]
+    for line in tmp:
+        line  = line.split(',')
+        line =  line[:-1]
+        line =  map(float, line)
+        data.append(line)
+    for i in range(len(data)):
+        data[i][2] = int(data[i][2]*100000000)/100000.0 
+    print latexTools.makeTableFromData(data)
+    
+
+    #graphExp1(data)
 
 
 def graph2FromStored(filename):
@@ -262,6 +281,21 @@ def graph3FromStored(filename):
         print line
         data.append(line)
     graphExp3(data)
+
+
+def graphExp1(data):
+    sizes =  [x[0] for x in data]
+    times =  [x[2] for x in data]
+    plt.plot(sizes,times, '--k')
+    plt.semilogx(sizes,times, 'ok')
+    plt.grid(True)
+    plt.title("Time Needed to Mash a Pair of Adjacent Nodes")
+    plt.xlabel('Network Size')
+    plt.ylabel('Time (milliseconds)')
+    plt.show()
+
+
+
 
 
 def graphExp2(data):
@@ -393,10 +427,18 @@ def graphExp3(data):
 
 
 if __name__ == '__main__':
-    doExperiment1()
     """
     tag = str(int(time.time()))
-    f = open("exp2-" +tag+".txt", 'w')
+    exp1 = doExperiment1()
+    f = open("exp1-" +tag+".txt", 'w')
+    print latexTools.makeTableFromData(exp1)
+    for line in exp1:
+        for thing in line:
+            f.write(str(thing)+", ")
+        f.write("\n")
+    
+    
+    tag = str(int(time.time()))
 
     exp2 = doExperiment2()
     print latexTools.makeTableFromData(exp2)
@@ -415,7 +457,7 @@ if __name__ == '__main__':
         f.write("\n")
     print latexTools.makeTableFromData(exp3)
     """
-    
+    graph1FromStored("exp1-1418152690.txt")
     #graph2FromStored("exp2-1417708567.txt")
     #graph3FromStored("exp3-1417983976.txt")
 
