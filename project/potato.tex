@@ -26,7 +26,7 @@
 \begin{abstract}
 This paper explores the feasibility of performing naive Sybil attacks on a P2P network that completely occlude healthy nodes from each other.
 The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
-However, these vulnerabilities have often been explored in a theoretical sense, assuming the attacker is an all-knowing  and all-powerful global adversary from the beginning.
+However, these vulnerabilities have often been explored in a theoretical sense, assuming the attacker is an all-knowing  and all-powerful adversary from the beginning.
 This paper proves that these are not necessary characteristics and assumptions for an adversary to have to perform a Sybil attack.
 
 
@@ -45,36 +45,44 @@ This provides the flexibility for any node to effortless shoulder additional wor
 
 \section{Introduction}
 One of the key properties of structured peer-to-peer (P2P) systems is the lack of a centralized coordinator.
-P2P systems remove the vulnerability of a single point of failure and and the susceptibility to a denial of service attack (cite original Sybil paper), but in doing so, open themselves up to new attacks.
+P2P systems remove the vulnerability of a single point of failure and and the susceptibility to a denial of service attack \cite{sybil}, but in doing so, open themselves up to new attacks.
+
 Completely decentralized P2P systems are vulnerable to \textit{Eclipse attacks}, whereby an attacker completely occlude healthy nodes from one another.
-This prevents them from communicating without being intercepted by the attacker.
+This prevents them from communicating without being intercepted by the adversary.
+Once a Eclipse attack has taken place the adversary can launch a variety of crippling attacks, such as  incorrectly routing messages or returning bad data \cite{srivatsa2004vulnerabilities}
 
 One way to accomplish this attack is to perform a \emph{Sybil Attack} \cite{sybil}.
 In a Sybil attack, the attacker creates multiple malicious virtual nodes in order to disrupt the network.
 If enough malicious nodes are injected into the system, the majority of the nodes will be occluded from one another, successfully performing an Eclipse attack.
 
-Security analyses typically assumes an adversary using a Sybil is omniscient and can inject virtual nodes wherever he chooses in a reasonable amount of time. 
-Our goal is to demonstrate how veracity of that assumption by doing analysis and simulations.
+
+This vulnerability is well known and has been for some time and extensive research has been done assessing the damage an attacker can do after  establishing themselves \cite{srivatsa2004vulnerabilities}.
+Little focus has been done on examining how the attacker can establish himself in the first place and \textit{precisely} how easy the Sybil attack can be accomplished.
+
+Our goal is to look at the Sybil attack from the perspective of the adversary executing the Sybil attack.
+We did a formal analysis on the breadth and depth of damage an adversary could have on a generic structured P2P network.
+We also constructed simulations showing how an attacker could insert themselves into the network and proceed to incrementally inject malicious nodes in between normal members of the network, a process we call \textit{mashing}.
 
 %Why am I doing this?
 Sybil attacks represent a significant threat to the security of any distributed system.
 Many of the analyses \cite{bauer2007low} on Tor \cite{dingledine2004tor} emphasize the vulnerability of Tor to the Sybil attack.
 This threatens the anonymity of Tor users, particularly those living in countries with peculiar notions about personal privacy.
 
-P2P systems like BitTorrent are essential to a wide variety of users.
-BitTorrent, for instance, is the \textit{de facto} platform for distributing large files scalably among tens of thousands of clients and relies on Mainline DHT (MLDHT) \cite{mainline} as a backend.
+Sybil attacks are also a threat to P2P systems such as BitTorrent, which are essential to a wide variety of users.
+BitTorrent is currently the \textit{de facto} platform for distributing large files scalably among tens of thousands of clients.
+It relies on Mainline DHT (MLDHT) \cite{mainline} as a backend.
 The number of users on Mainline DHT ranges from 15 million to 27 million users daily, with a turnover of 10 million users a day \cite{mainlineMeasure}.
 Current research demonstrates  BitTorrent is vulnerable to the Sybil attack and a persistent attack disabling BitTorrent would be highly detrimental to many users, but especially developers and system administrators.\footnote{Perhaps the only reason that BitTorrent hasn't be attacked in such a way as to render it unusable is that those capable of doing so rely heavily upon it.  A sobering thought, since BitTorrent is under an active Sybil attack \cite{sybilbit}. }
 
 
-There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be implemented for every distributed application \cite{levine2006survey}.
+There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be implemented for every distributed application \cite{levine2006survey} \cite{dhtsec}.
 Part of this is surely influenced by the only surefire way to defend against a Sybil attack is to introduce a trusted authority to certify and/or bind identities.
 This solution potentially removes the Sybil attack, but reintroduces vulnerabilities to denial of service attacks, bringing us full circle.
 Another reason is that there is no single solution for all platforms is that not every solution is compatible with each distributed platform.
 
 
-Despite the threat represented by the Sybil attack and the research done on the subject, little research has been done from the perspective of an adversary.
-We sought to rectify this, both to reemphasize the threat of the Sybil attack, but also because this examination introduces some interesting graph theory problems.
+%Despite the threat represented by the Sybil attack and the research done on the subject, little research has been done from the perspective of an adversary.
+%We sought to rectify this, both to reemphasize the threat of the Sybil attack, but also because this examination introduces some interesting graph theory problems.
 
 Our work presents the following contributions:
 \begin{itemize}
@@ -87,13 +95,17 @@ Our work presents the following contributions:
 
 \section{Formal Analysis}
 
-
+In our analysis we make a few assumptions. 
+We present these assumptions to so that we can be specific in our analysis and simulations.
+Without many of these assumptions, the Sybil attack becomes trivial to perform.
 
 
 \subsection{Assumptions}
-In our analysis we make a few assumptions. 
-First, we look primarily at fully distributed systems that assign nodes identifiers using a cryptographic hash function
-These are called distributed hash tables (DHTs).
+
+
+Our first assumption is that the systems we analyze are fully distributed and assign identities to nodes and data using a cryptographic hash function.
+These systems are distributed hash tables (DHTs).
+
 Cryptographic hash functions work by mapping some input value to an $m$-bit key or identifier.
 Well-known hash functions for performing this task include MD5 \cite{md5} and SHA1 \cite{sha1}.
 Keys generated by the hash function are assumed to be evenly distributed and random \cite{bellare2004hash}. 
@@ -103,9 +115,15 @@ An $m \geq 128$ is typical, with $m = 160$ being the most popular choice.
 
 %TODO IS JUDGING BY HASH OF IP PORT VALID?
 Our second assumption is that node IDs are generated by hashing their IP address and port.
-The majority of DHTs present this method as the means of generating node IDs, and although other methods exist,\footnote{In Mainline DHT, used by BitTorrent, it appears you can choose your own ID at ``random.''  The horrifying ramifications should be immediately apparent and are discussed in Section \ref{sec:horror}.} they are not nearly as prevalent.
+This is a form of very weak security that binds a particular hash key to a specific IP/port combination.
+The majority of DHTs present this method as the means of generating node IDs. %TODO CITATIONS
 
-We also assume that nodes store verify that a node's advertised IP address and port generate the advertised node ID. 
+Although other methods do exist, the only other one that is as mentioned as often is to let nodes choose their own $m$-bit ID at random.
+This is done in Mainline DHT, and makes the system extremely vulnerable to a Sybil attack.
+Since there no way to verify that a node chose the $m$-bit ID at random, nodes in the network accept advertised keys at face value.
+This allows a prospective attacker to choose any specific key they want.
+
+We also assume that nodes store verify that a node's advertised IP address and port generate the advertised node ID.
 Relaxing the latter assumptions would  make the Sybil attack trivial. 
 If the attacker does not have to search for values, he can make up any needed key on the fly and falsely advertise it to the network unchallenged.
 
@@ -115,8 +133,8 @@ The attackers ability to compromise the network depends on what IP addresses and
 
 
 %TODO PSUEDOCOLLISIONS
-The process for mashing is similar to searching for a collision via a birthday attack, but much easier.
-We would expect there to be a $50\%$ chance of a collision in a network with 
+%The process for mashing is similar to searching for a collision via a birthday attack, but much easier.
+%We would expect there to be a $50\%$ chance of a collision in a network with 
 
 \subsection{Analysis}
 Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
