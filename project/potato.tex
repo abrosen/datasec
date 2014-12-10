@@ -26,7 +26,7 @@
 \begin{abstract}
 This paper explores the feasibility of performing naive Sybil attacks on a P2P network that completely occlude healthy nodes from each other.
 The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
-However, these vulnerabilities have often been explored in a theoretical sense, assuming the attacker is an all-knowing  and all-powerful adversary from the beginning.
+However, these vulnerabilities have often been explored in a theoretical sense, assuming the attacker is an all-powerful, global adversary from the beginning.
 This paper proves that these are not necessary characteristics and assumptions for an adversary to have to perform a Sybil attack.
 
 
@@ -88,7 +88,7 @@ Another reason is that there is no single solution for all platforms is that not
 Our work presents the following contributions:
 \begin{itemize}
     %cut some?
-    \item We first discuss the assumptions behind performing a Sybil attack on a structured P2P netwokr and analyze how effective a Sybil attack is based on the resources available to the attacker.
+    \item We first discuss the assumptions behind performing a Sybil attack on a structured P2P network and analyze how effective a Sybil attack is based on the resources available to the attacker.
     We show that in a size $n$ network being attacked by an adversary with $s$ distinct identities,  that the probability that \textit{any} given link leads to a Sybil is $P_{bad\_neighbor} =  \frac{s}{s+ n - 1}$ (Section \ref{sec:analysis}). 
     \item We present our simulations which show how quickly even a naive Sybil attack can compromise a system. 
     We validate our experimental results by comparing them with the equations we specify in our analysis (Section \ref{sec:experiments}).
@@ -392,7 +392,7 @@ We choose to model an attack on a P2P system built using Chord \cite{chord}.
 
 We chose to model Chord for a number of reasons.
 Chord is an extremely well understood DHT and is very simple to evaluate using simulations.
-Nodes in Chord generate long distance links independent of information provided by other nodes, rather than directly querying neighbors.
+Nodes in Chord generates long distance links independent of information provided by other nodes, rather than directly querying neighbors.
 This minimizes the opportunities adversaries have to poison the node's routing table via false advertisements, which can be on other DHTs such as Pastry \cite{pastry}. 
 This makes the Sybil attack the most straightforward means of effecting an Eclipse attack on a Chord network.
 
