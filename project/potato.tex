@@ -156,7 +156,7 @@ This means the attacker is actually searching for a collision with one of $\appr
 %We would expect there to be a $50\%$ chance of a collision in a network with 
 
 \subsection{Analysis}
-%TODO DERIVE AND   EXPLAIN  EQUATIONS BELOW 
+%TODO CHECK DERIVE AND EXPLAIN  EQUATIONS BELOW 
 
 
 Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
@@ -204,15 +204,13 @@ We used SHA1 as our cryptographic function, which yields 160-bit hash keys.
 Again, we use the constraint that victim nodes do an absolute minimum verification which forces an attacker to only present Sybils with hash keys that they can generate with valid IP and port combinations.
 
 
-%TODO REDO WE DON'T MAKE ANY ASSUMPTIONS ABOUT THE WORK NEEDED TO MAKE A CLIENT
+%TODO CHECK REDO WE DON'T MAKE ANY ASSUMPTIONS ABOUT THE WORK NEEDED TO MAKE A CLIENT
 %WE ASSUME THERE'S NO RESOURCE LIMITATIONS ON THE ATTACKER's end and this is reasonable because points below
-Another important aspect of our simulation is that we assume the attacker \textit{does not }need to create or use a fully featured client to integrate with the network.
-This is for a couple of reasons, the primary one being that we assume the attacker is capable and competent.
-An adversary who wants to use a Sybil attack on a large system would likely ``roll their own'' client capable of running on the P2P protocol.
 
-Previous research \cite{sybilbit} shows that an adversary performing a Sybil attack does not need to maintain the state information of other nodes and can leverage the healthy nodes to perform the routing.
-Nor does the adversary necessarily create a new running copy for every Sybil created. 
-If this was impossible, it is still reasonable to assume the attacker's program would be built to have a minimal memory footprint and drop any messages that require an attacker carry any of the network's load.
+We assume that the attacker has no resource limitations.
+Previous research \cite{sybilbit} shows that an adversary performing a Sybil attack does not need to maintain the state information of other nodes and can leverage the healthy nodes to perform any needed routing.
+Nor does the adversary necessarily need to create a new running copy for every Sybil created, but doing so is quite feasible. 
+%If this was impossible, it is still reasonable to assume the attacker's program would be built to have a minimal memory footprint and drop any messages that require an attacker carry any of the network's load.
 
 
 %Any application built using a DHT must be address its vulnerabilities to the Eclipse and Sybil attacks
@@ -321,7 +319,7 @@ This is their first Sybil and the join process provides information about a numb
 Most importantly, nodes provide information about other nodes that are close to it, which are provided to ensure fault tolerance between immediate neighbors.
 The adversary uses this information to inject Sybils in between successive healthy nodes.
 For example, in Pastry, a joining node typically learns about the 16 nodes closest to it for fault tolerance, in addition to all the other nodes it learns about  \cite{pastry}.
-In Chord, this number is a system configuration value $r$.  %TODO DONE
+In Chord, this number is a system configuration value $r$ \cite{chord}.  %TODO DONE
 
 For clarity we present this example. 
 Consider the small segment of the network made up of adjacent nodes $a$, $b$, $c$, and $d$.
@@ -335,6 +333,7 @@ The adversary then aims to inject a node in between $c$ and $d$, and continues \
 
 Depending on the network size and the number of keys available to the adversary, it is entirely possible the adversary will not have a key to inject between a pair of successive nodes.
 In this case, the adversary moves on to the next successive pair that the adversary has learned about.
+In the extremely unlikely event this information is not already known, the adversary can look it up using the DHT's lookup function.
 
 We simulated this attack on networks of up to 20 million nodes.
 We chose 20 million since it falls neatly into the 15-27 million user range seen on Mainline DHT \cite{mainlineMeasure}.
