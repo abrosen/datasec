@@ -20,8 +20,8 @@
 \maketitle
 
 
-%TODO CHECK STORY BY CHECKING FIRST PARAGRAPH
-%TODO ADD REFERENCES
+%TODO BETTER GRAPH
+%TODO ATTACKER PRONOUNS
 
 \begin{abstract}
 This paper explores the feasibility of performing naive Sybil attacks on a P2P network that completely occlude healthy nodes from each other.
@@ -44,40 +44,41 @@ This provides the flexibility for any node to effortless shoulder additional wor
 \end{IEEEkeywords}
 
 \section{Introduction}
-One of the key properties of structured peer-to-peer (P2P) systems is the lack of a centralized coordinator.
-P2P systems remove the vulnerability of a single point of failure and and the susceptibility to a denial of service attack \cite{sybil}, but in doing so, open themselves up to new attacks.
+One of the key properties of structured peer-to-peer (P2P) systems is the lack of a centralized coordinator or authority.
+P2P systems remove the vulnerability of a single point of failure and the susceptibility to a denial of service attack \cite{sybil}, but in doing so, open themselves up to new attacks.
 
 Completely decentralized P2P systems are vulnerable to \textit{Eclipse attacks}, whereby an attacker completely occlude healthy nodes from one another.
 This prevents them from communicating without being intercepted by the adversary.
-Once a Eclipse attack has taken place the adversary can launch a variety of crippling attacks, such as  incorrectly routing messages or returning bad data \cite{srivatsa2004vulnerabilities}
+Once a Eclipse attack has taken place the adversary can launch a variety of crippling attacks, such as incorrectly routing messages or returning malicious data \cite{srivatsa2004vulnerabilities}.
 
-One way to accomplish this attack is to perform a \emph{Sybil Attack} \cite{sybil}.
-In a Sybil attack, the attacker creates multiple malicious virtual nodes in order to disrupt the network.
+One way to accomplish this attack is to perform a \emph{Sybil attack} \cite{sybil}.
+In a Sybil attack, the attacker masquerades as multiple nodes, effectively over-representing the attacker's presence in the network to maximize the number of links that can established with healthy nodes.
 If enough malicious nodes are injected into the system, the majority of the nodes will be occluded from one another, successfully performing an Eclipse attack.
 
+This vulnerability is well known and has been for some time; extensive research has been done assessing the damage an attacker can do after establishing themselves \cite{srivatsa2004vulnerabilities}.
+Little focus has been done on examining how the attacker can establish himself in the first place and \textit{precisely} how easily the Sybil attack can be accomplished.
 
-This vulnerability is well known and has been for some time and extensive research has been done assessing the damage an attacker can do after establishing themselves \cite{srivatsa2004vulnerabilities}.
-Little focus has been done on examining how the attacker can establish himself in the first place and \textit{precisely} how easy the Sybil attack can be accomplished.
-
-Our goal is to look at the Sybil attack from the perspective of the adversary executing the Sybil attack.
-We did a formal analysis on the breadth and depth of damage an adversary could have on a generic structured P2P network.
-We also constructed simulations showing how an attacker could insert themselves into the network and proceed to incrementally inject malicious nodes in between normal members of the network, a process we call \textit{mashing}.
+Our goal is to look at the Sybil attack from the perspective of an adversary executing the Sybil attack.
+We did a formal analysis on the breadth and depth of damage an adversary could have on a structured P2P network.
+%We also constructed simulations showing how an attacker could insert themselves into the network and proceed to incrementally inject malicious nodes in between normal members of the network, a process we call \textit{mashing}.
+We also constructed simulations demonstrating the steps an attacker could perform a Sybil attack.
+Once the attacker has joined the network, they can proceed to incrementally inject malicious nodes directly in between normal members of the network, a process we call \textit{mashing}.
 
 %Why am I doing this?
 Sybil attacks represent a significant threat to the security of any distributed system.
-Many of the analyses \cite{bauer2007low} on Tor \cite{dingledine2004tor} emphasize the vulnerability of Tor to the Sybil attack.
+Many of the analyses on Tor \cite{dingledine2004tor} emphasize the vulnerability of Tor to the Sybil attack \cite{bauer2007low}.
 This threatens the anonymity of Tor users, particularly those living in countries with peculiar notions about personal privacy.
 
-Sybil attacks are also a threat to P2P systems such as BitTorrent, which are essential to a wide variety of users.
+Sybil attacks are also a threat to P2P systems such as BitTorrent, which is essential to a wide variety of users.
 BitTorrent is currently the \textit{de facto} platform for distributing large files scalably among tens of thousands of clients.
-It relies on Mainline DHT (MLDHT) \cite{mainline} as a backend.
+Many implementations rely on Mainline DHT (MLDHT) \cite{mainline} to connect users to other peers.
 The number of users on Mainline DHT ranges from 15 million to 27 million users daily, with a turnover of 10 million users a day \cite{mainlineMeasure}.
-Current research demonstrates  BitTorrent is vulnerable to the Sybil attack and a persistent attack disabling BitTorrent would be highly detrimental to many users, but especially developers and system administrators.\footnote{Perhaps the only reason that BitTorrent hasn't be attacked in such a way as to render it unusable is that those capable of doing so rely heavily upon it.  A sobering thought, since BitTorrent is under an active Sybil attack \cite{sybilbit}. }
+Current research demonstrates BitTorrent is vulnerable to Sybil attacks and a persistent attack disabling BitTorrent would be highly detrimental to many users, especially developers and system administrators.\footnote{Perhaps the only reason that BitTorrent hasn't be attacked in such a way as to render it unusable is that those capable of doing so rely heavily upon it.  A sobering thought, since BitTorrent is under an active Sybil attack \cite{sybilbit}. }
 
 
-There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be implemented for every distributed application \cite{levine2006survey} \cite{dhtsec}.
-Part of this is surely influenced by the only surefire way to defend against a Sybil attack is to introduce a trusted authority to certify and/or bind identities.
-This solution potentially removes the Sybil attack, but reintroduces vulnerabilities to denial of service attacks, bringing us full circle.
+There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be implemented for \textit{every } distributed application \cite{levine2006survey} \cite{dhtsec}.
+A large reason is that the only surefire way to defend against a Sybil attack is to introduce a centralized trusted authority to certify and/or bind identities.
+This solution potentially removes the Sybil attack, but reintroduces vulnerabilities to denial of service attacks and is contrary to the objective of creating fully decentralized systems.
 Another reason is that there is no single solution for all platforms is that not every solution is compatible with each distributed platform.
 
 
@@ -86,18 +87,22 @@ Another reason is that there is no single solution for all platforms is that not
 
 Our work presents the following contributions:
 \begin{itemize}
-    \item We first discuss the mechanics of performing a Sybil attack and analyze the theoretical effort needed to bring to bear to perform the Sybil attack.
-    \item We present our simulations which show how quickly even a naive and inefficient Sybil attack can compromise a system.  We also discuss how a more intelligent attack can be geared to each of the more popular DHT topologies.
+    %cut some?
+    \item We first discuss the assumptions behind performing a Sybil attack on a structured P2P netwokr and analyze how effective a Sybil attack is based on the resources available to the attacker.
+    We show that in a size $n$ network being attacked by an adversary with $s$ distinct identities,  that the probability that \textit{any} given link leads to a Sybil is $P_{bad\_neighbor} =  \frac{s}{s+ n - 1}$ (Section \ref{sec:analysis}). 
+    \item We present our simulations which show how quickly even a naive Sybil attack can compromise a system. 
+    We validate our experimental results by comparing them with the equations we specify in our analysis (Section \ref{sec:experiments}).
     %\item We analyze an interesting graph coloring problem that an attacker needs to solve if the attack is to remain undetected.
-    \item We discuss the implications of our work, specifically how the techniques we developed to perform the attack can be used for automatic load balancing.
+    \item We discuss the broader implications of our work, including how mashing can be used for automatic load balancing (Section \ref{sec:horror}).
 
 \end{itemize}
 
 \section{Formal Analysis}
+\label{sec:analysis}
 
-In our analysis we make a few assumptions. 
-We present these assumptions to so that we can be specific in our analysis and simulations.
-Without many of these assumptions, the Sybil attack becomes trivial to perform.
+We make a few assumptions for our analysis; some apply  to the P2P network we are analyzing and some create rules that restrict the adversary.
+Without these assumptions, the Sybil attack becomes trivial to perform.
+
 
 
 \subsection{Assumptions}
@@ -108,53 +113,49 @@ These systems are distributed hash tables (DHTs).
 
 Cryptographic hash functions work by mapping some input value to an $m$-bit key or identifier.
 Well-known hash functions for performing this task include MD5 \cite{md5} and SHA1 \cite{sha1}.
-Keys generated by the hash function are assumed to be evenly distributed and random \cite{bellare2004hash}. 
+Keys generated by the hash function in our analysis are assumed to be evenly distributed and random \cite{bellare2004hash}. 
 
-In distributed hash tables, $m$ is a large value, in order to avoid collisions between mapped inputs, unintentional or otherwise. 
+In distributed hash tables, $m$ is a large value in order to avoid collisions between mapped inputs, unintentional or otherwise. 
 An $m \geq 128$ is typical, with $m = 160$ being the most popular choice.
-
 
 Our second assumption is that node IDs are generated by hashing their IP address and port.
 This is a form of very weak security that binds a particular hash key to a specific IP/port combination \cite{dinger2006defending} \cite{sit2002security}.
 This method is often used as a means of generating node IDs.
 
-Although other methods do exist, the only other one that is mentioned as often let nodes choose their own $m$-bit ID at random.\footnote{Another commonly mentioned method is generate public keys, but the specifics are often left unmentioned.  If the keys are certified by an centralized source, we no longer have a completely decentralized network.  If the nodes are generating the keys themselves, then we have essentially the same problem as letting nodes choose keys at random.}
+Although other methods do exist, the only other one that is mentioned as often lets nodes choose their own $m$-bit ID at random.\footnote{Another commonly mentioned method is generate public keys, but the specifics are often left unmentioned.  If the keys are certified by an centralized source, we no longer have a completely decentralized network.  If the nodes are generating the keys themselves, then we have essentially the same problem as letting nodes choose keys at random.}
 This is notably done in Mainline DHT, and makes the system extremely vulnerable to a Sybil attack.
 Since there no way to verify that a node chose the $m$-bit ID at random, nodes in the network accept advertised keys at face value.
 This allows a prospective attacker to choose any specific key they want.
 
-We also assume that nodes verify that a peer's advertised IP/port combination generates the advertised node ID.
-This verification is not specified or explicitly used in any DHT. 
-Without it, our assumption about binding IDs to IP addresses and ports would be moot, since an attacker could advertise a single
+We also assume that nodes verify that a peer's advertised IP/port combination generates the specified node ID.
+This verification is not explicitly used or implemented in any DHT. 
+Without it, our assumption about binding IDs to IP addresses and ports would be moot.
 
-Consider an attacker operating under these assumptions who wants to inject a malicious node in between two victims.
+%Our final assumption is that the protocols being implemented by the network are secure and cannot be exploited by the attacker.
+
+Consider an attacker operating under these assumptions who wants to inject a malicious node in between two victims which have no other nodes in between them.
 The attacker must search for a valid IP and port combination under his control that generates a hash key that lies between the two victims's keys, a process we will call \textit{mashing}.
 The attackers ability to compromise the network depends on what IP addresses and ports he has available.
 
-
 The process for mashing is similar to searching for a hash collision, but much easier.
-Rather than searching for two inputs to a function that produce the same $m$-bit output, the attacker searches for a single input and $m$-bit output that falls between two given $m$-bit IDs.
+Rather than searching for two inputs to a function that produce the same $m$-bit output, the attacker searches for a single input and corresponding $m$-bit hash that falls between two given $m$-bit IDs.
 We assume the IDs are evenly distributed \cite{bellare2004hash}, so in a size $n$ network there would be $\approx \frac{2^{m}}{n}$ unused IDs between each pair of nodes.
-This mean the attacker is actually searching for a collision with one of $\approx \frac{2^{m}}{n}$ $m$-bit numbers, a much simpler problem.
+This mean the attacker is actually searching for a collision with one of $\approx \frac{2^{m}}{n}$ $m$-bit hashes, a much simpler problem.
 %We would expect there to be a $50\%$ chance of a collision in a network with 
 
 \subsection{Analysis}
 Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
-Consider two victim nodes with IDs $a$ and $b$.
+Consider two victim nodes with IDs $a$ and $b$, with no nodes with an ID in the range $(a,b)$.
 The probability $P$ that an attacker can mash a hash key that lands in the range $(a,b)$ is:
 $$ P \approx \frac{|b-a|}{2^{m}}\cdot num\_ips \cdot num\_ports  $$
 
-where $num\_ip$ addresses is the number of IP addresses the attacker has under his control and $num\_ports$ is the number of ports the attacker can try for each IP address.
+where $num\_ip$ is the number of IP addresses the attacker has under his control and $num\_ports$ is the number of ports the attacker can try for each IP address.
 
 If the ports the attacker can try are limited the ephemeral ports,\footnote{Also known as private or dynamic ports.  These ports are never assigned a specific use by the Internet Assigned Numbers Authority  and are available for applications to use as needed \cite{cotton2011internet}.} the attacker has 16383 ports to use for each IP address.
 As previously noted, we assume that for a large enough $n$, node IDs will be close to evenly distributed across the keyspace, meaning there will be $\approx \frac{2^{m}}{n}$ unused IDs between each node ID.
 This makes the earlier probability equivalent to:
 $$ P \approx \frac{1}{n}\cdot num\_ips \cdot num\_ports  $$
-This indicates that the ease of mashing is independent to $m$.
-
-The chances of an attacker mashing all $n$ nodes that partition the entire keyspace is:
-$$C \approx  1 - (1 -\frac{1}{n})^{num\_ips \cdot num\_ports}  $$
-
+This indicates that the statistical ease of mashing is independent of $m$.
 
 Given a healthy node, the probability $P_{bad\_neighbor}$ that a Sybil is his closest neighbor is:
 \begin{equation}
@@ -170,22 +171,24 @@ $$ num\_ips \cdot num\_ports =  \frac{n - 1}{1 - P_{bad\_neighbor} }$$
 Using our previous assumption that the adversary is limited to the 16383 ephemeral ports, the attacker can computer the number of unique IP addresses needed:
 $$ num\_ips  =  \frac{n - 1}{1 - P_{bad\_neighbor} }  \cdot \frac{1}{16383}$$
 
+The chances of an attacker mashing all $n$ nodes that partition the entire keyspace is:
+$$C \approx  1 - (1 -\frac{1}{n})^{num\_ips \cdot num\_ports}  $$
 
 We verify these equations with our simulations.
 
 \section{Simulations}
+\label{sec:experiments}
 An essential part of our analysis was demonstrating just how fast an adversary can compromise a system.
 We performed four experiments to accomplish this task.
-%SPECs
 Our simulations we written in Python 2.7 and performed on an AMD Phenom II 965 processor. %, which had been overclocked to run at 3.7 GHz.
 
 
 We used SHA1 for as our cryptographic function, which yields 160-bit hash keys.
 Again, we use the constraint that victim nodes do an absolute minimum verification which forces an attacker to only present Sybils with hash keys that he can generate with valid IP and port combinations.
 
-Another important aspect of our simulation is that we assume the attacker \textit{does not }need to create or use a fully featured client to integrate with the network he's attack.
+Another important aspect of our simulation is that we assume the attacker \textit{does not }need to create or use a fully featured client to integrate with the network.
 This is for a couple of reasons, the primary one being that we assume the attacker is capable and competent.
-An adversary who wants to use a Sybil attack on a large system would likely roll his own client capable of running on the P2P protocol.
+An adversary who wants to use a Sybil attack on a large system would likely ``roll their own'' client capable of running on the P2P protocol.
 
 Previous research \cite{sybilbit} shows that an adversary performing a Sybil attack does not need to maintain the state information of other nodes and can leverage the healthy nodes to perform the routing.
 Nor does the adversary necessarily create a new running copy for every Sybil created. 
@@ -209,27 +212,27 @@ The experiment was for the attacker to find a key in between the two victims's k
 The amount of time to mash two random keys was on average 29.6218 microseconds, and was achievable $ 99.996\%$ of the time.
 
 This test shows that the hashing operation is extremely quick.
-However, two arbitrary nodes in a network can be and often are quite distant.
+However, two arbitrary nodes in a network can be and often are quite distant, in which case the mashing can be done quickly.
 Our next experiment seeks a bit more accuracy.
 
 
 \subsection{Experiment 1:  Time Needed to Mash a Region}
 \label{sec:exp1}
 After showing that mashing two arbitrary nodes takes a minuscule amount of time, the next step is to demonstrate that mashing the region between two adjacent nodes in a network of size $n$ also takes an inconsequential amount of time.
-We simulate this by creating a list of node IDs for $n$ random IP/port combinations and pick a random adjacent pair of numbers from the list.
+We simulate this by creating a sorted list of node IDs for $n$ random IP/port combinations and pick a random adjacent pair of numbers from the list.
 The adversary then hashes their IP with their ports until they find an IP/port combination results in a hash key falling in between the pair.
 Our results are shown in the Figure \ref{fig:exp1} and Table \ref{tab:exp1}.
 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{size_time}
-\caption{This figure shows the amount of time needed for an adversary with a single IP address to find the appropriate hash key needed to mash a pair of adjacent nodes.  The time it takes to mash a pair of nodes begins to markedly increase once the network size gets above 1000 until it asymptotes at 48 ms.  For larger networks, more IP addresses are needed and precomputing becomes necessary}
+\caption{This figure shows the amount of time needed for an adversary with a single IP address to mash a pair of adjacent nodes.  The time it takes to mash a pair of nodes begins to markedly increase once the network size gets above 1000 until it asymptotes at 48 ms.  For larger networks, more IP addresses are needed and precomputing becomes necessary.}
 \label{fig:exp1}
 \end{figure}
 
 
 
-\begin{table}[h]\small
+\begin{table}\small
     \centering
     \caption{Times and success rate for mashing adjacent nodes.}
     \label{tab:exp1}
@@ -266,29 +269,30 @@ Our results are shown in the Figure \ref{fig:exp1} and Table \ref{tab:exp1}.
 \end{tabular}
 \end{table}
 These figures show that the larger network size, the longer it takes the adversary to mash a given pair of adjacent nodes.
-Eventually, it the time asymptotes out to about 48 milliseconds.
-This is the amount of time it takes for the adversary with a single IP to generate all 16383 hash combinations using ephemeral ports.
+Eventually, the time it takes to mash a region asymptotes to about 48 milliseconds.
+This is the amount of time it takes for the adversary with a single IP to generate all 16383 hash combinations.
 While this is a short time to mash a single region, an attacker following the attack specified in our next experiment will want to mash $n-1$ regions.
-If $n=1,000,000$, this can take upwards of 13 hours.
+If the network size is 1 million, this process can take upwards of 13 hours in computational time.
 
 Since the attacker's IP addresses and ports do not change over the course of the attack, the attacker would waste time by generating the same keys over and over. 
-The mashing process could also take substantially longer if the network a hash function that produces numbers larger than the 160 bits we are assuming or if the network uses a more expensive function such as scrypt \cite{scrypt}.
+The mashing process could also take substantially longer if the network a hash function that produces numbers larger than 160 bits or if the network uses a more expensive function such as scrypt \cite{scrypt}.
 
-The attacker can instead perform all the work needed to mash a network upfront, precomputing all possible valid hash keys they can generate.
+The attacker can instead perform all the work needed to mash a network upfront, precomputing all possible valid hash keys.
 We've shown this takes about 48 milliseconds for 16383 keys.
-Storing these values in a sorted list costs 160 bits for each SHA1 key and 16 bits for each port, for a total of $176  \cdot 16383 = 2883408$ bits, or roughly 352 kilobytes for each IP address the attacker has.
+Storing these values in a sorted list costs 160 bits for each SHA1 key and 16 bits for each port, for a total of $176  \cdot 16383 = 2883408$ bits, or roughly 352 kilobytes for each IP address the attacker has.\footnote{Storing the IP address is unnecessary since it's always the same}
 
 
 
 
 %check chord coverage just with the successors
 \subsection{Experiment 2:  Nearest Neighbor Eclipse via Sybil} %formerly 2
-The objective of this experiment is to completely ensnare a network using a Sybil attack, starting with a single malicious node.
+\label{sec:exp2}
+The objective of this experiment is to completely eclipse a network using a Sybil attack, starting with a single malicious node.
 With simulate this by creating a network of $n$ nodes.  
 Each node is represented by a key generated by taking the SHA1 of a random IP/port combination.
 
-The goal of the attacker is to mash as many pairs of the nodes as possible.
-We call this the \textit{Nearest Neighbor Eclipse} since the attacker seeks to block as many lines of communication between neighboring nodes as possible.
+The goal of the attacker is to mash as many pairs of adjacent nodes as possible.
+We call this the \textit{Nearest Neighbor Eclipse} since the attacker seeks to become the nearest neighbors of each node.
 
 The attacker is given $num\_ips$ randomly generated IP addresses, but can use any port between 49152 and 65535.
 This gives the attacker $ 16383 \cdot num\_ips $ possible hash keys to use for Sybils.
@@ -297,10 +301,8 @@ Since this list is sorted and this attack will go in order through the network, 
 
 To perform the attack, an adversary choses any random hash key as a starting point to ``join'' the network.
 This is his first Sybil and the join process provides information about a number of other nodes.
-Most importantly,  nodes provide information about other nodes that are close in the hash space, which provided to enable fault tolerance between immediate neighbors.
+Most importantly, nodes provide information about other nodes that are close to it, which are provided to ensure fault tolerance between immediate neighbors.
 The adversary uses this information to inject Sybils in between successive healthy nodes.
-
-
 
 For clarity we present this example. 
 Consider the small segment of the network made up of adjacent nodes $a$, $b$, $c$, and $d$.
@@ -310,13 +312,12 @@ The adversary will always learn about node $c$ because a normal node between $a$
 The adversary's next move would be to inject a node between nodes $b$ and $c$.
 This is done by selecting a precomputed hash key $k$, such that $b \leq k \leq c$.
 The adversary injects a Sybil node with key $k$, which joins in between $b$ and $c$, and the joining process informs the adversary about node $d$ and several other nodes, including many close nodes.
-The adversary then aims to inject a node in between $c$ and $d$, and continues \textit{ad nauseam}.
+The adversary then aims to inject a node in between $c$ and $d$, and continues \textit{ad nauseam}.  %or ad infitum
 
 Depending on the network size and the number of keys available to the adversary, it is entirely possible the adversary will not have a key to inject between a pair of successive nodes.
 In this case, the node moves on to the successive pair that the node has learned about.
 
-
-We simulated this attack on networks of up to size 20 million.
+We simulated this attack on networks of up to 20 million nodes.
 We chose 20 million since it falls neatly into the 15-27 million user range seen on Mainline DHT \cite{mainlineMeasure}.
 We gave the attacker access to up to 19 IP addresses.
 Our results are in Figures \ref{fig:exp2} and \ref{fig:size_prob_all} and Table \ref{tab:exp2}.
@@ -328,7 +329,7 @@ For Table \ref{tab:exp2}, we have included only the results for larger sized net
 \includegraphics[width=1\linewidth]{ip_prob_all}
 \caption[foo]{Our simulation results.  
     The $x$-axis corresponds to the number of IP addresses the adversary can bring to bear.
-    The $y$-axis is the probability that a random region between two adjacent normal members of the network can be mashed.
+    The $y$-axis is the probability that a random pair of adjacent nodes can be mashed.
     Each line maps to a different network size of $n$.
     The dotted line traces the line corresponding to the Equation \ref{eq:bad}: $ P_{bad\_neighbor} =  \frac{num\_ips \cdot 16383}{num\_ips \cdot 16383 + n - 1}$}
 \label{fig:exp2}
@@ -345,7 +346,7 @@ For Table \ref{tab:exp2}, we have included only the results for larger sized net
 
 
 
-\begin{table}[h]\small
+\begin{table}\small
 	\centering
        \caption{Selection of results for Nearest Neighbor Eclipse.}  %The Fraction of regions injected is the percentage of all regions for which the adversary could inject a Sybil with the suitable key. The Sybil/Region measure is how many Sybils were available to inject a particular region on average.}
        \label{tab:exp2}
@@ -392,21 +393,29 @@ We choose to model an attack on a P2P system built using Chord \cite{chord}.
 We chose to model Chord for a number of reasons.
 Chord is an extremely well understood DHT and is very simple to evaluate using simulations.
 Nodes in Chord generate long distance links independent of information provided by other nodes, rather than directly querying neighbors.
-This prevents adversaries from poisoning the node's routing table via false advertisements, which can be on other DHTs such as Pastry \cite{pastry}. 
+This minimizes the opportunities adversaries have to poison the node's routing table via false advertisements, which can be on other DHTs such as Pastry \cite{pastry}. 
 This makes the Sybil attack the most straightforward means of effecting an Eclipse attack on a Chord network.
 
 Nodes in Chord have $m$ long-range links, one for each of the bits in the keys, which is 160 in our experiments.
-Each of node $a$'s long-range hops points to the node with the lowest key $\geq a + 2^{i} \mod 2^{m}, 0 \leq i \leq 160$.
-
+Each of node $a$'s long-range links points to the node with the lowest key $\geq a + 2^{i} \mod 2^{m}, 0 \leq i \leq 160$.
 
 The attack is very similar to the Nearest Neighbor attack demonstrated above.
 Beside injecting a node in between successive nodes, the attacker also attempts to place a Sybil in between each of the long-range links.
 We simulated this attack under the same parameters as above and are presented in Table \ref{tab:exp3}.
 
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{size_occlusion_chord}
+    \caption{This graph shows the relationship between the network size and the probability a particular link in Chord, adjacent or not, can be mashed.
+        The dotted line traces the line corresponding to the Equation \ref{eq:bad}: $ P_{bad\_neighbor} =  \frac{num\_ips \cdot 16383}{num\_ips \cdot 16383 + n - 1}$}
+    
+    \label{fig:exp3}
+\end{figure}
 
 
-\begin{table}[h]\small
+
+\begin{table}\small
     
         \caption{Selection of results for a Sybil attack on Chord.} % The percentage of links occluded is the percentage of long range links from healthy nodes that connect to Sybil nodes. 
             %The Occlusion per node measures how many of the 160 long range links lead to a Sybil on average.  
@@ -439,18 +448,14 @@ We simulated this attack under the same parameters as above and are presented in
     
 \end{table}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{size_occlusion_chord}
-    \caption{This graph shows the relationship between the network size and the probability a particular link in Chord, adjacent or not, can be mashed.
-        The dotted line traces the line corresponding to the Equation \ref{eq:bad}: $ P_{bad\_neighbor} =  \frac{num\_ips \cdot 16383}{num\_ips \cdot 16383 + n - 1}$}
-    
-    \label{fig:exp3}
-\end{figure}
 
 
 
-Surprisingly, the percentage of links from healthy nodes that connect to Sybil nodes follows \ref{sec:chord}.
+
+Surprisingly, the percentage of links from healthy nodes that connect to Sybil nodes follows Equation \ref{eq:bad} and the results from \ref{sec:exp2}.
+This means performing a Nearest Neighbor Eclipse provides the same results as actively blocking all the long range links in the network.
+
+Our results show that an attacker needs only to focus their efforts on compromising the links between adjacent nodes to attack all the links in the network.
 
 %TODO $ or USD?
 We can calculate that the number of IP addresses needed to compromise half the links in a 20,000,000 node network is 2442.
