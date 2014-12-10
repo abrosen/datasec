@@ -21,7 +21,6 @@
 
 
 %TODO BETTER GRAPH
-%TODO ATTACKER PRONOUNS
 
 \begin{abstract}
 This paper examines the amount of computation power required to perform an Eclipse attack on a P2P network.
@@ -62,7 +61,7 @@ Extensive research has been done assessing the damage an attacker can do after e
 Little focus has been done on examining how the attacker can establish himself in the first place and precisely how easily the Sybil attack can be accomplished.
 
 One method to generate node locations is to assign them at random.
-A Sybil attack against this method is fairly straightforward; the attacker just assigns his own nodes at ``random'' locations.
+A Sybil attack against this method is fairly straightforward; the attacker just assigns their own nodes at ``random'' locations.
 A more sophisticated method to generate node locations would use a hash function of some unique characteristic of the node.
 For example, a Distributed Hash Table could use a hash of the node's IP address and port number.
 In this paper, we show that using a hash function provides no protection against a Sybil attack.
@@ -133,7 +132,7 @@ This is a form of very weak security that binds a particular hash key to a speci
 This method is often used as a means of generating node IDs.
 
 
-Although other methods do exist, the only other one that is mentioned as often is to let nodes choose their own $m$-bit ID at random.\footnote{Another commonly mentioned method is hash public keys, but the specifics are often left unmentioned \cite{dhtsec} \cite{sit2002security}.  If the keys are certified or signed by an centralized source, we no longer have a completely decentralized network.  If the nodes are generating the keys themselves, then we have essentially the same problem as letting nodes choose keys at random.} %TODO CITE WHICH PAPERS MENTION IT 
+Although other methods do exist, the only other one that is mentioned as often is to let nodes choose their own $m$-bit ID at random.\footnote{Another commonly mentioned method is hash public keys  \cite{dhtsec} \cite{sit2002security} \cite{pastry} \cite{castro2002secure}.  If the keys are certified or signed by an centralized source, we no longer have a completely decentralized network.  If the nodes are generating the keys themselves, then we have essentially the same problem as letting nodes choose keys at random.}
 This is notably done in Mainline DHT, and makes the system extremely vulnerable to a Sybil attack.
 Since there no way to verify that a node chose the $m$-bit ID at random, nodes in the network accept advertised keys at face value.
 This allows a prospective attacker to choose any specific key they want.
@@ -147,8 +146,8 @@ Failure to validate advertised values results in a trivial security flaw.
 
 
 Consider an attacker operating under these assumptions who wants to inject a malicious node in between two victims which have no other nodes in between them.
-The attacker must search for a valid IP and port combination under his control that generates a hash key that lies between the two victims' ID, a process we call \textit{mashing}.
-The attacker's ability to compromise the network depends on what IP addresses and ports he has available.
+The attacker must search for a valid IP and port combination under their control that generates a hash key that lies between the two victims' ID, a process we call \textit{mashing}.
+The attacker's ability to compromise the network depends on what IP addresses and ports are available.
 
 The process for mashing is similar to searching for a hash collision, but much easier.
 Rather than searching for two inputs to a function that produce the same $m$-bit output, the attacker searches for a single input and corresponding $m$-bit hash that falls between two given $m$-bit IDs.
@@ -157,7 +156,7 @@ This means the attacker is actually searching for a collision with one of $\appr
 %We would expect there to be a $50\%$ chance of a collision in a network with 
 
 \subsection{Analysis}
-%TODO DERIVE AND EXPLAIN BELOW EQUATIONS
+%TODO DERIVE AND   EXPLAIN  EQUATIONS BELOW 
 
 
 Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
@@ -165,8 +164,7 @@ Consider two victim nodes with IDs $a$ and $b$, with no others nodes with an ID 
 The probability $P$ that an attacker can mash a hash key that lands in the range $(a,b)$ is:
 $$ P \approx 1 - (1 - \frac{|b-a|}{2^{m}})^{num\_ips \cdot num\_ports  } $$
 
-where $num\_ip$ is the number of IP addresses the attacker has under his control and $num\_ports$ is the number of ports the attacker can try for each IP address.
-Th
+where $num\_ip$ is the number of IP addresses the attacker has under thier control and $num\_ports$ is the number of ports the attacker can try for each IP address.
 
 
 If the ports the attacker can try are limited to the ephemeral ports,\footnote{Also known as private or dynamic ports.  These ports are never assigned a specific use by the Internet Assigned Numbers Authority  and are available for applications to use as needed \cite{cotton2011internet}.} the attacker has 16383 ports to use for each IP address.
@@ -203,7 +201,7 @@ The first experiment demonstrates a hash attack is possible and later experiment
 Our simulations were written in Python 2.7 and performed on an AMD Phenom II 965 processor. %, which had been overclocked to run at 3.7 GHz.
 
 We used SHA1 as our cryptographic function, which yields 160-bit hash keys.
-Again, we use the constraint that victim nodes do an absolute minimum verification which forces an attacker to only present Sybils with hash keys that he can generate with valid IP and port combinations.
+Again, we use the constraint that victim nodes do an absolute minimum verification which forces an attacker to only present Sybils with hash keys that they can generate with valid IP and port combinations.
 
 
 %TODO REDO WE DON'T MAKE ANY ASSUMPTIONS ABOUT THE WORK NEEDED TO MAKE A CLIENT
@@ -320,10 +318,11 @@ As mentioned previously in Section \ref{sec:exp1}, the attacker can easily preco
 Since this list is sorted and this attack will go in order through the network, searching for a key that mashes a pair of nodes takes constant time.
 
 To perform the attack, an adversary choses any random hash key as a starting point to ``join'' the network.
-This is his first Sybil and the join process provides information about a number of other nodes.
+This is their first Sybil and the join process provides information about a number of other nodes.
 Most importantly, nodes provide information about other nodes that are close to it, which are provided to ensure fault tolerance between immediate neighbors.
 The adversary uses this information to inject Sybils in between successive healthy nodes.
-%TODO EXACT FAULT TOLERANCE NUMBERS
+For example, in Pastry, a joining node typically learns about the 16 nodes closest to it for fault tolerance, in addition to all the other nodes it learns about  \cite{pastry}.
+In Chord, this number is a system configuration value $r$.  %TODO DONE
 
 For clarity we present this example. 
 Consider the small segment of the network made up of adjacent nodes $a$, $b$, $c$, and $d$.
