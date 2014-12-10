@@ -190,7 +190,7 @@ def probGivenKeysAndSize(numIPs,size, ports = 16383.0):
 
 
 def numIPsGivenProbAndSize(p,size, ports =16383.0):
-    return ((size-1)/(1-p))/ports
+    return p*((size-1)/(1-p))/ports
 
 
 
@@ -427,6 +427,7 @@ def graphExp3(data):
 
 
 if __name__ == '__main__':
+    print numIPsGivenProbAndSize(0.5,20000000)
     """
     tag = str(int(time.time()))
     exp1 = doExperiment1()
@@ -457,7 +458,7 @@ if __name__ == '__main__':
         f.write("\n")
     print latexTools.makeTableFromData(exp3)
     """
-    graph1FromStored("exp1-1418152690.txt")
+    #graph1FromStored("exp1-1418152690.txt")
     #graph2FromStored("exp2-1417708567.txt")
     #graph3FromStored("exp3-1417983976.txt")
 

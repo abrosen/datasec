@@ -133,7 +133,7 @@ This is a form of very weak security that binds a particular hash key to a speci
 This method is often used as a means of generating node IDs.
 
 
-Although other methods do exist, the only other one that is mentioned as often is to let nodes choose their own $m$-bit ID at random.\footnote{Another commonly mentioned method is hash public keys, but the specifics are often left unmentioned.  If the keys are certified or signed by an centralized source, we no longer have a completely decentralized network.  If the nodes are generating the keys themselves, then we have essentially the same problem as letting nodes choose keys at random.} %TODO CITE WHICH PAPERS MENTION IT
+Although other methods do exist, the only other one that is mentioned as often is to let nodes choose their own $m$-bit ID at random.\footnote{Another commonly mentioned method is hash public keys, but the specifics are often left unmentioned \cite{dhtsec} \cite{sit2002security}.  If the keys are certified or signed by an centralized source, we no longer have a completely decentralized network.  If the nodes are generating the keys themselves, then we have essentially the same problem as letting nodes choose keys at random.} %TODO CITE WHICH PAPERS MENTION IT 
 This is notably done in Mainline DHT, and makes the system extremely vulnerable to a Sybil attack.
 Since there no way to verify that a node chose the $m$-bit ID at random, nodes in the network accept advertised keys at face value.
 This allows a prospective attacker to choose any specific key they want.
@@ -157,38 +157,40 @@ This means the attacker is actually searching for a collision with one of $\appr
 %We would expect there to be a $50\%$ chance of a collision in a network with 
 
 \subsection{Analysis}
+%TODO DERIVE AND EXPLAIN BELOW EQUATIONS
+
+
 Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
 Consider two victim nodes with IDs $a$ and $b$, with no others nodes with an ID in the range $(a,b)$.
 The probability $P$ that an attacker can mash a hash key that lands in the range $(a,b)$ is:
-$$ P \approx \frac{|b-a|}{2^{m}}\cdot num\_ips \cdot num\_ports  $$
+$$ P \approx 1 - (1 - \frac{|b-a|}{2^{m}})^{num\_ips \cdot num\_ports  } $$
 
 where $num\_ip$ is the number of IP addresses the attacker has under his control and $num\_ports$ is the number of ports the attacker can try for each IP address.
+Th
+
 
 If the ports the attacker can try are limited to the ephemeral ports,\footnote{Also known as private or dynamic ports.  These ports are never assigned a specific use by the Internet Assigned Numbers Authority  and are available for applications to use as needed \cite{cotton2011internet}.} the attacker has 16383 ports to use for each IP address.
 As previously noted, we assume that for a large enough $n$, node IDs will be close to evenly distributed across the keyspace.
 This means $|b-a| \approx \frac{2^{m}}{n}$.
 Therefore, the earlier probability is equivalent to:
-$$ P \approx \frac{1}{n}\cdot num\_ips \cdot num\_ports  $$
+$$ P \approx  1 - (1 -\frac{1}{n})^{num\_ips \cdot num\_ports}  $$
 This indicates that the statistical ease of mashing is independent of $m$.
 
-%TODO DERIVE AND EXPLAIN BELOW EQUATIONS
-
-Given a healthy node, the probability $P_{bad\_neighbor}$ that a Sybil is his closest neighbor is:
+Given a healthy node, the probability $P_{bad\_neighbor}$ that a Sybil is its closest neighbor is:
 \begin{equation}
 P_{bad\_neighbor} =  \frac{num\_ips \cdot num\_ports}{num\_ips \cdot num\_ports + n - 1}
 \label{eq:bad}
 \end{equation}
+This is effectively the number of malicous identities in the network ($num\_ips \cdot num\_ports$) over the total number of identities in the network.
 Our experiments in Section \ref{sec:chord} show that $P_{bad\_neighbor}$ is actually the probability that \textit{any} of a nodes links connect to a Sybil.
 
 From the previous equation, the adversary can compute how many unique IP/port combinations they need if they wish to obtain a desired probability $P_{bad\_neighbor}$:
 
-$$ num\_ips \cdot num\_ports = P \cdot \frac{n - 1}{1 - P_{bad\_neighbor} }$$
+$$ num\_ips \cdot num\_ports = P_{bad\_neighbor} \cdot \frac{n - 1}{1 - P_{bad\_neighbor} }$$
 
 Using our previous assumption that the adversary is limited to the 16383 ephemeral ports, the attacker can computer the number of unique IP addresses needed:
-$$ num\_ips  =  P \cdot \frac{n - 1}{1 - P_{bad\_neighbor} }  \cdot \frac{1}{16383}$$
+$$ num\_ips  =  P_{bad\_neighbor} \cdot \frac{n - 1}{1 - P_{bad\_neighbor} }  \cdot \frac{1}{16383}$$
 
-The chances of an attacker mashing all $n$ nodes that partition the entire keyspace is:
-$$C \approx  1 - (1 -\frac{1}{n})^{num\_ips \cdot num\_ports}  $$
 
 We verify these equations with our simulations.
 
@@ -420,6 +422,10 @@ This makes the Sybil attack the most straightforward means of effecting an Eclip
 Nodes in Chord have $m$ long-range links, one for each of the bits in the keys, which is 160 in our experiments.
 Each of node $a$'s long-range links points to the node with the lowest key $\geq a + 2^{i} \mod 2^{m}, 0 \leq i \leq 160$.
 
+However, many of the fingers are redundant and point to the nearest neighbor.
+As we have mentioned, on average, nodes are $\frac{2^{m}}{n}$ distance apart.
+The smaller the network, the further apart nodes are, and therefore each  node has more redundant fingers and is easier to attack.
+
 The attack is very similar to the Nearest Neighbor attack demonstrated above.
 Beside injecting a node in between successive nodes, the attacker also attempts to place a Sybil in between each of the long-range links.
 We simulated this attack under the same parameters as above and are presented in Table \ref{tab:exp3}.
@@ -479,9 +485,9 @@ This means performing a Nearest Neighbor Eclipse provides the same results as ac
 Our results show that an attacker needs only to focus their efforts on compromising the links between adjacent nodes to attack all the links in the network.
 
 
-We can calculate that the number of IP addresses needed to compromise half the links in a 20,000,000 node network is 2442.
+We can calculate that the number of IP addresses needed to compromise half the links in a 20,000,000 node network is 1221 1P addresses.
 While this seems like a daunting number of IP addresses, cloud computing has made solutions for an attacker much more accessible and affordable to attackers.
-At the time of writing, it would cost \$73.26 USD to use 2442 instances for an hour on Amazon's Elastic Cloud Compute service.
+At the time of writing, it would cost \$43.26 USD to use 1221 instances for an hour on Amazon's Elastic Cloud Compute service.
 In fact, one of the attacker launching a Sybil attack was identified as having an IP address associated with Amazon's Elastic Cloud Compute \cite{sybilbit}.
 
 
@@ -516,7 +522,7 @@ An adversary who wants to a completely isolate a node on the network can choose 
 Research has examined MLDHT's vulnerability to Sybil attacks \cite{sybilbit} and detected entities performing the attack on MLDHT.
 Our research demonstrates that switching to using a SHA1 hash of the IP and port is no defense against a Sybil attack, since the adversary can easily mash into appropriate places.
 %A big difference is their honeypots target those who respond to everything.
-%TODO DHTS DON'T GET DESIGNED FOR SECURITY
+
 
 
 
