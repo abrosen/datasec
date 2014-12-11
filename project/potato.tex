@@ -20,7 +20,6 @@
 \maketitle
 
 
-%TODO BETTER GRAPH
 
 \begin{abstract}
 This paper examines the amount of computation power required to perform an Eclipse attack on a P2P network.
@@ -319,7 +318,7 @@ This is their first Sybil and the join process provides information about a numb
 Most importantly, nodes provide information about other nodes that are close to it, which are provided to ensure fault tolerance between immediate neighbors.
 The adversary uses this information to inject Sybils in between successive healthy nodes.
 For example, in Pastry, a joining node typically learns about the 16 nodes closest to it for fault tolerance, in addition to all the other nodes it learns about  \cite{pastry}.
-In Chord, this number is a system configuration value $r$ \cite{chord}.  %TODO DONE
+In Chord, this number is a system configuration value $r$ \cite{chord}.
 
 For clarity we present this example. 
 Consider the small segment of the network made up of adjacent nodes $a$, $b$, $c$, and $d$.
@@ -347,9 +346,9 @@ For Table \ref{tab:exp2}, we have included only the results for larger sized net
 \includegraphics[width=1\linewidth]{ip_prob_all}
 \caption[foo]{Our simulation results.  
     The $x$-axis corresponds to the number of IP addresses the adversary can bring to bear.
-    The $y$-axis is the probability that a random pair of adjacent nodes can be mashed.
+    The $y$-axis is the probability that any chosen region has been mashed.
     Each line maps to a different network size of $n$.
-    The dotted line corresponds to values from Equation \ref{eq:bad}: $ P_{bad\_neighbor} =  \frac{num\_ips \cdot 16383}{num\_ips \cdot 16383 + n - 1}$}
+    The dashed line corresponds to values from Equation \ref{eq:bad}: $ P_{bad\_neighbor} =  \frac{num\_ips \cdot 16383}{num\_ips \cdot 16383 + n - 1}$}
 \label{fig:exp2}
 \end{figure}
 
