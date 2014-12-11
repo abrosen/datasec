@@ -27,7 +27,8 @@ This paper examines the amount of computation power required to perform an Eclip
 %This paper explores the feasibility of performing naive Sybil attacks on a P2P network that completely occlude healthy nodes from each other.
 The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
 Most theoretical analyses of these attacks assume that the attacker is all-knowing and globally powerful.
-This paper proves that these are not necessary characteristics and that a less powerful adversary can perform a successful Eclipse attack, while still obeying the protocol.% assumptions for an adversary to have to perform a Sybil attack.
+This paper proves that these are not necessary characteristics and that a less powerful adversary can perform a successful Eclipse attack, while still obeying the protocol.
+% assumptions for an adversary to have to perform a Sybil attack.
 Our analysis and experiments show that an adversary with a small number of machines and limiting their port usage to just the ephemeral ports can easily compromise a P2P system and occlude the majority of the links.
 
 We examine the amount of computational effort required to perform an Eclipse attack using only Sybil identities and without poisoning routing tables via false advertisement.
@@ -49,7 +50,7 @@ P2P systems remove the vulnerability of a single point of failure and the suscep
 
 Completely decentralized P2P systems are vulnerable to \textit{Eclipse attacks}, whereby an attacker completely occludes healthy nodes from one another.
 This prevents them from communicating without being intercepted by the adversary.
-Once an Eclipse attack has taken place the adversary can launch a variety of crippling attacks, such as incorrectly routing messages or returning malicious data \cite{srivatsa2004vulnerabilities}.
+Once an Eclipse attack has taken place, the adversary can launch a variety of crippling attacks, such as incorrectly routing messages or returning malicious data \cite{srivatsa2004vulnerabilities}.
 
 One way to accomplish this attack is to perform a \emph{Sybil attack} \cite{sybil}.
 In a Sybil attack, the attacker masquerades as multiple nodes, effectively over-representing the attacker's presence in the network to maximize the number of links that can be established with healthy nodes.
@@ -96,8 +97,8 @@ Our work presents the following contributions:
 \begin{itemize}
     %cut some?
     \item We first discuss the assumptions behind performing a Sybil attack on a structured P2P network and analyze how effective a Sybil attack is based on the resources available to the attacker.
-    We show that in a size $n$ network being attacked by an adversary with $s$ distinct identities,  that the probability that \textit{any} given link leads to a Sybil is $P_{bad\_neighbor} =  \frac{s}{s+ n - 1}$ (Section \ref{sec:analysis}). 
-    \item We present our simulations, which show how quickly even a naive Sybil attack can compromise a system. 
+    We show that in a size $n$ network being attacked by an adversary with $s$ distinct identities that the probability that \textit{any} given link leads to a Sybil is $P_{bad\_neighbor} =  \frac{s}{s+ n - 1}$ (Section \ref{sec:analysis}). 
+    \item We present our simulations that show how quickly even a naive Sybil attack can compromise a system. 
     We validate our experimental results by comparing them with the equations we specify in our analysis (Section \ref{sec:experiments}).
     %\item We analyze an interesting graph coloring problem that an attacker needs to solve if the attack is to remain undetected.
     \item We discuss the broader implications of our work, including how mashing can be used for automatic load balancing (Section \ref{sec:horror}).
@@ -349,7 +350,7 @@ For Table \ref{tab:exp2}, we have included only the results for larger sized net
     The $x$-axis corresponds to the number of IP addresses the adversary can bring to bear.
     The $y$-axis is the probability that a random pair of adjacent nodes can be mashed.
     Each line maps to a different network size of $n$.
-    The dotted line traces the line corresponding to the Equation \ref{eq:bad}: $ P_{bad\_neighbor} =  \frac{num\_ips \cdot 16383}{num\_ips \cdot 16383 + n - 1}$}
+    The dotted line corresponds to values from Equation \ref{eq:bad}: $ P_{bad\_neighbor} =  \frac{num\_ips \cdot 16383}{num\_ips \cdot 16383 + n - 1}$}
 \label{fig:exp2}
 \end{figure}
 
@@ -404,7 +405,7 @@ However, this experiment only covers the short links of the network, but not the
 
 
 
-\subsection{Experiment 3: Fully Complete Eclipse via Sybil}
+\subsection{Experiment 3: Complete Eclipse via Sybil on Chord}
 \label{sec:chord}
 We extended the previous experiment by considering the long-distance hops of each node in addition to the short-range links of the DHT.
 We choose to model an attack on a P2P system built using Chord \cite{chord}.
@@ -506,31 +507,39 @@ In fact, one of the attacker launching a Sybil attack was identified as having a
 %\section{Simple Load Balancing Injection Framework}
 \label{sec:horror}
 
-Our analysis and experiments show that an adversary with a small number of machines and limiting their port usage to just the ephemeral ports can easily compromise a P2P system and mash the majority of the regions between nodes.
-This effectively prevents nodes from talking to one another without first sending messages through Sybils, who can eavesdrop on them or disregard the eaves and move straight on to the dropping.
+Our analysis and experiments show that an adversary with limited resources can easily compromise a P2P system and mash the majority of the regions between nodes.
+All that is required is a small number of IP addresses and the unassigned ports.
+A successful attack effectively prevents nodes from talking to one another without sending messages through Sybils.
+The Sybils can eavesdrop on the messages, actively reroute them, or substitute malicious data.
 
-Our discussion have primarily concerned Chord, but an astute reader may wonder why did we not simulate an attack on Mainline DHT  \cite{mainline}, the Kademlia \cite{kademlia} based DHT used as the backend of BitTorrent.
-It is ostensibly the largest P2P system in use, so it seems more suited for analyzing our mash-based attack than Chord.
-
-We avoided simulating the mashing process on MLDHT because, as we noted earlier in Section \ref{sec:assume}, it is completely unnecessary to perform any mashing.
+Our discussion has primarily concerned Chord.
+We did not simulate an attack on Mainline DHT  \cite{mainline}, the Kademlia \cite{kademlia} based DHT used as the backend of BitTorrent, because it is completely unnecessary to perform any mashing.
 In MLDHT, a node ID is not chosen by hashing an IP and port combination, but by picking an address uniformly at random between 0 and $2^{160}-1$.
-
-An adversary who wants to a completely isolate a node on the network can choose Sybils with ``random'' hashkeys completely eliminate that node from the routing tables of healthy peers. 
+Since the choice of node ID in MLDHT is left to the client, there is no impediment to a Sybil attack. 
 Research has examined MLDHT's vulnerability to Sybil attacks \cite{sybilbit} and detected entities performing the attack on MLDHT.
-Our research demonstrates that switching to using a SHA1 hash of the IP and port is no defense against a Sybil attack, since the adversary can easily mash into appropriate places.
+
+A hash function over a unique identifier might seem to provide a level of protection against a Sybil attack.
+Our research demonstrates that using a SHA1 hash of the IP address and port number is no defense against a Sybil attack. 
+We show that the adversary can easily mash Sybil into desirable locations.
 %A big difference is their honeypots target those who respond to everything.
 
 
+However, the mashing process can be used in non-malicious purposes to benefit a DHT.
+The SHA1 hash has an evenly distributed output. 
+Most sets of meaningful keys will not have a uniform distribution. %TODO CITE SHANNON ENTROPY AND INFO PAPER
+Some nodes will be responsible for larger regions than others and therefore will be responsible for a larger portion of the data.
+If a node can detect when a peer is overloaded, the node can inject a virtual node into the region to shoulder some of the load.
+The load could be defined by the size of the region or by the volume of traffic.
 
+A network implementing this load-balancing strategy would be self-adaptive.
+Nodes in this type of self-adaptive network would have a limited number of virtual nodes to mash.
+This limit would protect nodes from becoming overload themselves and ensure network stability.
+%The only cost would be that node would have to keep track of the keys it can inject, which we mentioned was only 320 kilobytes of data.
+%This could be integrated into a distributed key allocation system, so that a node can bind these keys to itself, but only use a small portion of the keys alloted to it to aid with load-balancing.
 
-However, the mashing process can be used in non-security related settings to benefit a DHT.
-As we have mention previously, the SHA1 hash has an evenly distributed output, but no set of keys will be completely evenly distributed.
-Some nodes will be responsible for larger regions than others and therefore be responsible for a larger portion for the work.
+We have shown that node injection via mashing is both practical and feasible for a Sybil attack on a hash-based P2P network.
+In addition, we have shown that mashing can be used for both malicious and beneficial purposes.
 
-If a node can detect a when a peer has too much of a load, the node can inject a virtual node into the region to shoulder some of the load.
-Too much of a load could be defined by having a too large region or by watching traffic requests.
-This could be integrated into a distributed key allocation system, so that a node can bind these keys to itself, but only use a small portion of the keys alloted to it to aid with load-balancing.
-The only cost would be that node would have to keep track of the keys it can inject, which we mentioned was only 320 kilobytes of data.
 
 \bibliographystyle{IEEEtran}
 \bibliography{potato}
