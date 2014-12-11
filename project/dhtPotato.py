@@ -299,6 +299,12 @@ def graphExp1(data):
 
 
 def graphExp2(data):
+    """
+    row[0] =  IPs
+    row[1] = size 
+    row[2] = success rate
+    row[3] =  avg sybils per region
+    """
     d = {}
     for row in data:
         if row[1] not in d.keys():
@@ -314,21 +320,7 @@ def graphExp2(data):
     plt.ylabel('Probability')
     plt.show()
     
-    """
-    d = {}
-    for row in data:
-        if row[1] not in d.keys():
-            d[row[1]] = ([],[])
-        d[row[1]][0].append(row[0])
-        d[row[1]][1].append(row[3])
-    for k in sorted(d.keys()):
-        plt.plot(d[k][0],d[k][1])
-    plt.grid(True)
-    plt.xlabel('Number of Sybil IPs')
-    plt.ylabel('Avg Sybils Per Region')
-    plt.title('Sybil IPs vs Sybils Per Region')
-    plt.show()
-    """
+
     
     d = {}
     for row in data:
@@ -345,66 +337,17 @@ def graphExp2(data):
     plt.title('Network Size vs Probability')
     plt.show()
     
-
-    """
-    d = {}
+    ips = []
+    sizes = []
     for row in data:
-        if row[0] not in d.keys():
-            d[row[0]] = ([],[])
-        d[row[0]][0].append(row[1])
-        d[row[0]][1].append(row[3])
-    for k in sorted(d.keys()):
-        plt.loglog(d[k][0],d[k][1])
+        if row[2] <60.0 and >40.0:
+            ips.append(row[0])
+            sizes.append(row[1])
+    plt.plot(ips,sizes)
     plt.grid(True)
-     plt.xlabel('Number of Healthy Nodes')
-    plt.ylabel('Avg Sybils Per Region')
-    plt.title('Network Size vs Sybils Per Region')
-    plt.show()
-    """
-
-    STATIC_NETWORK_SIZE = 50000 
-    ips                 = [x[0] for x in data if x[1]==STATIC_NETWORK_SIZE]
-    occulusionRate      = [x[2] for x in data if x[1]==STATIC_NETWORK_SIZE]
-    injectsPerRegion    = [x[3] for x in data if x[1]==STATIC_NETWORK_SIZE]
-    
-    plt.xlabel('Number of Sybil IPs')
-    plt.ylabel('Probability')
-    plt.title('Sybil IPs vs Occlusion')
-    plt.grid(True)
-    computed  = map(probGivenKeysAndSize,ips,[STATIC_NETWORK_SIZE]*len(ips))
-    
-    plt.plot(ips,occulusionRate, 'ko')
-    plt.plot(ips,computed,'r-')    
-    plt.show()
-
-    plt.xlabel('Number of Sybil IPs')
-    plt.ylabel('Avg Sybils Per Region')
-    plt.title('Sybil IPs vs Sybils Per Region')
-    plt.grid(True)
-
-    plt.plot(ips,injectsPerRegion,'ko')
-    plt.show()
-
-    # Add More IP sizes
-    STATIC_NUM_IPS    = 3
-    networkSizes      = [x[1] for x in data if x[0]==STATIC_NUM_IPS]
-    occulusionRate    = [x[2] for x in data if x[0]==STATIC_NUM_IPS]
-    injectsPerRegion  = [x[3] for x in data if x[0]==STATIC_NUM_IPS]
-    
-    plt.semilogx(networkSizes,occulusionRate, 'ko')
-    computed = map(probGivenKeysAndSize,[STATIC_NUM_IPS]*len(networkSizes) ,networkSizes)
-    plt.semilogx(networkSizes, computed, 'r-')
-    plt.xlabel('Number of Healthy Nodes')
-    plt.ylabel('Probability')
-    plt.title('Network Size vs Probability')
-    plt.grid(True)
-    plt.show()
-
-    plt.loglog(networkSizes,injectsPerRegion,'ko')
-    plt.xlabel('Number of Healthy Nodes')
-    plt.ylabel('Avg Sybils Per Region')
-    plt.title('Network Size vs Sybils Per Region')
-    plt.show()
+    plt.xlabel('')
+    plt.ylabel('IPs')
+    plt.title('LD-50')
 
 
 
@@ -459,7 +402,7 @@ if __name__ == '__main__':
     print latexTools.makeTableFromData(exp3)
     """
     #graph1FromStored("exp1-1418152690.txt")
-    #graph2FromStored("exp2-1417708567.txt")
+    graph2FromStored("exp2-1417708567.txt")
     #graph3FromStored("exp3-1417983976.txt")
 
 
