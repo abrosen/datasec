@@ -205,7 +205,6 @@ We used SHA1 as our cryptographic function, which yields 160-bit hash keys.
 Again, we use the constraint that victim nodes do an absolute minimum verification which forces an attacker to only present Sybils with hash keys that they can generate with valid IP and port combinations.
 
 
-%TODO CHECK REDO WE DON'T MAKE ANY ASSUMPTIONS ABOUT THE WORK NEEDED TO MAKE A CLIENT
 %WE ASSUME THERE'S NO RESOURCE LIMITATIONS ON THE ATTACKER's end and this is reasonable because points below
 
 We assume that the attacker has no resource limitations.
@@ -372,22 +371,22 @@ For Table \ref{tab:exp2}, we have included only the results for larger sized net
 \begin{tabular}{|r|r|r|r|}
     \hline
     IPs & Network Size &  Success Rate & Sybils/Region \\ \hline
-1 & 5000.0 & 0.7748 & 3.2762 \\ \hline
-1 & 5000000.0 & 0.0032654 & 0.0032768 \\ \hline
-1& 10000000.0 & 0.0016364 & 0.0016384 \\ \hline
-1 & 20000000.0 & 0.00081865 & 0.0008192 \\ \hline
-5 & 5000.0 & 0.9444 & 16.381 \\ \hline
-5 & 5000000.0 & 0.0161208 & 0.016384 \\ \hline
-5 & 10000000.0 & 0.0081223 & 0.008192 \\ \hline
-5 & 20000000.0 & 0.0040801 & 0.004096 \\ \hline
-11 & 5000.0 & 0.9708 & 36.0428 \\ \hline
-11 & 5000000.0 & 0.0347646 & 0.0360448 \\ \hline
-11 & 10000000.0 & 0.0177117 & 0.0180224 \\ \hline
-11 & 20000000.0 & 0.008932 & 0.0090112 \\ \hline
-19 & 5000.0 & 0.9834 & 62.2452 \\ \hline
-19 & 5000000.0 & 0.058562 & 0.0622592 \\ \hline
-19 & 10000000.0 & 0.0301911 & 0.0311296 \\ \hline
-19 & 20000000.0 & 0.01532465 & 0.0155648 \\ \hline
+1 & 5000 & 0.7748 & 3.2762 \\ \hline
+1 & 5000000 & 0.0032654 & 0.0032768 \\ \hline
+1& 10000000 & 0.0016364 & 0.0016384 \\ \hline
+1 & 20000000 & 0.00081865 & 0.0008192 \\ \hline
+5 & 5000 & 0.9444 & 16.381 \\ \hline
+5 & 5000000 & 0.0161208 & 0.016384 \\ \hline
+5 & 10000000 & 0.0081223 & 0.008192 \\ \hline
+5 & 20000000 & 0.0040801 & 0.004096 \\ \hline
+11 & 5000 & 0.9708 & 36.0428 \\ \hline
+11 & 5000000 & 0.0347646 & 0.0360448 \\ \hline
+11 & 10000000 & 0.0177117 & 0.0180224 \\ \hline
+11 & 20000000 & 0.008932 & 0.0090112 \\ \hline
+19 & 5000 & 0.9834 & 62.2452 \\ \hline
+19 & 5000000 & 0.058562 & 0.0622592 \\ \hline
+19 & 10000000 & 0.0301911 & 0.0311296 \\ \hline
+19 & 20000000 & 0.01532465 & 0.0155648 \\ \hline
 \end{tabular}
 
 
@@ -526,7 +525,7 @@ We show that the adversary can easily mash Sybil into desirable locations.
 
 However, the mashing process can be used in non-malicious purposes to benefit a DHT.
 The SHA1 hash has an evenly distributed output. 
-Most sets of meaningful keys will not have a uniform distribution. %TODO CITE SHANNON ENTROPY AND INFO PAPER
+Most sets of meaningful keys will not have a uniform distribution \cite{shannon2001mathematical}
 Some nodes will be responsible for larger regions than others and therefore will be responsible for a larger portion of the data.
 If a node can detect when a peer is overloaded, the node can inject a virtual node into the region to shoulder some of the load.
 The load could be defined by the size of the region or by the volume of traffic.

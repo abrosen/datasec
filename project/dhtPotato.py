@@ -311,13 +311,17 @@ def graphExp2(data):
             d[row[1]] = ([],[])
         d[row[1]][0].append(row[0])
         d[row[1]][1].append(row[2])
+    
     for k in sorted(d.keys()):
-        plt.plot(d[k][0],d[k][1], 'o')
-        plt.plot(d[k][0], map(probGivenKeysAndSize, d[k][0] , [k]*len(d[k][0]) )  ,'--k')
+        #[50,500,600,700,800,900,1000,2000,3000,4000,5000,10000,15000,20000,25000,50000,75000,100000,500000,1000000,5000000,10000000,20000000]:
+        if k in [100,1000,10000,100000,1000000,10000000,20000000]:
+            plt.semilogy(d[k][0],d[k][1], 'o', label= str(int(k)) + " Nodes")
+            plt.plot(d[k][0], map(probGivenKeysAndSize, d[k][0] , [k]*len(d[k][0]) )  ,'--k')
     plt.grid(True)
     plt.title("Sybil vs Probability")
     plt.xlabel('Number of Sybil IPs')
     plt.ylabel('Probability')
+    plt.legend(loc=4)
     plt.show()
     
 
@@ -329,25 +333,50 @@ def graphExp2(data):
         d[row[0]][0].append(row[1])
         d[row[0]][1].append(row[2])
     for k in sorted(d.keys()):
-        plt.semilogx(d[k][0],d[k][1], 'o')
-        plt.plot(d[k][0], map(probGivenKeysAndSize, [k]*len(d[k][0]),  d[k][0])  ,'--k')
+        if k in [1,5,9,13,19]:
+            plt.semilogx(d[k][0],d[k][1], 'o', label= str(int(k)) + " IPs")
+            plt.plot(d[k][0], map(probGivenKeysAndSize, [k]*len(d[k][0]),  d[k][0])  ,'--k')
     plt.grid(True)
     plt.xlabel('Number of Healthy Nodes')
     plt.ylabel('Probability')
     plt.title('Network Size vs Probability')
+    plt.legend()
     plt.show()
     
+    
+    d = {}
+    for row in data:
+        if row[0] not in d.keys():
+            d[row[0]] = ([],[])
+        d[row[0]][0].append(row[1])
+        d[row[0]][1].append(row[2])
+    for k in sorted(d.keys()):
+        if k in [1,5,9,13,19]:
+            plt.loglog(d[k][0],d[k][1], 'o', label= str(int(k)) + " IPs")
+            plt.plot(d[k][0], map(probGivenKeysAndSize, [k]*len(d[k][0]),  d[k][0])  ,'--k')
+    plt.grid(True)
+    plt.xlabel('Number of Healthy Nodes')
+    plt.ylabel('Probability')
+    plt.title('Network Size vs Probability')
+    plt.legend(loc=3)
+    plt.show()
+    
+    
+    """
     ips = []
     sizes = []
     for row in data:
-        if row[2] <60.0 and >40.0:
+        if row[2] <.600 and row[2] > .400:
             ips.append(row[0])
             sizes.append(row[1])
-    plt.plot(ips,sizes)
+    print ips,sizes
+    plt.loglog(sizes,ips,'o')
     plt.grid(True)
-    plt.xlabel('')
+    plt.xlabel('Sizes')
     plt.ylabel('IPs')
     plt.title('LD-50')
+    plt.show()
+    """
 
 
 
@@ -359,7 +388,7 @@ def graphExp3(data):
         d[row[0]][0].append(row[1])
         d[row[0]][1].append(row[2])
     for k in sorted(d.keys()):
-        plt.plot(d[k][0],d[k][1], 'o', label= "Using %d IPs" % k)
+        plt.semilogx(d[k][0],d[k][1], 'o', label= "Using %d IPs" % k)
         plt.plot(d[k][0], map(probGivenKeysAndSize, [k]*len(d[k][0]),  d[k][0])  ,'--k')
     plt.grid(True)
     plt.xlabel('Number of Healthy Nodes')
