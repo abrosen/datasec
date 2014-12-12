@@ -26,7 +26,7 @@ This paper examines the amount of computation power required to perform an Eclip
 %This paper explores the feasibility of performing naive Sybil attacks on a P2P network that completely occlude healthy nodes from each other.
 The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
 Most theoretical analyses of these attacks assume that the attacker is all-knowing and globally powerful.
-This paper proves that these are not necessary characteristics and that a less powerful adversary can perform a successful Eclipse attack, while still obeying the protocol.
+This paper proves that these are not necessary characteristics and that a less powerful adversary can perform a successful Eclipse attack, while still obeying the protocol of the Distributed Hash Table. %rwh added of the DHT (what protocol?)
 % assumptions for an adversary to have to perform a Sybil attack.
 Our analysis and experiments show that an adversary with a small number of machines and limiting their port usage to just the ephemeral ports can easily compromise a P2P system and occlude the majority of the links.
 
@@ -60,7 +60,8 @@ Extensive research has been done assessing the damage an attacker can do after e
 %Especially when a hash value to assign neighbors
 Little focus has been done on examining how the attacker can establish himself in the first place and precisely how easily the Sybil attack can be accomplished.
 
-One method to generate node locations is to assign them at random.
+
+A simple method to generate node locations is to assign them at random.
 A Sybil attack against this method is fairly straightforward; the attacker just assigns their own nodes at ``random'' locations.
 A more sophisticated method to generate node locations would use a hash function of some unique characteristic of the node.
 For example, a Distributed Hash Table could use a hash of the node's IP address and port number.
@@ -161,7 +162,13 @@ This means the attacker is actually searching for a collision with one of $\appr
 
 Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
 Consider two victim nodes with IDs $a$ and $b$, with no others nodes with an ID in the range $(a,b)$.
-The probability $P$ that an attacker can mash a hash key that lands in the range $(a,b)$ is:
+%rwh a step that may make this clearer
+
+The probability that a single mash key lies in the range of $(a,b)$ is $\frac{|b-a|}{2^{m}}$ and thus the probability that the mash key does not lie in that range is $1-\frac{|b-a|}{2^{m}}$. 
+Assuming that the individual mash keys are statistically independent yields the expression: $$(1-\frac{|b-a|}{2^{m}})^{num\_ips \cdot num\_ports} $$ for the probability that no mash key lands in the range.
+%end of rwh insert  The changed to Thus The
+
+Thus the probability $P$ that an attacker can mash a hash key that lands in the range $(a,b)$ is:
 $$ P \approx 1 - (1 - \frac{|b-a|}{2^{m}})^{num\_ips \cdot num\_ports  } $$
 
 where $num\_ip$ is the number of IP addresses the attacker has under thier control and $num\_ports$ is the number of ports the attacker can try for each IP address.
@@ -222,7 +229,7 @@ Nor does the adversary necessarily need to create a new running copy for every S
 
 \subsection{Experiment 0: Mashing 2 random nodes}
 Our initial experiment was designed to establish the feasibility of joining the network in between two random nodes.
-Each trial, we generated two victims with random IP addresses and ports, and an attacker with a random IP.
+Each trial, we generated two victims with random IP addresses and ports, and an attacker with a random IP address.
 The experiment was for the attacker to find a key in between the two victims' keys, going clockwise.
 The average amount of time over 10,000 trials to mash two random keys was 29.6218 microseconds, and was achievable $ 99.996\%$ of the time.
 
@@ -531,7 +538,7 @@ The load could be defined by the size of the region or by the volume of traffic.
 
 A network implementing this load-balancing strategy would be self-adaptive.
 Nodes in this type of self-adaptive network would have a limited number of virtual nodes to mash.
-This limit would protect nodes from becoming overload themselves and ensure network stability.
+This limit would protect nodes from becoming overloaded themselves and ensure network stability.
 %The only cost would be that node would have to keep track of the keys it can inject, which we mentioned was only 320 kilobytes of data.
 %This could be integrated into a distributed key allocation system, so that a node can bind these keys to itself, but only use a small portion of the keys alloted to it to aid with load-balancing.
 
