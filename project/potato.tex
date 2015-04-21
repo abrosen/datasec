@@ -33,17 +33,23 @@
 
 
 \begin{abstract}
-This paper examines the amount of computation power required to perform an Eclipse attack on a P2P network.
-The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks has been well known for some time.
-Most theoretical analyses of these attacks assume that the attacker is all-knowing and globally powerful.
-This paper proves that these are not necessary characteristics and that a less powerful adversary can perform a successful Eclipse attack, while still obeying the protocol of the Distributed Hash Table.
-Our analysis and experiments show that an adversary with a small number of machines and limiting their port usage to the ephemeral ports can easily compromise a P2P system and occlude the majority of links.
+This paper examines the computational effort required to perform an Eclipse attack on a P2P network.
+The vulnerability of Distributed Hash Tables to Sybil attacks and Eclipse attacks is well known.
+Most analyses of these attacks assume that the attacker is all-knowing and globally powerful.
+We experimentally demonstrate that these are not necessary characteristics for the attacker.
+A less powerful adversary can perform a successful Eclipse attack, while still obeying the protocols of the Distributed Hash Table.
+We show that an adversary with a small number of machines can compromise a P2P system and occlude the majority of links.
+The attacker only requires the use of ephemeral ports.
+The attacker does not poison routing tables via false advertisement.
+Rather, they pose many legitimate ``Sybil'' nodes. 
 
-We examine the amount of computational effort required to perform an Eclipse attack using only Sybil identities and without poisoning routing tables via false advertisement.
-We do this by analyzing the amount of effort it takes for an attacker with a given number of IP addresses to choose a port to obtain a desired hash key, a process we call \emph{mashing}.
-Our results showed that an adversary with just 3 IP addresses could compromise 90\% of all connections in a Chord network with 5000 nodes.
-While mashing can be used for malicious behavior, we also describe methods and applications for the technique that are beneficial for performing load balancing.
-This provides the flexibility for any node to effortless shoulder additional work from bottleneck locations, if acting for the good of the network.
+
+We analyze the amount of effort it takes for an attacker with a given number of IP addresses to choose a port to generate a desired hash key.
+We call this \emph{mashing}.
+Our results show that an adversary with just three IP addresses can compromise 90\% of all connections in a Chord network with 5000 nodes.
+This attack can be used to efficiently disrupt P2P botnets.
+We also suggest methods and applications for this technique that are beneficial for performing load balancing.
+This provides the flexibility for any node to shoulder the extra work from bottleneck locations.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -96,8 +102,7 @@ BitTorrent is currently under an active Sybil attack \cite{sybilbit}, although t
 There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be implemented for every distributed application \cite{levine2006survey} \cite{dhtsec}.
 Urdaneta \textit{et al} find that in DHT security, a centralized, trusted authority which certifies or binds identities is the most effective strategy \cite{dhtsec}.
 This solution potentially removes the Sybil attack, but reintroduces vulnerabilities to denial of service attacks and is contrary to the objective of creating fully decentralized systems.
-Other techniques such as proof-of-work \cite{4215910} may provide a defense against Sybil attacks, 
-but proof-of-work systems must set their computational puzzles to be simple enough for the weakest member of the network to participate.
+Other techniques such as proof-of-work \cite{4215910} may provide a defense against Sybil attacks, but proof-of-work systems must set their computational puzzles to be simple enough for the weakest member of the network to participate.
 However, the attacker can reasonably obtain computational power that is orders of magnitude greater than those weakest nodes and overcome the puzzle with brute force \cite{dhtsec}.
 
 %Despite the threat represented by the Sybil attack and the research done on the subject, little research has been done from the perspective of an adversary.
@@ -111,8 +116,7 @@ Our work presents the following contributions:
     \item We present our simulations that show how quickly even a naive Sybil attack can compromise a system. 
     We validate our experimental results by comparing them with the equations we specify in our analysis (Section \ref{sec:experiments}).
     %\item We analyze an interesting graph coloring problem that an attacker needs to solve if the attack is to remain undetected.
-    \item We discuss the broader implications of our work, including how mashing can be used for automatic load balancing (Section \ref{sec:horror}).
-
+    \item We discuss the broader implications of our work, including how mashing can be used for automatic load balancing and disrupting P2P botnets (Section \ref{sec:horror}).
 \end{itemize}
 
 \section{Analysis}
@@ -519,7 +523,7 @@ In fact, one of the attacker launching a Sybil attack was identified as having a
 %The hard maximum, in general, is $m$ separate IP addresses, one for each bit in a $\log n$ routing/routing table DHT.
 %Recall that the vast
 
-\section{Conclusions and Future Work}
+\section{Conclusions and Future Work}\label{sec:conclusions-and-future-work}
 %\section{Simple Load Balancing Injection Framework}
 \label{sec:horror}
 
@@ -527,6 +531,8 @@ Our analysis and experiments show that an adversary with limited resources can e
 All that is required is a small number of IP addresses and the unassigned ports.
 A successful attack effectively prevents nodes from talking to one another without sending messages through Sybils.
 The Sybils can eavesdrop on the messages, actively reroute them, or substitute malicious data.
+Sybils inserted in a P2P botnet by this approach could effectively interfere with command and control functions to effectively shut down the botnet \cite{white2010overcoming}.
+
 
 Our discussion has primarily concerned Chord.
 We did not simulate an attack on Mainline DHT  \cite{mainline}, the Kademlia \cite{kademlia} based DHT used as the backend of BitTorrent, because it is completely unnecessary to perform any mashing.
