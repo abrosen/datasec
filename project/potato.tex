@@ -27,7 +27,8 @@
 \hyphenation{op-tical net-works semi-conduc-tor Chord-Reduce Map-Reduce Data-Nodes Name-Nodes}
 
 \begin{document}
-
+%TODO Figure alignment
+%TODO Bib fix
 \maketitle
 
 
@@ -95,7 +96,7 @@ Sybil attacks are also a threat to P2P systems such as BitTorrent, which is esse
 BitTorrent is currently the \textit{de facto} platform for distributing large files scalably among tens of thousands of clients.
 Many implementations rely on Mainline DHT (MLDHT) \cite{mainline} to connect users to other peers.
 The number of users on Mainline DHT ranges from 15 million to 27 million users daily, with a turnover of 10 million users a day \cite{mainlineMeasure}.
-Current research demonstrates BitTorrent is vulnerable to Sybil attacks and a persistent attack disabling BitTorrent would be highly detrimental to many users, especially developers and system administrators.
+Current research demonstrates BitTorrent is vulnerable to Sybil attacks and a persistent attack disabling BitTorrent would be highly detrimental to many users, especially developers and system administrators \cite{izal2004dissecting}.
 BitTorrent is currently under an active Sybil attack \cite{sybilbit}, although the attackers are apparently not trying to destroy the network.
 
 There have been many suggestions on how to defend against Sybil attack, but there is no agreed upon ``silver bullet'' among researchers that should be implemented for every distributed application \cite{levine2006survey} \cite{dhtsec}.
@@ -170,7 +171,6 @@ This means the attacker is actually searching for a collision with one of $\appr
 %We would expect there to be a $50\%$ chance of a collision in a network with 
 
 \subsection{Analysis}
-%TODO CHECK DERIVE AND EXPLAIN  EQUATIONS BELOW 
 
 
 Suppose we have a DHT with $n$ members in it, with $m$-bit node IDs between $[0,2^{m})$. 
