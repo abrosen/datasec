@@ -526,11 +526,14 @@ In fact, one of the attacker launching a Sybil attack was identified as having a
 %\section{Simple Load Balancing Injection Framework}
 \label{sec:horror}
 
-Our analysis and experiments show that an adversary with limited resources can easily compromise a P2P system and mash the majority of the regions between nodes.
+Our analysis and experiments show that an adversary with limited resources can easily compromise a P2P system and occlude the majority of the paths between nodes.
 All that is required is a small number of IP addresses and the unassigned ports.
+This implies system privileges are not required.
 A successful attack effectively prevents nodes from talking to one another without sending messages through Sybils.
 The Sybils can eavesdrop on the messages, actively reroute them, or substitute malicious data.
-Sybils inserted in a P2P botnet by this approach could effectively interfere with command and control functions to effectively shut down the botnet \cite{white2010overcoming}.
+Mashing can also be used prevent malicious behavior.
+Sybils inserted in a P2P botnet by this approach could effectively interfere with command and control functions to shut down the botnet \cite{white2010overcoming}.
+Future research would involve developing an appropriate mashing algorithm for a given botnet.
 
 
 Our discussion has primarily concerned Chord.
